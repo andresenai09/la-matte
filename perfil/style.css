@@ -301,6 +301,42 @@ body {
   box-shadow: 0 0 0 3px rgba(196, 154, 85, 0.2);
 }
 
+.campo-grupo input:read-only {
+  background: #f9f7f4;
+  color: #64716b;
+}
+
+/* CAMPO DE SENHA COM BOTÃO MOSTRAR */
+.campo-senha-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  position: relative;
+}
+
+.campo-senha-wrapper input {
+  flex: 1;
+  border-radius: 12px 0 0 12px;
+  padding-right: 45px;
+}
+
+.btn-mostrar-senha {
+  position: absolute;
+  right: 12px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
+  padding: 6px 8px;
+  color: #64716b;
+  transition: 0.2s;
+}
+
+.btn-mostrar-senha:hover {
+  color: var(--verde);
+}
+
+/* ACÇÕES DO FORMULÁRIO */
 .acoes-form {
   grid-column: 1 / -1;
   display: flex;
