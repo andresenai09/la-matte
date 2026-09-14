@@ -44,16 +44,6 @@ body {
   }
 }
 
-.topo-perfil {
-  height: 80px;
-  padding: 0 40px;
-  background: var(--verde);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  border-bottom: 1px solid rgba(196, 154, 85, 0.3);
-  animation: entradaTopo 0.7s ease forwards;
-}
 
 @keyframes entradaTopo {
   from {
@@ -67,17 +57,6 @@ body {
   }
 }
 
-.voltar {
-  color: var(--creme);
-  text-decoration: none;
-  font-weight: 600;
-  font-size: 14px;
-  transition: 0.2s;
-}
-
-.voltar:hover {
-  color: var(--dourado2);
-}
 
 .marca {
   font-family: 'Fraunces', serif;
@@ -95,22 +74,169 @@ body {
   color: var(--creme);
 }
 
-.btn-sair-topo {
-  background: transparent;
-  border: 1px solid rgba(247, 243, 235, 0.3);
+.barra-fixa {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  height: 80px;
+  padding: 0 40px;
+  background: var(--verde);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(196, 154, 85, 0.3);
+}
+
+.barra-fixa .marca {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  text-decoration: none;
+  font-family: 'Fraunces', serif;
+}
+
+.barra-fixa .marca-la {
+  font-style: italic;
+  font-size: 28px;
+  color: var(--dourado);
+}
+
+.barra-fixa .marca-matte {
+  font-size: 30px;
   color: var(--creme);
-  padding: 8px 16px;
-  border-radius: 20px;
-  font-weight: 600;
+  font-weight: 700;
+}
+
+.logo-fixo {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.logo-fixo a {
+  text-decoration: none;
+}
+
+.logo-fixo h2 {
+  font-family: 'Fraunces', serif;
+  font-size: 22px;
+  letter-spacing: 3px;
+  color: transparent;
+  -webkit-text-stroke: 1px var(--dourado);
+  transition: 0.3s ease;
+}
+
+.logo-fixo h2:hover {
+  color: var(--dourado);
+  -webkit-text-stroke: 0;
+}
+
+.acoes-topo {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.acao {
+  position: relative;
+  width: 42px;
+  height: 42px;
+  border: 0;
+  background: transparent;
+  color: var(--creme);
+  display: flex;
+  align-items: center;
+  justify-content: center;
   cursor: pointer;
+  border-radius: 50%;
   transition: 0.25s ease;
 }
 
-.btn-sair-topo:hover {
-  background: var(--vermelho);
-  border-color: var(--vermelho);
-  color: var(--branco);
-  transform: translateY(-1px);
+.acao:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--dourado2);
+}
+
+.acao svg {
+  width: 21px;
+  height: 21px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+}
+
+.contador-favoritos,
+.contador-carrinho {
+  position: absolute;
+  top: 3px;
+  right: 2px;
+  min-width: 16px;
+  height: 16px;
+  padding: 0 4px;
+  border-radius: 20px;
+  background: var(--dourado);
+  color: var(--verde);
+  font-size: 9px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+}
+
+.menu-btn {
+  width: 42px;
+  height: 42px;
+  border: 0;
+  background: transparent;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  cursor: pointer;
+  border-radius: 50%;
+}
+
+.menu-btn:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.menu-btn span {
+  width: 22px;
+  height: 2px;
+  background: var(--creme);
+  border-radius: 10px;
+  transition: 0.25s ease;
+}
+
+@media (max-width: 700px) {
+  .barra-fixa {
+    padding: 0 15px;
+    height: 70px;
+  }
+
+  .barra-fixa .marca-la {
+    font-size: 23px;
+  }
+
+  .barra-fixa .marca-matte {
+    font-size: 25px;
+  }
+
+  .logo-fixo {
+    display: none;
+  }
+
+  .acoes-topo {
+    gap: 2px;
+  }
+
+  .acao,
+  .menu-btn {
+    width: 38px;
+    height: 38px;
+  }
 }
 
 .container-perfil {
