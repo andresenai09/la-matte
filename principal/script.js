@@ -1,145 +1,310 @@
+```javascript
 document.addEventListener("DOMContentLoaded", () => {
-  const $ = selector => document.querySelector(selector);
-  const $$ = selector => document.querySelectorAll(selector);
+  const $ = (seletor) => document.querySelector(seletor);
+  const $$ = (seletor) => document.querySelectorAll(seletor);
 
-  const get = (key, fallback) => {
+  const get = (chave, padrao) => {
     try {
-      return JSON.parse(localStorage.getItem(key)) ?? fallback;
+      const valor = localStorage.getItem(chave);
+      return valor === null ? padrao : JSON.parse(valor);
     } catch {
-      return fallback;
+      return padrao;
     }
   };
 
-  const save = (key, value) => localStorage.setItem(key, JSON.stringify(value));
+  const save = (chave, valor) => {
+    try {
+      localStorage.setItem(chave, JSON.stringify(valor));
+    } catch {}
+  };
+
+  const moeda = (valor) => {
+    return Number(valor || 0).toLocaleString("pt-BR", {
+      style: "currency",
+      currency: "BRL"
+    });
+  };
+
+  const encontrarProduto = (id) => {
+    if (!Array.isArray(window.produtos)) return null;
+    return window.produtos.find((produto) => Number(produto.id) === Number(id));
+  };
 
   let carrinho = get("carrinho", []);
   let favoritos = get("favoritos", []);
-  let categoria = "Todos";
-  let slide = 0;
+  let categoriaAtual = "Todos";
+  let slideAtual = 0;
+  let intervaloBanner = null;
 
-  const grid = $("#gridProdutos");
-  const sem = $("#semResultados");
-  const pesquisa = $("#campoPesquisa");
-  const track = $("#bannerContainer");
+  const gridProdutos = $("#gridProdutos");
+  const semResultados = $("#semResultados");
+  const campoPesquisa = $("#campoPesquisa");
+
+  const bannerContainer = $("#bannerContainer");
+  const banners = $$(".banner");
   const dots = $$(".dots button");
 
+  function normalizarDados() {
+    if (!Array.isArray(carrinho)) {
+      carrinho = [];
+    }
+
+    if (!Array.isArray(favoritos)) {
+      favoritos = [];
+    }
+
+    carrinho = carrinho
+      .filter((item) => item && item.id != null)
+      .map((item) => ({
+        ...item,
+        id: Number(item.id),
+        preco: Number(item.preco) || 0,
+        quantidade: Math.max(1, Number(item.quantidade) || 1)
+      }));
+
+    favoritos = favoritos
+      .map(Number)
+      .filter((id) => encontrarProduto(id));
+
+    save("carrinho", carrinho);
+    save("favoritos", favoritos);
+  }
+
   function totalCarrinho() {
-    return carrinho.reduce((acc, item) => acc + item.preco * item.quantidade, 0);
+    return carrinho.reduce((total, item) => {
+      return total + Number(item.preco) * Number(item.quantidade);
+    }, 0);
+  }
+
+  function quantidadeCarrinho() {
+    return carrinho.reduce((total, item) => {
+      return total + Number(item.quantidade);
+    }, 0);
   }
 
   function atualizarContadores() {
-    const totalItens = carrinho.reduce((acc, item) => acc + item.quantidade, 0);
-    $("#contadorCarrinho").textContent = totalItens;
-    $("#contadorFavoritos").textContent = favoritos.length;
+    const contadorCarrinho = $("#contadorCarrinho");
+    const contadorFavoritos = $("#contadorFavoritos");
+
+    if (contadorCarrinho) {
+      contadorCarrinho.textContent = quantidadeCarrinho();
+    }
+
+    if (contadorFavoritos) {
+      contadorFavoritos.textContent = favoritos.length;
+    }
   }
 
-  function card(produto) {
-    const isFavorito = favoritos.includes(produto.id);
+  function criarCardProduto(produto) {
+    const favorito = favoritos.includes(Number(produto.id));
+
     return `
       <article class="produto-card" data-id="${produto.id}">
-        <button class="fav-card ${isFavorito ? "ativo" : ""}" data-fav="${produto.id}">
-          ${isFavorito ? "♥" : "♡"}
+
+        <button
+          class="fav-card ${favorito ? "ativo" : ""}"
+          data-fav="${produto.id}"
+          aria-label="${favorito ? "Remover dos favoritos" : "Adicionar aos favoritos"}"
+          type="button"
+        >
+          ${favorito ? "♥" : "♡"}
         </button>
-        <a href="../produto/index.html?id=${produto.id}" class="produto-link">
+
+        <a
+          href="../produto/index.html?id=${produto.id}"
+          class="produto-link"
+        >
           <div class="produto-img">
-            <img src="${produto.imagem}" alt="${produto.nome}" loading="lazy">
+            <img
+              src="${produto.imagem}"
+              alt="${produto.nome}"
+              loading="lazy"
+              onerror="this.style.display='none'"
+            >
           </div>
+
           <div class="produto-info">
-            <span>${produto.categoria}</span>
+            <span>${produto.categoria || "Produto"}</span>
+
             <h3>${produto.nome}</h3>
-            <p>${produto.descricao}</p>
-            <div>
-              <strong>${formatarMoeda(produto.preco)}</strong>
-              <em>★ ${produto.avaliacao}</em>
+
+            <p>${produto.descricao || ""}</p>
+
+            <div class="produto-detalhes">
+              <strong>${moeda(produto.preco)}</strong>
+
+              ${
+                produto.avaliacao
+                  ? `<em>★ ${produto.avaliacao}</em>`
+                  : ""
+              }
             </div>
           </div>
         </a>
-        <button class="add-card" data-add="${produto.id}">Adicionar ao carrinho</button>
+
+        <button
+          class="add-card"
+          data-add="${produto.id}"
+          type="button"
+        >
+          Adicionar ao carrinho
+        </button>
+
       </article>
     `;
   }
 
   function renderProdutos() {
-    const termo = (pesquisa?.value || "").toLowerCase().trim();
-    const lista = produtos.filter(p => {
-      const bateCategoria = categoria === "Todos" || p.categoria === categoria;
-      const textoBusca = (p.nome + " " + p.descricao + " " + p.categoria).toLowerCase();
-      const bateTermo = !termo || textoBusca.includes(termo);
-      return bateCategoria && bateTermo;
+    if (!gridProdutos) return;
+
+    if (!Array.isArray(window.produtos)) {
+      gridProdutos.innerHTML = "";
+      if (semResultados) {
+        semResultados.textContent = "Não foi possível carregar os produtos.";
+        semResultados.style.display = "block";
+      }
+      return;
+    }
+
+    const termo = campoPesquisa
+      ? campoPesquisa.value.toLowerCase().trim()
+      : "";
+
+    const lista = window.produtos.filter((produto) => {
+      const categoriaProduto = produto.categoria || "";
+
+      const correspondeCategoria =
+        categoriaAtual === "Todos" ||
+        categoriaProduto === categoriaAtual;
+
+      const textoProduto = `
+        ${produto.nome || ""}
+        ${produto.descricao || ""}
+        ${categoriaProduto}
+      `.toLowerCase();
+
+      const correspondePesquisa =
+        !termo || textoProduto.includes(termo);
+
+      return correspondeCategoria && correspondePesquisa;
     });
 
-    grid.innerHTML = lista.map(card).join("");
-    sem.style.display = lista.length ? "none" : "block";
+    gridProdutos.innerHTML = lista
+      .map(criarCardProduto)
+      .join("");
 
-    $$("[data-fav]").forEach(btn => {
-      btn.onclick = e => {
-        e.preventDefault();
-        e.stopPropagation();
-        toggleFavorito(Number(btn.dataset.fav));
-      };
+    if (semResultados) {
+      semResultados.style.display =
+        lista.length === 0 ? "block" : "none";
+    }
+
+    $$(".fav-card").forEach((botao) => {
+      botao.addEventListener("click", (evento) => {
+        evento.preventDefault();
+        evento.stopPropagation();
+
+        toggleFavorito(Number(botao.dataset.fav));
+      });
     });
 
-    $$("[data-add]").forEach(btn => {
-      btn.onclick = e => {
-        e.preventDefault();
-        e.stopPropagation();
-        adicionar(Number(btn.dataset.add));
-      };
+    $$(".add-card").forEach((botao) => {
+      botao.addEventListener("click", (evento) => {
+        evento.preventDefault();
+        evento.stopPropagation();
+
+        adicionarAoCarrinho(
+          Number(botao.dataset.add)
+        );
+      });
     });
   }
 
-  function adicionar(id, quantidade = 1) {
+  function adicionarAoCarrinho(id, quantidade = 1) {
     const produto = encontrarProduto(id);
+
     if (!produto) return;
 
-    const itemExistente = carrinho.find(x => x.id === id);
-    if (itemExistente) {
-      itemExistente.quantidade += quantidade;
+    const existente = carrinho.find(
+      (item) => Number(item.id) === Number(id)
+    );
+
+    if (existente) {
+      existente.quantidade += quantidade;
     } else {
       carrinho.push({
-        id: produto.id,
+        id: Number(produto.id),
         nome: produto.nome,
-        preco: produto.preco,
+        preco: Number(produto.preco) || 0,
         imagem: produto.imagem,
         quantidade
       });
     }
 
     save("carrinho", carrinho);
+
+    renderCarrinho();
+    atualizarContadores();
+
+    abrirPainel($("#carrinhoPainel"));
+  }
+
+  function alterarQuantidade(id, quantidade) {
+    const item = carrinho.find(
+      (produto) => Number(produto.id) === Number(id)
+    );
+
+    if (!item) return;
+
+    if (quantidade <= 0) {
+      carrinho = carrinho.filter(
+        (produto) => Number(produto.id) !== Number(id)
+      );
+    } else {
+      item.quantidade = quantidade;
+    }
+
+    save("carrinho", carrinho);
+
     renderCarrinho();
     atualizarContadores();
   }
 
-  function alterar(id, quantidade) {
-    const itemExistente = carrinho.find(x => x.id === id);
-    if (!itemExistente) return;
-
-    if (quantidade <= 0) {
-      carrinho = carrinho.filter(x => x.id !== id);
-    } else {
-      itemExistente.quantidade = quantidade;
-    }
+  function removerDoCarrinho(id) {
+    carrinho = carrinho.filter(
+      (item) => Number(item.id) !== Number(id)
+    );
 
     save("carrinho", carrinho);
+
     renderCarrinho();
     atualizarContadores();
   }
 
   function toggleFavorito(id) {
-    favoritos = favoritos.includes(id)
-      ? favoritos.filter(x => x !== id)
-      : [...favoritos, id];
+    const numeroId = Number(id);
+
+    if (favoritos.includes(numeroId)) {
+      favoritos = favoritos.filter(
+        (favoritoId) => favoritoId !== numeroId
+      );
+    } else {
+      favoritos.push(numeroId);
+    }
 
     save("favoritos", favoritos);
+
     renderProdutos();
     renderFavoritos();
     atualizarContadores();
   }
 
   function renderCarrinho() {
-    const box = $("#carrinhoConteudo");
-    if (!carrinho.length) {
-      box.innerHTML = `
+    const conteudo = $("#carrinhoConteudo");
+
+    if (!conteudo) return;
+
+    if (carrinho.length === 0) {
+      conteudo.innerHTML = `
         <div class="vazio">
           <span>🛒</span>
           <h3>Seu carrinho está vazio</h3>
@@ -147,205 +312,568 @@ document.addEventListener("DOMContentLoaded", () => {
         </div>
       `;
     } else {
-      box.innerHTML = carrinho.map(item => `
-        <div class="item-painel">
-          <img src="${item.imagem}" alt="${item.nome}" loading="lazy">
-          <div class="item-info">
-            <h4>${item.nome}</h4>
-            <strong>${formatarMoeda(item.preco)}</strong>
-            <div class="quantidade">
-              <button data-minus="${item.id}">−</button>
-              <span>${item.quantidade}</span>
-              <button data-plus="${item.id}">+</button>
+      conteudo.innerHTML = carrinho
+        .map((item) => {
+          return `
+            <div class="item-painel">
+
+              <img
+                src="${item.imagem}"
+                alt="${item.nome}"
+                loading="lazy"
+              >
+
+              <div class="item-info">
+                <h4>${item.nome}</h4>
+
+                <strong>
+                  ${moeda(item.preco)}
+                </strong>
+
+                <div class="quantidade">
+
+                  <button
+                    type="button"
+                    data-minus="${item.id}"
+                    aria-label="Diminuir quantidade"
+                  >
+                    −
+                  </button>
+
+                  <span>${item.quantidade}</span>
+
+                  <button
+                    type="button"
+                    data-plus="${item.id}"
+                    aria-label="Aumentar quantidade"
+                  >
+                    +
+                  </button>
+
+                </div>
+              </div>
+
+              <button
+                class="remover"
+                type="button"
+                data-remove="${item.id}"
+                aria-label="Remover produto"
+              >
+                ×
+              </button>
+
             </div>
-          </div>
-          <button class="remover" data-remove="${item.id}">×</button>
-        </div>
-      `).join("");
+          `;
+        })
+        .join("");
     }
 
-    $("#subtotalCarrinho").textContent = formatarMoeda(totalCarrinho());
+    const subtotal = $("#subtotalCarrinho");
 
-    $$("[data-minus]").forEach(btn => {
-      btn.onclick = () => {
-        const id = Number(btn.dataset.minus);
-        const qtdAtual = carrinho.find(i => i.id === id)?.quantidade || 1;
-        alterar(id, qtdAtual - 1);
-      };
+    if (subtotal) {
+      subtotal.textContent = moeda(totalCarrinho());
+    }
+
+    $$("[data-minus]").forEach((botao) => {
+      botao.addEventListener("click", () => {
+        const id = Number(botao.dataset.minus);
+
+        const item = carrinho.find(
+          (produto) => Number(produto.id) === id
+        );
+
+        if (!item) return;
+
+        alterarQuantidade(
+          id,
+          item.quantidade - 1
+        );
+      });
     });
 
-    $$("[data-plus]").forEach(btn => {
-      btn.onclick = () => {
-        const id = Number(btn.dataset.plus);
-        const qtdAtual = carrinho.find(i => i.id === id)?.quantidade || 0;
-        alterar(id, qtdAtual + 1);
-      };
+    $$("[data-plus]").forEach((botao) => {
+      botao.addEventListener("click", () => {
+        const id = Number(botao.dataset.plus);
+
+        const item = carrinho.find(
+          (produto) => Number(produto.id) === id
+        );
+
+        if (!item) return;
+
+        alterarQuantidade(
+          id,
+          item.quantidade + 1
+        );
+      });
     });
 
-    $$("[data-remove]").forEach(btn => {
-      btn.onclick = () => alterar(Number(btn.dataset.remove), 0);
+    $$("[data-remove]").forEach((botao) => {
+      botao.addEventListener("click", () => {
+        removerDoCarrinho(
+          Number(botao.dataset.remove)
+        );
+      });
     });
   }
 
   function renderFavoritos() {
-    const box = $("#favoritosConteudo");
-    const lista = produtos.filter(p => favoritos.includes(p.id));
+    const conteudo = $("#favoritosConteudo");
 
-    if (!lista.length) {
-      box.innerHTML = `
+    if (!conteudo) return;
+
+    const lista = Array.isArray(window.produtos)
+      ? window.produtos.filter((produto) =>
+          favoritos.includes(Number(produto.id))
+        )
+      : [];
+
+    if (lista.length === 0) {
+      conteudo.innerHTML = `
         <div class="vazio">
           <span>♡</span>
           <h3>Nenhum favorito</h3>
-          <p>Toque no coração de um produto para salvá-lo.</p>
+          <p>
+            Toque no coração de um produto
+            para salvá-lo.
+          </p>
         </div>
       `;
-    } else {
-      box.innerHTML = lista.map(p => `
-        <div class="item-painel">
-          <img src="${p.imagem}" alt="${p.nome}" loading="lazy">
-          <div class="item-info">
-            <h4>${p.nome}</h4>
-            <strong>${formatarMoeda(p.preco)}</strong>
-            <a href="../produto/index.html?id=${p.id}" class="mini-link">Ver produto</a>
-          </div>
-          <button class="remover" data-remove-fav="${p.id}">×</button>
-        </div>
-      `).join("");
+
+      return;
     }
 
-    $$("[data-remove-fav]").forEach(btn => {
-      btn.onclick = () => toggleFavorito(Number(btn.dataset.removeFav));
+    conteudo.innerHTML = lista
+      .map((produto) => {
+        return `
+          <div class="item-painel">
+
+            <img
+              src="${produto.imagem}"
+              alt="${produto.nome}"
+              loading="lazy"
+            >
+
+            <div class="item-info">
+              <h4>${produto.nome}</h4>
+
+              <strong>
+                ${moeda(produto.preco)}
+              </strong>
+
+              <a
+                href="../produto/index.html?id=${produto.id}"
+                class="mini-link"
+              >
+                Ver produto
+              </a>
+            </div>
+
+            <button
+              class="remover"
+              type="button"
+              data-remove-fav="${produto.id}"
+              aria-label="Remover dos favoritos"
+            >
+              ×
+            </button>
+
+          </div>
+        `;
+      })
+      .join("");
+
+    $$("[data-remove-fav]").forEach((botao) => {
+      botao.addEventListener("click", () => {
+        toggleFavorito(
+          Number(botao.dataset.removeFav)
+        );
+      });
     });
   }
 
   function fecharTodos() {
-    $$(".painel-lateral").forEach(p => p.classList.remove("aberto"));
+    $$(".painel-lateral").forEach((painel) => {
+      painel.classList.remove("aberto");
+    });
+
     $("#perfilPopup")?.classList.remove("aberto");
     $("#painelFundo")?.classList.remove("ativo");
+
     document.body.classList.remove("painel-aberto");
+
     $("#menuBtn")?.classList.remove("active");
   }
 
-  function abrir(elemento) {
+  function abrirPainel(painel) {
+    if (!painel) return;
+
     fecharTodos();
-    elemento.classList.add("aberto");
-    $("#painelFundo").classList.add("ativo");
+
+    painel.classList.add("aberto");
+
+    $("#painelFundo")?.classList.add("ativo");
+
     document.body.classList.add("painel-aberto");
+
+    if (painel.id === "menuOverlay") {
+      $("#menuBtn")?.classList.add("active");
+    }
   }
 
   function atualizarUsuario() {
-    const usuarioLogado = get("usuarioLogado", null);
+    const usuario = get("usuarioLogado", null);
     const links = $("#perfilLinks");
 
-    $("#perfilNomeMenu").textContent = usuarioLogado
-      ? (usuarioLogado.nomeCompleto || usuarioLogado.usuario)
-      : "Visitante";
+    const nome = $("#perfilNomeMenu");
+    const subtitulo = $("#perfilSubMenu");
 
-    $("#perfilSubMenu").textContent = usuarioLogado
-      ? (usuarioLogado.telefone || "Cliente La Matte")
-      : "Faça login para acessar sua conta";
+    if (!links) return;
 
-    if (usuarioLogado) {
+    if (usuario) {
+      if (nome) {
+        nome.textContent =
+          usuario.nomeCompleto ||
+          usuario.nome ||
+          usuario.usuario ||
+          "Cliente La Matte";
+      }
+
+      if (subtitulo) {
+        subtitulo.textContent =
+          usuario.telefone ||
+          usuario.email ||
+          "Cliente La Matte";
+      }
+
       links.innerHTML = `
-        <a href="../perfil/index.html">Meu Perfil / Editar Dados <b>›</b></a>
-        <a href="#produtos">Fazer compras <b>›</b></a>
-        <button id="btnSairConta">Sair da conta <b>›</b></button>
+        <a href="../perfil/index.html">
+          Meu Perfil / Editar Dados
+          <b>›</b>
+        </a>
+
+        <a href="#produtos">
+          Fazer compras
+          <b>›</b>
+        </a>
+
+        <button
+          type="button"
+          id="btnSairConta"
+        >
+          Sair da conta
+          <b>›</b>
+        </button>
       `;
 
-      $("#btnSairConta")?.addEventListener("click", logout);
+      $("#btnSairConta")?.addEventListener(
+        "click",
+        sairDaConta
+      );
     } else {
+      if (nome) {
+        nome.textContent = "Visitante";
+      }
+
+      if (subtitulo) {
+        subtitulo.textContent =
+          "Faça login para acessar sua conta";
+      }
+
       links.innerHTML = `
-        <a href="../login/login.html">Entrar na conta <b>›</b></a>
-        <a href="../cadastro/cadastro.html">Criar cadastro <b>›</b></a>
+        <a href="../login/login.html">
+          Entrar na conta
+          <b>›</b>
+        </a>
+
+        <a href="../cadastro/cadastro.html">
+          Criar cadastro
+          <b>›</b>
+        </a>
       `;
     }
   }
 
-  function logout() {
+  function sairDaConta() {
     localStorage.removeItem("usuarioLogado");
+
     fecharTodos();
     atualizarUsuario();
   }
 
-  function banner(indice) {
-    slide = (indice + 3) % 3;
-    if (track) track.style.transform = `translateX(-${slide * 33.3333}%)`;
-    dots.forEach((dot, idx) => dot.classList.toggle("ativo", idx === slide));
+  function mostrarSlide(indice) {
+    if (!bannerContainer || banners.length === 0) {
+      return;
+    }
+
+    const total = banners.length;
+
+    slideAtual =
+      ((indice % total) + total) % total;
+
+    bannerContainer.style.transform =
+      `translateX(-${slideAtual * (100 / total)}%)`;
+
+    dots.forEach((dot, index) => {
+      dot.classList.toggle(
+        "ativo",
+        index === slideAtual
+      );
+    });
   }
 
-  $("#carrinhoBtn").onclick = () => abrir($("#carrinhoPainel"));
-  $("#favoritosBtn").onclick = () => abrir($("#favoritosPainel"));
-  $("#menuBtn").onclick = () => {
-    if ($("#menuOverlay").classList.contains("aberto")) {
+  function proximoSlide() {
+    mostrarSlide(slideAtual + 1);
+  }
+
+  function slideAnterior() {
+    mostrarSlide(slideAtual - 1);
+  }
+
+  function iniciarBanner() {
+    if (banners.length <= 1) return;
+
+    pararBanner();
+
+    intervaloBanner = setInterval(() => {
+      proximoSlide();
+    }, 6000);
+  }
+
+  function pararBanner() {
+    if (intervaloBanner) {
+      clearInterval(intervaloBanner);
+      intervaloBanner = null;
+    }
+  }
+
+  function reiniciarBanner() {
+    pararBanner();
+
+    intervaloBanner = setTimeout(() => {
+      iniciarBanner();
+    }, 9000);
+  }
+
+  const carrinhoBtn = $("#carrinhoBtn");
+  const favoritosBtn = $("#favoritosBtn");
+  const menuBtn = $("#menuBtn");
+  const perfilBtn = $("#perfilBtn");
+
+  carrinhoBtn?.addEventListener("click", () => {
+    abrirPainel($("#carrinhoPainel"));
+  });
+
+  favoritosBtn?.addEventListener("click", () => {
+    abrirPainel($("#favoritosPainel"));
+  });
+
+  menuBtn?.addEventListener("click", () => {
+    const menu = $("#menuOverlay");
+
+    if (!menu) return;
+
+    if (menu.classList.contains("aberto")) {
       fecharTodos();
     } else {
-      abrir($("#menuOverlay"));
-      $("#menuBtn").classList.add("active");
+      abrirPainel(menu);
     }
-  };
-
-  ["fecharCarrinho", "fecharFavoritos", "fecharMenu"].forEach(id => {
-    if ($("#" + id)) $("#" + id).onclick = fecharTodos;
   });
 
-  $("#painelFundo").onclick = fecharTodos;
-  document.onkeydown = e => {
-    if (e.key === "Escape") fecharTodos();
-  };
+  $("#fecharCarrinho")?.addEventListener(
+    "click",
+    fecharTodos
+  );
 
-  $("#perfilBtn").onclick = () => {
-    const usuarioLogado = get("usuarioLogado", null);
-    if (usuarioLogado) {
-      window.location.href = "../perfil/index.html";
-    } else {
-      $("#perfilPopup").classList.toggle("aberto");
+  $("#fecharFavoritos")?.addEventListener(
+    "click",
+    fecharTodos
+  );
+
+  $("#fecharMenu")?.addEventListener(
+    "click",
+    fecharTodos
+  );
+
+  $("#painelFundo")?.addEventListener(
+    "click",
+    fecharTodos
+  );
+
+  document.addEventListener("keydown", (evento) => {
+    if (evento.key === "Escape") {
+      fecharTodos();
     }
-  };
-
-  $$(".filtros button").forEach(btn => {
-    btn.onclick = () => {
-      $$(".filtros button").forEach(b => b.classList.remove("ativo"));
-      btn.classList.add("ativo");
-      categoria = btn.dataset.categoria;
-      renderProdutos();
-    };
   });
 
-  if (pesquisa) pesquisa.oninput = renderProdutos;
-  if ($("#limparPesquisa")) {
-    $("#limparPesquisa").onclick = () => {
-      pesquisa.value = "";
-      renderProdutos();
-    };
-  }
+  perfilBtn?.addEventListener("click", () => {
+    const usuario = get("usuarioLogado", null);
+    const popup = $("#perfilPopup");
 
-  if ($("#bannerNext")) $("#bannerNext").onclick = () => banner(slide + 1);
-  if ($("#bannerPrev")) $("#bannerPrev").onclick = () => banner(slide - 1);
-  dots.forEach(dot => {
-    dot.onclick = () => banner(Number(dot.dataset.slide));
+    if (!popup) return;
+
+    if (usuario) {
+      window.location.href =
+        "../perfil/index.html";
+      return;
+    }
+
+    fecharTodos();
+
+    popup.classList.add("aberto");
+
+    $("#painelFundo")?.classList.add("ativo");
+
+    document.body.classList.add("painel-aberto");
   });
-  setInterval(() => banner(slide + 1), 6000);
 
-  if ($("#suporteForm")) {
-    $("#suporteForm").onsubmit = e => {
-      e.preventDefault();
-      $("#suporteSucesso").textContent = "Mensagem registrada nesta demonstração. Obrigado!";
-      e.target.reset();
-    };
-  }
+  $$(".filtros button").forEach((botao) => {
+    botao.addEventListener("click", () => {
+      $$(".filtros button").forEach((item) => {
+        item.classList.remove("ativo");
+      });
 
-  if ($("#formNewsletter")) {
-    $("#formNewsletter").onsubmit = e => {
-      e.preventDefault();
-      $("#newsletterSucesso").textContent = "Inscrição realizada!";
-      e.target.reset();
-    };
-  }
+      botao.classList.add("ativo");
 
+      categoriaAtual =
+        botao.dataset.categoria || "Todos";
+
+      renderProdutos();
+    });
+  });
+
+  campoPesquisa?.addEventListener(
+    "input",
+    renderProdutos
+  );
+
+  $("#limparPesquisa")?.addEventListener(
+    "click",
+    () => {
+      if (campoPesquisa) {
+        campoPesquisa.value = "";
+      }
+
+      renderProdutos();
+      campoPesquisa?.focus();
+    }
+  );
+
+  $("#bannerNext")?.addEventListener(
+    "click",
+    () => {
+      proximoSlide();
+      reiniciarBanner();
+    }
+  );
+
+  $("#bannerPrev")?.addEventListener(
+    "click",
+    () => {
+      slideAnterior();
+      reiniciarBanner();
+    }
+  );
+
+  dots.forEach((dot) => {
+    dot.addEventListener("click", () => {
+      mostrarSlide(
+        Number(dot.dataset.slide) || 0
+      );
+
+      reiniciarBanner();
+    });
+  });
+
+  bannerContainer?.addEventListener(
+    "mouseenter",
+    pararBanner
+  );
+
+  bannerContainer?.addEventListener(
+    "mouseleave",
+    iniciarBanner
+  );
+
+  bannerContainer?.addEventListener(
+    "touchstart",
+    pararBanner,
+    { passive: true }
+  );
+
+  bannerContainer?.addEventListener(
+    "touchend",
+    iniciarBanner,
+    { passive: true }
+  );
+
+  const suporteForm = $("#suporteForm");
+
+  suporteForm?.addEventListener(
+    "submit",
+    (evento) => {
+      evento.preventDefault();
+
+      const sucesso = $("#suporteSucesso");
+
+      if (sucesso) {
+        sucesso.textContent =
+          "Mensagem registrada nesta demonstração. Obrigado!";
+      }
+
+      suporteForm.reset();
+    }
+  );
+
+  const newsletterForm = $("#formNewsletter");
+
+  newsletterForm?.addEventListener(
+    "submit",
+    (evento) => {
+      evento.preventDefault();
+
+      const sucesso =
+        $("#newsletterSucesso");
+
+      if (sucesso) {
+        sucesso.textContent =
+          "Inscrição realizada!";
+      }
+
+      newsletterForm.reset();
+    }
+  );
+
+  $$(".menu-links a").forEach((link) => {
+    link.addEventListener("click", () => {
+      fecharTodos();
+    });
+  });
+
+  document.addEventListener("click", (evento) => {
+    const popup = $("#perfilPopup");
+    const perfil = $("#perfilBtn");
+
+    if (!popup || !popup.classList.contains("aberto")) {
+      return;
+    }
+
+    if (
+      !popup.contains(evento.target) &&
+      !perfil?.contains(evento.target)
+    ) {
+      fecharTodos();
+    }
+  });
+
+  normalizarDados();
   atualizarUsuario();
   renderProdutos();
   renderCarrinho();
   renderFavoritos();
   atualizarContadores();
-  banner(0);
+
+  mostrarSlide(0);
+  iniciarBanner();
 });
+```
