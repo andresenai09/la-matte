@@ -34,7 +34,7 @@ document.addEventListener("DOMContentLoaded", () => {
     $("#heroNome").textContent = usuarioLogado.nomeCompleto || usuarioLogado.usuario;
     $("#heroUsuario").textContent = "@" + (usuarioLogado.usuario || "usuario");
 
-    if (usuarioLogado.usuario === "usuario_google") {
+    if (usuarioLogado.googleId) {
       $("#heroBadge").textContent = "Conectado via Google";
       $("#heroBadge").style.background = "#e8f0fe";
       $("#heroBadge").style.color = "#1a73e8";
@@ -49,7 +49,23 @@ document.addEventListener("DOMContentLoaded", () => {
     $("#campoNascimento").value = usuarioLogado.nascimento || "";
     $("#campoTelefone").value = usuarioLogado.telefone || "";
     $("#campoCep").value = usuarioLogado.cep || "";
+    $("#campoSenha").value = usuarioLogado.senha || "";
   }
+
+  // MOSTRAR/OCULTAR SENHA
+  let senhaVisivel = false;
+  $("#btnMostrarSenha").onclick = (e) => {
+    e.preventDefault();
+    senhaVisivel = !senhaVisivel;
+    
+    if (senhaVisivel) {
+      $("#campoSenha").type = "text";
+      $("#btnMostrarSenha").textContent = "🙈";
+    } else {
+      $("#campoSenha").type = "password";
+      $("#btnMostrarSenha").textContent = "👁️";
+    }
+  };
 
   // CONTROLE DE ABAS NAVEGÁVEIS
   $$(".aba-item").forEach(btn => {
@@ -137,6 +153,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     localStorage.setItem("usuarios", JSON.stringify(usuarios));
     localStorage.setItem("usuarioLogado", JSON.stringify(usuarioLogado));
+
+    // Atualiza campo de senha na aba de dados
+    $("#campoSenha").value = nova;
 
     msg.textContent = "Senha alterada com sucesso!";
     msg.className = "msg-feedback";
