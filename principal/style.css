@@ -989,15 +989,25 @@ footer button {
   margin-top: 0;
   padding-top: 95px;
 }
+  .intro, .produtos-section, .vantagens, .suporte {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 95px 30px;
+}
   .banner {
-    padding: 45px 35px;
-  }
+  background-size: cover;
+  background-position: center bottom;
+  height: calc(100% + 2px);
+}
   .banner h1 {
     font-size: 44px;
   }
   .seta-banner {
     display: none;
   }
+  .banner-track {
+  height: calc(100% + 2px);
+}
   .grid-produtos {
     grid-template-columns: repeat(2, 1fr);
     gap: 12px;
