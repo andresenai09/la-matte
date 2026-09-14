@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>La Matte - Completar Dados</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --verde: #0f2c23;
+      --verde2: #15382d;
+      --creme: #f7f3eb;
+      --creme2: #ece3d2;
+      --dourado: #c49a55;
+      --dourado2: #e3c488;
+      --texto: #1a241f;
+      --branco: #ffffff;
+      --vermelho: #b3261e;
+      --verde-sucesso: #2e7d32;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', Arial, sans-serif;
+      background: var(--creme);
+      color: var(--texto);
+      min-height: 100vh;
+    }
+
+    header {
+      background: var(--verde);
+      padding: 20px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid rgba(196, 154, 85, 0.3);
+    }
+
+    .marca {
+      text-decoration: none;
+      font-family: 'Fraunces', serif;
+    }
+
+    .marca span {
+      font-style: italic;
+      color: var(--dourado);
+      font-size: 20px;
+    }
+
+    .marca b {
+      color: var(--creme);
+      font-size: 24px;
+      font-weight: 700;
+    }
+
+    header a {
+      color: var(--creme);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 600;
+      transition: 0.2s;
+    }
+
+    header a:hover {
+      color: var(--dourado2);
+    }
+
+    main {
+      max-width: 800px;
+      margin: 40px auto;
+      padding: 0 20px;
+    }
+
+    .titulo {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .titulo span {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--vermelho);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .titulo h1 {
+      font: 700 40px 'Fraunces', serif;
+      color: var(--verde);
+      margin: 8px 0 12px;
+    }
+
+    .titulo p {
+      color: #64716b;
+      font-size: 16px;
+    }
+
+    .container-form {
+      background: var(--branco);
+      border: 1px solid var(--creme2);
+      border-radius: 20px;
+      padding: 36px;
+      box-shadow: 0 10px 30px rgba(15, 44, 35, 0.04);
+    }
+
+    .info-alerta {
+      background: #fef3e1;
+      border-left: 4px solid var(--dourado);
+      padding: 16px;
+      margin-bottom: 28px;
+      border-radius: 8px;
+      color: #8c6621;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .info-alerta strong {
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    .grid-form {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+      margin-bottom: 24px;
+    }
+
+    .campo-grupo {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .campo-grupo label {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--verde2);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .campo-grupo input {
+      padding: 12px 14px;
+      border: 1px solid #dcd3c1;
+      border-radius: 12px;
+      outline: none;
+      font-size: 14px;
+      background: var(--branco);
+      transition: 0.2s;
+    }
+
+    .campo-grupo input:focus {
+      border-color: var(--dourado);
+      box-shadow: 0 0 0 3px rgba(196, 154, 85, 0.2);
+    }
+
+    .duplo-span {
+      grid-column: 1 / -1;
+    }
+
+    .mascaras-info {
+      font-size: 12px;
+      color: #999;
+      margin-top: 2px;
+    }
+
+    .acoes-form {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+      margin-top: 28px;
+    }
+
+    .btn-salvar {
+      border: 0;
+      border-radius: 14px;
+      padding: 14px 28px;
+      background: var(--verde);
+      color: var(--branco);
+      font-weight: 700;
+      cursor: pointer;
+      transition: 0.2s;
+      flex: 1;
+    }
+
+    .btn-salvar:hover {
+      background: var(--dourado);
+      color: var(--verde);
+    }
+
+    .btn-voltar {
+      border: 1px solid #dcd3c1;
+      border-radius: 14px;
+      padding: 14px 28px;
+      background: transparent;
+      color: var(--texto);
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .btn-voltar:hover {
+      background: var(--creme2);
+      border-color: var(--verde);
+    }
+
+    .msg-feedback {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--verde-sucesso);
+      margin-left: 16px;
+    }
+
+    .msg-feedback.erro {
+      color: var(--vermelho);
+    }
+
+    .checklist {
+      background: #f9f7f4;
+      border: 1px solid #dcd3c1;
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 24px;
+    }
+
+    .checklist h3 {
+      font-size: 14px;
+      color: var(--verde);
+      margin-bottom: 12px;
+      font-weight: 700;
+    }
+
+    .checklist-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 13px;
+      color: #64716b;
+      padding: 6px 0;
+    }
+
+    .checklist-item.ok {
+      color: var(--verde-sucesso);
+    }
+
+    .checklist-item.ok::before {
+      content: "✓";
+      font-weight: 700;
+      color: var(--verde-sucesso);
+    }
+
+    .checklist-item.pendente::before {
+      content: "○";
+      color: #999;
+    }
+
+    @media (max-width: 600px) {
+      .grid-form {
+        grid-template-columns: 1fr;
+      }
+
+      .container-form {
+        padding: 20px;
+      }
+
+      .titulo h1 {
+        font-size: 28px;
+      }
+
+      .acoes-form {
+        flex-direction: column;
+      }
+
+      .btn-salvar,
+      .btn-voltar {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <a href="../principal/index.html" class="marca"><span>La</span><b>Matte</b></a>
+    <a href="../principal/index.html">← Voltar à loja</a>
+  </header>
+
+  <main>
+    <div class="titulo">
+      <span>⚠️ Dados Incompletos</span>
+      <h1>Complete seus dados</h1>
+      <p>Para finalizar sua compra, precisamos que você complete os dados cadastrais obrigatórios.</p>
+    </div>
+
+    <div class="container-form">
+      <div class="info-alerta">
+        <strong>Atenção:</strong>
+        Os campos abaixo são obrigatórios para que você possa finalizar a compra. Após completá-los, você será redirecionado automaticamente para continuar o checkout.
+      </div>
+
+      <div class="checklist">
+        <h3>Dados que faltam:</h3>
+        <div class="checklist-item pendente" id="check-cpf">CPF</div>
+        <div class="checklist-item pendente" id="check-nascimento">Data de Nascimento</div>
+        <div class="checklist-item pendente" id="check-telefone">Telefone / WhatsApp</div>
+        <div class="checklist-item pendente" id="check-cep">CEP</div>
+      </div>
+
+      <form id="formCompletarDados" class="grid-form">
+        <div class="campo-grupo duplo-span">
+          <label for="campoNomeCompleto">Nome Completo</label>
+          <input type="text" id="campoNomeCompleto" required placeholder="Seu nome completo">
+        </div>
+
+        <div class="campo-grupo">
+          <label for="campoCpf">CPF</label>
+          <input type="text" id="campoCpf" maxlength="14" required placeholder="000.000.000-00">
+          <span class="mascaras-info">Será formatado automaticamente</span>
+        </div>
+
+        <div class="campo-grupo">
+          <label for="campoNascimento">Data de Nascimento</label>
+          <input type="date" id="campoNascimento" required>
+        </div>
+
+        <div class="campo-grupo">
+          <label for="campoTelefone">Telefone / WhatsApp</label>
+          <input type="tel" id="campoTelefone" maxlength="15" required placeholder="(00) 00000-0000">
+          <span class="mascaras-info">Será formatado automaticamente</span>
+        </div>
+
+        <div class="campo-grupo">
+          <label for="campoCep">CEP</label>
+          <input type="text" id="campoCep" maxlength="9" required placeholder="00000-000">
+          <span class="mascaras-info">Será formatado automaticamente</span>
+        </div>
+      </form>
+
+      <div class="acoes-form">
+        <button type="submit" form="formCompletarDados" class="btn-salvar">Salvar e Continuar</button>
+        <button type="button" class="btn-voltar" onclick="window.history.back()">Voltar</button>
+        <span class="msg-feedback" id="msgFeedback"></span>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const $ = s => document.querySelector(s);
+
+      let usuarioLogado = JSON.parse(localStorage.getItem("usuarioLogado") || "null");
+
+      if (!usuarioLogado) {
+        alert("Você precisa estar logado.");
+        window.location.href = "../login/login.html";
+        return;
+      }
+
+      // Preencher campos com dados existentes
+      $("#campoNomeCompleto").value = usuarioLogado.nomeCompleto || "";
+      $("#campoCpf").value = usuarioLogado.cpf || "";
+      $("#campoNascimento").value = usuarioLogado.nascimento || "";
+      $("#campoTelefone").value = usuarioLogado.telefone || "";
+      $("#campoCep").value = usuarioLogado.cep || "";
+
+      // Atualizar checklist
+      function atualizarChecklist() {
+        const campos = [
+          { id: "cpf", valor: $("#campoCpf").value },
+          { id: "nascimento", valor: $("#campoNascimento").value },
+          { id: "telefone", valor: $("#campoTelefone").value },
+          { id: "cep", valor: $("#campoCep").value }
+        ];
+
+        campos.forEach(campo => {
+          const el = $(`#check-${campo.id}`);
+          if (campo.valor.trim()) {
+            el.classList.remove("pendente");
+            el.classList.add("ok");
+          } else {
+            el.classList.add("pendente");
+            el.classList.remove("ok");
+          }
+        });
+      }
+
+      // Máscaras
+      $("#campoCpf").addEventListener("input", (e) => {
+        e.target.value = e.target.value
+          .replace(/\D/g, "")
+          .slice(0, 11)
+          .replace(/(\d{3})(\d)/, "$1.$2")
+          .replace(/(\d{3})(\d)/, "$1.$2")
+          .replace(/(\d{3})(\d{1,2})$/, "$1-$2");
+        atualizarChecklist();
+      });
+
+      $("#campoTelefone").addEventListener("input", (e) => {
+        e.target.value = e.target.value
+          .replace(/\D/g, "")
+          .slice(0, 11)
+          .replace(/^(\d{2})(\d)/, "($1) $2")
+          .replace(/(\d)(\d{4})$/, "$1-$2");
+        atualizarChecklist();
+      });
+
+      $("#campoCep").addEventListener("input", (e) => {
+        e.target.value = e.target.value
+          .replace(/\D/g, "")
+          .slice(0, 8)
+          .replace(/^(\d{5})(\d)/, "$1-$2");
+        atualizarChecklist();
+      });
+
+      $("#campoNascimento").addEventListener("change", atualizarChecklist);
+
+      // Formulário
+      $("#formCompletarDados").addEventListener("submit", (e) => {
+        e.preventDefault();
+        
+        const msg = $("#msgFeedback");
+        msg.textContent = "";
+        msg.classList.remove("erro");
+
+        // Validação
+        const cpf = $("#campoCpf").value.trim();
+        const nascimento = $("#campoNascimento").value;
+        const telefone = $("#campoTelefone").value.trim();
+        const cep = $("#campoCep").value.trim();
+        const nomeCompleto = $("#campoNomeCompleto").value.trim();
+
+        if (!cpf || !nascimento || !telefone || !cep || !nomeCompleto) {
+          msg.textContent = "Por favor, preencha todos os campos obrigatórios.";
+          msg.classList.add("erro");
+          return;
+        }
+
+        // Atualizar usuário
+        usuarioLogado.nomeCompleto = nomeCompleto;
+        usuarioLogado.cpf = cpf;
+        usuarioLogado.nascimento = nascimento;
+        usuarioLogado.telefone = telefone;
+        usuarioLogado.cep = cep;
+
+        // Salvar no localStorage
+        let usuarios = JSON.parse(localStorage.getItem("usuarios") || "[]");
+        const index = usuarios.findIndex(u => u.usuario === usuarioLogado.usuario);
+        
+        if (index >= 0) {
+          usuarios[index] = usuarioLogado;
+        } else {
+          usuarios.push(usuarioLogado);
+        }
+
+        localStorage.setItem("usuarios", JSON.stringify(usuarios));
+        localStorage.setItem("usuarioLogado", JSON.stringify(usuarioLogado));
+
+        msg.textContent = "✓ Dados salvos com sucesso! Redirecionando...";
+        msg.classList.remove("erro");
+
+        setTimeout(() => {
+          window.location.href = "../checkout/index.html";
+        }, 1500);
+      });
+
+      atualizarChecklist();
+    });
+  </script>
+</body>
+</html>
