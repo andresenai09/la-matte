@@ -15,18 +15,10 @@ document.addEventListener("DOMContentLoaded", () => {
   let carrinho = get("carrinho", []);
   let favoritos = get("favoritos", []);
   let categoria = "Todos";
-  let slide = 0;
 
   const grid = $("#gridProdutos");
   const sem = $("#semResultados");
   const pesquisa = $("#campoPesquisa");
-  const track = $("#bannerContainer");
-  const dots = $$(".dots button");
-  const bannersEls = $$(".banner");
-  const heroEl = $("#heroCarrossel");
-  const heroContadorEl = $("#heroSlideAtual");
-  let autoplayId = null;
-  let heroPausado = false;
 
   function totalCarrinho() {
     return carrinho.reduce((acc, item) => acc + item.preco * item.quantidade, 0);
@@ -34,8 +26,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function atualizarContadores() {
     const totalItens = carrinho.reduce((acc, item) => acc + item.quantidade, 0);
-    $("#contadorCarrinho").textContent = totalItens;
-    $("#contadorFavoritos").textContent = favoritos.length;
+    if ($("#contadorCarrinho")) $("#contadorCarrinho").textContent = totalItens;
+    if ($("#contadorFavoritos")) $("#contadorFavoritos").textContent = favoritos.length;
   }
 
   function card(produto) {
@@ -65,6 +57,8 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function renderProdutos() {
+    if (!grid || typeof produtos === 'undefined') return;
+
     const termo = (pesquisa?.value || "").toLowerCase().trim();
     const lista = produtos.filter(p => {
       const bateCategoria = categoria === "Todos" || p.categoria === categoria;
@@ -74,7 +68,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     grid.innerHTML = lista.map(card).join("");
-    sem.style.display = lista.length ? "none" : "block";
+    if (sem) sem.style.display = lista.length ? "none" : "block";
 
     $$("[data-fav]").forEach(btn => {
       btn.onclick = e => {
@@ -94,7 +88,8 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function adicionar(id, quantidade = 1) {
-    const produto = encontrarProduto(id);
+    if (typeof produtos === 'undefined') return;
+    const produto = produtos.find(p => p.id === id); // Ajustado para buscar no array base (suposição do nome)
     if (!produto) return;
 
     const itemExistente = carrinho.find(x => x.id === id);
@@ -143,6 +138,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function renderCarrinho() {
     const box = $("#carrinhoConteudo");
+    if (!box) return;
+
     if (!carrinho.length) {
       box.innerHTML = `
         <div class="vazio">
@@ -169,7 +166,7 @@ document.addEventListener("DOMContentLoaded", () => {
       `).join("");
     }
 
-    $("#subtotalCarrinho").textContent = formatarMoeda(totalCarrinho());
+    if ($("#subtotalCarrinho")) $("#subtotalCarrinho").textContent = formatarMoeda(totalCarrinho());
 
     $$("[data-minus]").forEach(btn => {
       btn.onclick = () => {
@@ -194,6 +191,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function renderFavoritos() {
     const box = $("#favoritosConteudo");
+    if (!box || typeof produtos === 'undefined') return;
+
     const lista = produtos.filter(p => favoritos.includes(p.id));
 
     if (!lista.length) {
@@ -232,23 +231,29 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function abrir(elemento) {
+    if (!elemento) return;
     fecharTodos();
     elemento.classList.add("aberto");
-    $("#painelFundo").classList.add("ativo");
+    if ($("#painelFundo")) $("#painelFundo").classList.add("ativo");
     document.body.classList.add("painel-aberto");
   }
 
   function atualizarUsuario() {
     const usuarioLogado = get("usuarioLogado", null);
     const links = $("#perfilLinks");
+    if (!links) return;
 
-    $("#perfilNomeMenu").textContent = usuarioLogado
-      ? (usuarioLogado.nomeCompleto || usuarioLogado.usuario)
-      : "Visitante";
+    if ($("#perfilNomeMenu")) {
+      $("#perfilNomeMenu").textContent = usuarioLogado
+        ? (usuarioLogado.nomeCompleto || usuarioLogado.usuario)
+        : "Visitante";
+    }
 
-    $("#perfilSubMenu").textContent = usuarioLogado
-      ? (usuarioLogado.telefone || "Cliente La Matte")
-      : "Faça login para acessar sua conta";
+    if ($("#perfilSubMenu")) {
+      $("#perfilSubMenu").textContent = usuarioLogado
+        ? (usuarioLogado.telefone || "Cliente La Matte")
+        : "Faça login para acessar sua conta";
+    }
 
     if (usuarioLogado) {
       links.innerHTML = `
@@ -256,7 +261,6 @@ document.addEventListener("DOMContentLoaded", () => {
         <a href="#produtos">Fazer compras <b>›</b></a>
         <button id="btnSairConta">Sair da conta <b>›</b></button>
       `;
-
       $("#btnSairConta")?.addEventListener("click", logout);
     } else {
       links.innerHTML = `
@@ -272,64 +276,39 @@ document.addEventListener("DOMContentLoaded", () => {
     atualizarUsuario();
   }
 
-  function banner(indice) {
-    slide = (indice + 3) % 3;
-    if (track) track.style.transform = `translateX(-${slide * 33.3333}%)`;
-
-    dots.forEach((dot, idx) => dot.classList.toggle("ativo", idx === slide));
-
-    if (heroContadorEl) heroContadorEl.textContent = String(slide + 1).padStart(2, "0");
-
-    // reinicia as animações de zoom (Ken Burns) e barra de progresso do slide atual
-    bannersEls.forEach(b => b.classList.remove("ativo"));
-    dots.forEach(dot => {
-      const barra = dot.querySelector("i");
-      if (barra) {
-        barra.style.animation = "none";
-        void barra.offsetWidth;
-        barra.style.animation = "";
+  // Comandos de Interação Padrão (Event Listeners)
+  if ($("#carrinhoBtn")) $("#carrinhoBtn").onclick = () => abrir($("#carrinhoPainel"));
+  if ($("#favoritosBtn")) $("#favoritosBtn").onclick = () => abrir($("#favoritosPainel"));
+  if ($("#menuBtn")) {
+    $("#menuBtn").onclick = () => {
+      if ($("#menuOverlay")?.classList.contains("aberto")) {
+        fecharTodos();
+      } else {
+        abrir($("#menuOverlay"));
+        $("#menuBtn").classList.add("active");
       }
-    });
-
-    void track?.offsetWidth;
-    bannersEls[slide]?.classList.add("ativo");
+    };
   }
-
-  function iniciarAutoplay() {
-    clearInterval(autoplayId);
-    autoplayId = setInterval(() => {
-      if (!heroPausado) banner(slide + 1);
-    }, 6000);
-  }
-
-  $("#carrinhoBtn").onclick = () => abrir($("#carrinhoPainel"));
-  $("#favoritosBtn").onclick = () => abrir($("#favoritosPainel"));
-  $("#menuBtn").onclick = () => {
-    if ($("#menuOverlay").classList.contains("aberto")) {
-      fecharTodos();
-    } else {
-      abrir($("#menuOverlay"));
-      $("#menuBtn").classList.add("active");
-    }
-  };
 
   ["fecharCarrinho", "fecharFavoritos", "fecharMenu"].forEach(id => {
     if ($("#" + id)) $("#" + id).onclick = fecharTodos;
   });
 
-  $("#painelFundo").onclick = fecharTodos;
-  document.onkeydown = e => {
+  if ($("#painelFundo")) $("#painelFundo").onclick = fecharTodos;
+  document.addEventListener("keydown", e => {
     if (e.key === "Escape") fecharTodos();
-  };
+  });
 
-  $("#perfilBtn").onclick = () => {
-    const usuarioLogado = get("usuarioLogado", null);
-    if (usuarioLogado) {
-      window.location.href = "../perfil/index.html";
-    } else {
-      $("#perfilPopup").classList.toggle("aberto");
-    }
-  };
+  if ($("#perfilBtn")) {
+    $("#perfilBtn").onclick = () => {
+      const usuarioLogado = get("usuarioLogado", null);
+      if (usuarioLogado) {
+        window.location.href = "../perfil/index.html";
+      } else {
+        $("#perfilPopup")?.classList.toggle("aberto");
+      }
+    };
+  }
 
   $$(".filtros button").forEach(btn => {
     btn.onclick = () => {
@@ -348,65 +327,115 @@ document.addEventListener("DOMContentLoaded", () => {
     };
   }
 
-  if ($("#bannerNext")) $("#bannerNext").onclick = () => banner(slide + 1);
-  if ($("#bannerPrev")) $("#bannerPrev").onclick = () => banner(slide - 1);
+  // ======== LÓGICA DO CARROSSEL PREMIUM ========
+  const track = $("#bannerContainer");
+  const bannersEls = $$(".banner");
+  const heroEl = $("#heroCarrossel");
+  const dotsContainer = $("#dotsContainer");
+  let autoplayId = null;
+  let heroPausado = false;
+  let slide = 0;
+  const totalBanners = bannersEls.length;
+
+  // 1. Gerar os botões pontilhados dinamicamente com base na qtde de banners
+  if (dotsContainer && totalBanners > 0) {
+    dotsContainer.innerHTML = Array.from({ length: totalBanners }).map((_, i) => 
+      `<button data-slide="${i}" aria-label="Ir para promoção ${i+1}"><i></i></button>`
+    ).join('');
+  }
+  
+  const dots = $$(".dots button");
+  
+  // 2. Atualiza o contador de total de slides
+  if ($("#heroTotalSlides")) {
+    $("#heroTotalSlides").textContent = String(totalBanners).padStart(2, "0");
+  }
+
+  function banner(indice) {
+    if (totalBanners === 0) return;
+    
+    // Matemática que garante o loop infinito
+    slide = (indice + totalBanners) % totalBanners;
+    
+    // Move o trilho suavemente calculando a porcentagem exata (100 = 100%)
+    if (track) track.style.transform = `translateX(-${slide * 100}%)`;
+
+    // Atualiza classes ativas
+    dots.forEach((dot, idx) => dot.classList.toggle("ativo", idx === slide));
+    bannersEls.forEach(b => b.classList.remove("ativo"));
+    
+    // Atualiza número da interface
+    if ($("#heroSlideAtual")) {
+      $("#heroSlideAtual").textContent = String(slide + 1).padStart(2, "0");
+    }
+
+    // Truque de performance para resetar as barras de progresso fluidamente
+    dots.forEach(dot => {
+      const barra = dot.querySelector("i");
+      if (barra) {
+        barra.style.animation = "none";
+        void barra.offsetWidth; // Dispara reflow
+        barra.style.animation = "";
+      }
+    });
+
+    // Inicia a animação staggered css adicionando a classe ativo
+    bannersEls[slide]?.classList.add("ativo");
+  }
+
+  function iniciarAutoplay() {
+    clearInterval(autoplayId);
+    autoplayId = setInterval(() => {
+      if (!heroPausado) banner(slide + 1);
+    }, 6000); // 6 segundos em cada banner
+  }
+
+  // Comandos manuais reiniciam o cronômetro para evitar pulos bruscos
+  function navegar(acao) {
+    banner(acao);
+    iniciarAutoplay();
+  }
+
+  if ($("#bannerNext")) $("#bannerNext").onclick = () => navegar(slide + 1);
+  if ($("#bannerPrev")) $("#bannerPrev").onclick = () => navegar(slide - 1);
+  
   dots.forEach(dot => {
-    dot.onclick = () => banner(Number(dot.dataset.slide));
+    dot.onclick = () => navegar(Number(dot.dataset.slide));
   });
 
   if (heroEl) {
-    // pausa o autoplay enquanto o mouse está sobre o carrossel
-    heroEl.addEventListener("mouseenter", () => {
-      heroPausado = true;
-      heroEl.classList.add("pausado");
-    });
-    heroEl.addEventListener("mouseleave", () => {
-      heroPausado = false;
-      heroEl.classList.remove("pausado");
-    });
-
-    // navegação por teclado quando o carrossel está em foco
+    heroEl.addEventListener("mouseenter", () => { heroPausado = true; heroEl.classList.add("pausado"); });
+    heroEl.addEventListener("mouseleave", () => { heroPausado = false; heroEl.classList.remove("pausado"); });
+    
     heroEl.setAttribute("tabindex", "0");
     heroEl.addEventListener("keydown", e => {
-      if (e.key === "ArrowRight") banner(slide + 1);
-      if (e.key === "ArrowLeft") banner(slide - 1);
+      if (e.key === "ArrowRight") navegar(slide + 1);
+      if (e.key === "ArrowLeft") navegar(slide - 1);
     });
 
-    // suporte a arrastar/deslizar (touch e mouse)
+    // Gestos de celular (Swipe super macio)
     let inicioX = null;
     heroEl.addEventListener("touchstart", e => {
       inicioX = e.touches[0].clientX;
     }, { passive: true });
+    
     heroEl.addEventListener("touchend", e => {
       if (inicioX === null) return;
       const diff = e.changedTouches[0].clientX - inicioX;
-      if (Math.abs(diff) > 45) banner(diff > 0 ? slide - 1 : slide + 1);
+      if (Math.abs(diff) > 50) navegar(diff > 0 ? slide - 1 : slide + 1);
       inicioX = null;
     });
   }
 
-  iniciarAutoplay();
-
-  if ($("#suporteForm")) {
-    $("#suporteForm").onsubmit = e => {
-      e.preventDefault();
-      $("#suporteSucesso").textContent = "Mensagem registrada nesta demonstração. Obrigado!";
-      e.target.reset();
-    };
-  }
-
-  if ($("#formNewsletter")) {
-    $("#formNewsletter").onsubmit = e => {
-      e.preventDefault();
-      $("#newsletterSucesso").textContent = "Inscrição realizada!";
-      e.target.reset();
-    };
-  }
-
+  // Inicializações Finais
   atualizarUsuario();
   renderProdutos();
   renderCarrinho();
   renderFavoritos();
   atualizarContadores();
-  banner(0);
+  
+  if (totalBanners > 0) {
+    banner(0);
+    iniciarAutoplay();
+  }
 });
