@@ -106,7 +106,8 @@ document.addEventListener("DOMContentLoaded", () => {
         cpf: "",
         nascimento: "",
         telefone: "",
-        cep: ""
+        cep: "",
+        senha: "" // Senha vazia inicialmente
       };
 
       let lista = [];
@@ -122,27 +123,20 @@ document.addEventListener("DOMContentLoaded", () => {
       );
 
       if (existente) {
+        // Usuário já existe, faz login direto
         Object.assign(existente, usuarioGoogle);
 
         localStorage.setItem(
           "usuarioLogado",
           JSON.stringify(existente)
         );
+
+        location.href = "../principal/index.html";
       } else {
-        lista.push(usuarioGoogle);
-
-        localStorage.setItem(
-          "usuarios",
-          JSON.stringify(lista)
-        );
-
-        localStorage.setItem(
-          "usuarioLogado",
-          JSON.stringify(usuarioGoogle)
-        );
+        // Novo usuário - armazena temporariamente e redireciona para definir senha
+        sessionStorage.setItem("usuarioGoogle", JSON.stringify(usuarioGoogle));
+        location.href = "./definir-senha.html";
       }
-
-      location.href = "../principal/index.html";
 
     } catch (erro) {
       console.error(erro);
