@@ -58,15 +58,6 @@ a {
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.18);
   transition: transform 0.35s ease;
 }
-/* Ajusta o contêiner que vem abaixo do cabeçalho */
-main {
-  padding-top: 88px; /* Cria o espaço exato da altura da barra */
-}
-
-/* Trava a margem do primeiro elemento do conteúdo */
-main > *:first-child {
-  margin-top: 0 !important;
-}
 .painel-aberto .barra-fixa {
   transform: translateY(-100%);
 }
