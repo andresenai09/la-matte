@@ -1,1125 +1,505 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-  const $ = s => document.querySelector(s);
-  const $$ = s => document.querySelectorAll(s);
+  const painelFundo = document.getElementById("painelFundo");
+  const perfilBtn = document.getElementById("perfilBtn");
+  const perfilPopup = document.getElementById("perfilPopup");
 
+  const favoritosBtn = document.getElementById("favoritosBtn");
+  const favoritosPainel = document.getElementById("favoritosPainel");
+  const fecharFavoritos = document.getElementById("fecharFavoritos");
 
-  /* USUÁRIO */
+  const carrinhoBtn = document.getElementById("carrinhoBtn");
+  const carrinhoPainel = document.getElementById("carrinhoPainel");
+  const fecharCarrinho = document.getElementById("fecharCarrinho");
 
-  let usuarioLogado = JSON.parse(
-    localStorage.getItem("usuarioLogado") || "null"
-  );
+  const menuBtn = document.getElementById("menuBtn");
+  const menuOverlay = document.getElementById("menuOverlay");
+  const fecharMenu = document.getElementById("fecharMenu");
 
-  if (!usuarioLogado) {
-    alert("Você precisa estar logado para acessar seu perfil.");
-    window.location.href = "../login/login.html";
-    return;
+  const perfilLinks = document.getElementById("perfilLinks");
+
+  const contadorCarrinho = document.getElementById("contadorCarrinho");
+  const contadorFavoritos = document.getElementById("contadorFavoritos");
+
+  const perfilTabs = document.querySelectorAll(".perfil-tab");
+  const perfilPanels = document.querySelectorAll(".perfil-panel");
+
+  const perfilForm = document.getElementById("perfilForm");
+  const mensagemPerfil = document.getElementById("mensagemPerfil");
+
+  const nomePerfil = document.getElementById("nomePerfil");
+  const emailPerfil = document.getElementById("emailPerfil");
+  const telefonePerfil = document.getElementById("telefonePerfil");
+  const cidadePerfil = document.getElementById("cidadePerfil");
+
+  const perfilNomeMenu = document.getElementById("perfilNomeMenu");
+  const perfilSubMenu = document.getElementById("perfilSubMenu");
+
+  const sairPerfil = document.getElementById("sairPerfil");
+
+  let carrinho = JSON.parse(localStorage.getItem("laMatteCarrinho") || "[]");
+  let favoritos = JSON.parse(localStorage.getItem("laMatteFavoritos") || "[]");
+
+  function fecharTodos() {
+    perfilPopup?.classList.remove("aberto");
+    favoritosPainel?.classList.remove("aberto");
+    carrinhoPainel?.classList.remove("aberto");
+    menuOverlay?.classList.remove("aberto");
+
+    menuBtn?.classList.remove("active");
+
+    painelFundo?.classList.remove("ativo");
+    document.body.classList.remove("painel-aberto");
   }
-
-
-  /* ELEMENTOS */
-
-  const fundo = $("#fundoPaineis");
-  const perfilBtn = $("#perfilBtn");
-  const perfilPopup = $("#perfilPopup");
-
-  const favoritosBtn = $("#favoritosBtn");
-  const carrinhoBtn = $("#carrinhoBtn");
-  const menuBtn = $("#menuBtn");
-
-  const carrinhoPainel = $("#carrinhoPainel");
-  const favoritosPainel = $("#favoritosPainel");
-  const menuOverlay = $("#menuOverlay");
-
-
-  /* HEADER */
-
-  function carregarHeader() {
-
-    const inicial = (
-      usuarioLogado.nomeCompleto ||
-      usuarioLogado.usuario ||
-      "U"
-    ).charAt(0).toUpperCase();
-
-    $("#avatarBox").textContent = inicial;
-
-    $("#heroNome").textContent =
-      usuarioLogado.nomeCompleto ||
-      usuarioLogado.usuario ||
-      "Usuário";
-
-    $("#heroUsuario").textContent =
-      "@" + (usuarioLogado.usuario || "usuario");
-
-    $("#perfilNomeMenu").textContent =
-      usuarioLogado.nomeCompleto ||
-      usuarioLogado.usuario ||
-      "Meu Perfil";
-
-    $("#perfilSubMenu").textContent =
-      usuarioLogado.googleId
-        ? "Conectado via Google"
-        : "Conta La Matte";
-
-    if (usuarioLogado.googleId) {
-
-      $("#heroBadge").textContent = "Conectado via Google";
-      $("#heroBadge").style.background = "#e8f0fe";
-      $("#heroBadge").style.color = "#1a73e8";
-
-    }
-
-  }
-
-
-  /* PAINÉIS */
-
-  function fecharTodosPaineis() {
-
-    carrinhoPainel.classList.remove("aberto");
-    favoritosPainel.classList.remove("aberto");
-    menuOverlay.classList.remove("aberto");
-
-    fundo.classList.remove("aberto");
-
-    menuBtn.classList.remove("aberto");
-
-  }
-
 
   function abrirPainel(painel) {
+    fecharTodos();
 
-    fecharTodosPaineis();
-
-    setTimeout(() => {
-
-      painel.classList.add("aberto");
-      fundo.classList.add("aberto");
-
-    }, 10);
-
+    painel?.classList.add("aberto");
+    painelFundo?.classList.add("ativo");
+    document.body.classList.add("painel-aberto");
   }
 
 
-  fundo.addEventListener("click", () => {
-    fecharTodosPaineis();
-  });
+  perfilBtn?.addEventListener("click", event => {
 
+    event.stopPropagation();
 
-  /* PERFIL POPUP */
-
-  perfilBtn.addEventListener("click", e => {
-
-    e.stopPropagation();
-
-    fecharTodosPaineis();
-
-    perfilPopup.classList.toggle("aberto");
-
-  });
-
-
-  document.addEventListener("click", e => {
-
-    if (
-      perfilPopup.classList.contains("aberto") &&
-      !perfilPopup.contains(e.target) &&
-      !perfilBtn.contains(e.target)
-    ) {
-
-      perfilPopup.classList.remove("aberto");
-
+    if (perfilPopup.classList.contains("aberto")) {
+      fecharTodos();
+      return;
     }
 
-  });
+    fecharTodos();
 
-
-  /* ABRIR PERFIL */
-
-  $("#abrirPerfilBtn").addEventListener("click", () => {
-
-    perfilPopup.classList.remove("aberto");
-
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth"
-    });
+    perfilPopup.classList.add("aberto");
 
   });
 
 
-  /* ABRIR FAVORITOS PELA JANELA DE PERFIL */
-
-  $("#abrirFavoritosPerfilBtn").addEventListener("click", () => {
-
-    perfilPopup.classList.remove("aberto");
-
-    trocarAba("favoritos");
-
-    window.scrollTo({
-      top: document.querySelector(".conteudo-perfil").offsetTop - 100,
-      behavior: "smooth"
-    });
-
-  });
-
-
-  /* FAVORITOS */
-
-  favoritosBtn.addEventListener("click", () => {
-
-    perfilPopup.classList.remove("aberto");
-
-    atualizarFavoritosPainel();
-
+  favoritosBtn?.addEventListener("click", () => {
     abrirPainel(favoritosPainel);
-
+    renderFavoritos();
   });
 
 
-  /* CARRINHO */
-
-  carrinhoBtn.addEventListener("click", () => {
-
-    perfilPopup.classList.remove("aberto");
-
-    atualizarCarrinhoPainel();
-
+  carrinhoBtn?.addEventListener("click", () => {
     abrirPainel(carrinhoPainel);
-
+    renderCarrinho();
   });
 
 
-  /* MENU */
-
-  menuBtn.addEventListener("click", () => {
-
-    perfilPopup.classList.remove("aberto");
+  menuBtn?.addEventListener("click", () => {
 
     if (menuOverlay.classList.contains("aberto")) {
+      fecharTodos();
+      return;
+    }
 
-      fecharTodosPaineis();
+    abrirPainel(menuOverlay);
+    menuBtn.classList.add("active");
 
-    } else {
+  });
 
-      abrirPainel(menuOverlay);
 
+  fecharFavoritos?.addEventListener("click", fecharTodos);
+  fecharCarrinho?.addEventListener("click", fecharTodos);
+  fecharMenu?.addEventListener("click", fecharTodos);
+
+  painelFundo?.addEventListener("click", fecharTodos);
+
+
+  document.addEventListener("click", event => {
+
+    if (
+      perfilPopup?.classList.contains("aberto") &&
+      !perfilPopup.contains(event.target) &&
+      !perfilBtn.contains(event.target)
+    ) {
+      fecharTodos();
     }
 
   });
 
 
-  $("#fecharCarrinho").addEventListener(
-    "click",
-    fecharTodosPaineis
-  );
+  document.querySelectorAll(".menu-links a").forEach(link => {
 
-  $("#fecharFavoritos").addEventListener(
-    "click",
-    fecharTodosPaineis
-  );
-
-  $("#fecharMenu").addEventListener(
-    "click",
-    fecharTodosPaineis
-  );
-
-
-  /* MÁSCARAS */
-
-  function aplicarMascara(el, fn) {
-
-    if (!el) return;
-
-    el.addEventListener("input", () => {
-
-      el.value = fn(el.value);
-
+    link.addEventListener("click", () => {
+      fecharTodos();
     });
 
-  }
+  });
 
 
-  aplicarMascara(
-    $("#campoCpf"),
-    valor => {
+  perfilTabs.forEach(tab => {
 
-      valor = valor
-        .replace(/\D/g, "")
-        .slice(0, 11);
+    tab.addEventListener("click", () => {
 
-      return valor
-        .replace(/(\d{3})(\d)/, "$1.$2")
-        .replace(/(\d{3})(\d)/, "$1.$2")
-        .replace(/(\d{3})(\d{1,2})$/, "$1-$2");
+      const painelId = tab.dataset.painel;
 
-    }
-  );
+      perfilTabs.forEach(item => {
+        item.classList.remove("ativo");
+      });
 
+      perfilPanels.forEach(panel => {
+        panel.classList.remove("ativo");
+      });
 
-  aplicarMascara(
-    $("#campoTelefone"),
-    valor => {
+      tab.classList.add("ativo");
 
-      valor = valor
-        .replace(/\D/g, "")
-        .slice(0, 11);
+      const painel = document.getElementById(painelId);
 
-      return valor
-        .replace(/^(\d{2})(\d)/, "($1) $2")
-        .replace(/(\d)(\d{4})$/, "$1-$2");
-
-    }
-  );
-
-
-  aplicarMascara(
-    $("#campoCep"),
-    valor => {
-
-      valor = valor
-        .replace(/\D/g, "")
-        .slice(0, 8);
-
-      return valor
-        .replace(/^(\d{5})(\d)/, "$1-$2");
-
-    }
-  );
-
-
-  /* PREENCHER DADOS */
-
-  function preencherDados() {
-
-    $("#campoUsuario").value =
-      usuarioLogado.usuario || "";
-
-    $("#campoNomeCompleto").value =
-      usuarioLogado.nomeCompleto || "";
-
-    $("#campoCpf").value =
-      usuarioLogado.cpf || "";
-
-    $("#campoNascimento").value =
-      usuarioLogado.nascimento || "";
-
-    $("#campoTelefone").value =
-      usuarioLogado.telefone || "";
-
-    $("#campoCep").value =
-      usuarioLogado.cep || "";
-
-    $("#campoSenha").value =
-      usuarioLogado.senha || "";
-
-  }
-
-
-  /* MOSTRAR SENHA */
-
-  let senhaVisivel = false;
-
-  $("#btnMostrarSenha").addEventListener(
-    "click",
-    e => {
-
-      e.preventDefault();
-
-      senhaVisivel = !senhaVisivel;
-
-      $("#campoSenha").type =
-        senhaVisivel
-          ? "text"
-          : "password";
-
-      $("#btnMostrarSenha").textContent =
-        senhaVisivel
-          ? "🙈"
-          : "👁️";
-
-    }
-  );
-
-
-  /* TROCA DE ABAS */
-
-  function trocarAba(nome) {
-
-    $$(".aba-item").forEach(btn => {
-
-      btn.classList.toggle(
-        "ativa",
-        btn.dataset.aba === nome
-      );
-
-    });
-
-    $$(".painel-aba").forEach(painel => {
-
-      painel.classList.toggle(
-        "ativo",
-        painel.id === "aba-" + nome
-      );
-
-    });
-
-    if (nome === "favoritos") {
-      carregarFavoritosPerfil();
-    }
-
-  }
-
-
-  $$(".aba-item").forEach(btn => {
-
-    btn.addEventListener("click", () => {
-
-      trocarAba(btn.dataset.aba);
+      if (painel) {
+        painel.classList.add("ativo");
+      }
 
     });
 
   });
 
 
-  /* SALVAR DADOS */
-
-  $("#formDadosPessoais").addEventListener(
-    "submit",
-    e => {
-
-      e.preventDefault();
-
-      const msg = $("#msgFeedbackDados");
-
-      let usuarios = JSON.parse(
-        localStorage.getItem("usuarios") || "[]"
-      );
-
-      const usuarioAntigo =
-        usuarioLogado.usuario;
-
-      usuarioLogado.usuario =
-        $("#campoUsuario").value.trim();
-
-      usuarioLogado.nomeCompleto =
-        $("#campoNomeCompleto").value.trim();
-
-      usuarioLogado.cpf =
-        $("#campoCpf").value.trim();
-
-      usuarioLogado.nascimento =
-        $("#campoNascimento").value;
-
-      usuarioLogado.telefone =
-        $("#campoTelefone").value.trim();
-
-      usuarioLogado.cep =
-        $("#campoCep").value.trim();
-
-
-      const index = usuarios.findIndex(
-        u => u.usuario === usuarioAntigo
-      );
-
-
-      if (index >= 0) {
-
-        usuarios[index] = usuarioLogado;
-
-      } else {
-
-        usuarios.push(usuarioLogado);
-
-      }
-
-
-      localStorage.setItem(
-        "usuarios",
-        JSON.stringify(usuarios)
-      );
-
-      localStorage.setItem(
-        "usuarioLogado",
-        JSON.stringify(usuarioLogado)
-      );
-
-
-      carregarHeader();
-
-      msg.textContent =
-        "Dados atualizados com sucesso!";
-
-      msg.className =
-        "msg-feedback";
-
-
-      setTimeout(() => {
-
-        msg.textContent = "";
-
-      }, 3500);
-
-    }
-  );
-
-
-  /* ENDEREÇO */
-
-  $("#formEndereco").addEventListener(
-    "submit",
-    e => {
-
-      e.preventDefault();
-
-      usuarioLogado.endereco = {
-
-        rua: $("#endRua").value.trim(),
-        numero: $("#endNumero").value.trim(),
-        complemento: $("#endComplemento").value.trim(),
-        bairro: $("#endBairro").value.trim(),
-        cidade: $("#endCidade").value.trim()
-
-      };
-
-
-      localStorage.setItem(
-        "usuarioLogado",
-        JSON.stringify(usuarioLogado)
-      );
-
-
-      const msg =
-        $("#msgFeedbackEnd");
-
-      msg.textContent =
-        "Endereço principal salvo!";
-
-      setTimeout(() => {
-
-        msg.textContent = "";
-
-      }, 3500);
-
-    }
-  );
-
-
-  /* CARREGAR ENDEREÇO */
-
-  function carregarEndereco() {
-
-    const endereco =
-      usuarioLogado.endereco || {};
-
-    $("#endRua").value =
-      endereco.rua || "";
-
-    $("#endNumero").value =
-      endereco.numero || "";
-
-    $("#endComplemento").value =
-      endereco.complemento || "";
-
-    $("#endBairro").value =
-      endereco.bairro || "";
-
-    $("#endCidade").value =
-      endereco.cidade || "";
-
-  }
-
-
-  /* ALTERAR SENHA */
-
-  $("#formSenha").addEventListener(
-    "submit",
-    e => {
-
-      e.preventDefault();
-
-      const msg =
-        $("#msgFeedbackSenha");
-
-      const atual =
-        $("#senhaAtual").value;
-
-      const nova =
-        $("#novaSenha").value;
-
-      const confirmacao =
-        $("#confNovaSenha").value;
-
-
-      if (atual !== usuarioLogado.senha) {
-
-        msg.textContent =
-          "A senha atual está incorreta.";
-
-        msg.className =
-          "msg-feedback erro";
-
-        return;
-
-      }
-
-
-      if (nova.length < 6) {
-
-        msg.textContent =
-          "A nova senha deve ter no mínimo 6 caracteres.";
-
-        msg.className =
-          "msg-feedback erro";
-
-        return;
-
-      }
-
-
-      if (nova !== confirmacao) {
-
-        msg.textContent =
-          "As senhas não coincidem.";
-
-        msg.className =
-          "msg-feedback erro";
-
-        return;
-
-      }
-
-
-      usuarioLogado.senha = nova;
-
-
-      let usuarios = JSON.parse(
-        localStorage.getItem("usuarios") || "[]"
-      );
-
-
-      const index =
-        usuarios.findIndex(
-          u => u.usuario === usuarioLogado.usuario
-        );
-
-
-      if (index >= 0) {
-
-        usuarios[index].senha = nova;
-
-      }
-
-
-      localStorage.setItem(
-        "usuarios",
-        JSON.stringify(usuarios)
-      );
-
-      localStorage.setItem(
-        "usuarioLogado",
-        JSON.stringify(usuarioLogado)
-      );
-
-
-      $("#campoSenha").value = nova;
-
-
-      msg.textContent =
-        "Senha alterada com sucesso!";
-
-      msg.className =
-        "msg-feedback";
-
-
-      e.target.reset();
-
-
-      setTimeout(() => {
-
-        msg.textContent = "";
-
-      }, 3500);
-
-    }
-  );
-
-
-  /* PEDIDOS */
-
-  function carregarPedidos() {
-
-    const box =
-      $("#containerPedidos");
-
-    box.innerHTML = `
-
-      <div class="card-pedido">
-
-        <div class="cabecalho-pedido">
-
-          <div>
-
-            <strong>
-              Pedido #LM-2026-8921
-            </strong>
-
-            <br>
-
-            <span>
-              Realizado em: 12/09/2026
-            </span>
-
-          </div>
-
-          <span class="status-badge transporte">
-            Em Transporte
-          </span>
-
-        </div>
-
-        <div class="itens-pedido">
-
-          • 1x Erva-Mate Tradicional Barão a Vácuo 500g<br>
-          • 1x Bomba de Inox Torcida para Chimarrão com Rosca
-
-        </div>
-
-        <div class="total-pedido">
-          Total: R$ 63,90
-        </div>
-
-      </div>
-
-
-      <div class="card-pedido">
-
-        <div class="cabecalho-pedido">
-
-          <div>
-
-            <strong>
-              Pedido #LM-2026-4410
-            </strong>
-
-            <br>
-
-            <span>
-              Realizado em: 28/08/2026
-            </span>
-
-          </div>
-
-          <span class="status-badge entregue">
-            Entregue
-          </span>
-
-        </div>
-
-        <div class="itens-pedido">
-
-          • 2x Erva-Mate para Tereré Trots Boldo e Menta 500g<br>
-          • 1x Guampa de Chifre de Boi Artesanal
-
-        </div>
-
-        <div class="total-pedido">
-          Total: R$ 84,70
-        </div>
-
-      </div>
-
-    `;
-
-  }
-
-
-  /* FAVORITOS */
-
-  function obterFavoritos() {
-
-    return JSON.parse(
-      localStorage.getItem("favoritos") || "[]"
-    );
-
-  }
-
-
-  function atualizarContadorFavoritos() {
-
-    const favoritos =
-      obterFavoritos();
-
-    $("#contadorFavoritos").textContent =
-      favoritos.length;
-
-  }
-
-
-  function carregarFavoritosPerfil() {
-
-    const box =
-      $("#containerFavoritosPerfil");
-
-    const favs =
-      obterFavoritos();
-
-
-    if (
-      typeof produtos === "undefined" ||
-      !favs.length
-    ) {
-
-      box.innerHTML = `
-        <p style="color:#777;grid-column:1/-1;">
-          Você ainda não possui produtos favoritados.
-        </p>
-      `;
-
-      return;
-
-    }
-
-
-    const lista =
-      produtos.filter(
-        p => favs.includes(p.id)
-      );
-
-
-    if (!lista.length) {
-
-      box.innerHTML = `
-        <p style="color:#777;grid-column:1/-1;">
-          Você ainda não possui produtos favoritados.
-        </p>
-      `;
-
-      return;
-
-    }
-
-
-    box.innerHTML =
-      lista.map(p => `
-
-        <div class="mini-card-fav">
-
-          <img
-            src="${p.imagem}"
-            alt="${p.nome}"
-          >
-
-          <h4>
-            ${p.nome}
-          </h4>
-
-          <strong>
-            R$ ${Number(p.preco)
-              .toFixed(2)
-              .replace(".", ",")}
-          </strong>
-
-          <a
-            href="../produto/index.html?id=${p.id}"
-            class="btn-ver-fav"
-          >
-            Ver Produto
-          </a>
-
-        </div>
-
-      `).join("");
-
-  }
-
-
-  /* FAVORITOS PAINEL */
-
-  function atualizarFavoritosPainel() {
-
-    const box =
-      $("#favoritosConteudo");
-
-    const favs =
-      obterFavoritos();
-
-
-    if (
-      typeof produtos === "undefined" ||
-      !favs.length
-    ) {
-
-      box.innerHTML = `
-        <p style="color:#777;">
-          Você ainda não possui produtos favoritos.
-        </p>
-      `;
-
-      atualizarContadorFavoritos();
-
-      return;
-
-    }
-
-
-    const lista =
-      produtos.filter(
-        p => favs.includes(p.id)
-      );
-
-
-    if (!lista.length) {
-
-      box.innerHTML = `
-        <p style="color:#777;">
-          Você ainda não possui produtos favoritos.
-        </p>
-      `;
-
-      return;
-
-    }
-
-
-    box.innerHTML =
-      lista.map(p => `
-
-        <div class="item-painel">
-
-          <img
-            src="${p.imagem}"
-            alt="${p.nome}"
-          >
-
-          <div class="item-painel-info">
-
-            <h4>
-              ${p.nome}
-            </h4>
-
-            <strong>
-              R$ ${Number(p.preco)
-                .toFixed(2)
-                .replace(".", ",")}
-            </strong>
-
-          </div>
-
-          <a
-            href="../produto/index.html?id=${p.id}"
-            class="btn-ver-fav"
-          >
-            Ver
-          </a>
-
-        </div>
-
-      `).join("");
-
-    atualizarContadorFavoritos();
-
-  }
-
-
-  /* CARRINHO */
-
-  function obterCarrinho() {
-
-    return JSON.parse(
-      localStorage.getItem("carrinho") || "[]"
-    );
-
-  }
-
-
-  function atualizarContadorCarrinho() {
-
-    const carrinho =
-      obterCarrinho();
-
-    const quantidade =
-      carrinho.reduce(
-        (total, item) =>
-          total + Number(item.quantidade || 1),
+  function atualizarContadores() {
+
+    if (contadorCarrinho) {
+      contadorCarrinho.textContent = carrinho.reduce(
+        (total, item) => total + (item.quantidade || 1),
         0
       );
+    }
 
-    $("#contadorCarrinho").textContent =
-      quantidade;
+    if (contadorFavoritos) {
+      contadorFavoritos.textContent = favoritos.length;
+    }
 
   }
 
 
-  function atualizarCarrinhoPainel() {
+  function renderCarrinho() {
 
-    const box =
-      $("#carrinhoConteudo");
+    const container = document.getElementById("carrinhoConteudo");
+    const subtotal = document.getElementById("subtotalCarrinho");
 
-    const carrinho =
-      obterCarrinho();
-
+    if (!container) return;
 
     if (!carrinho.length) {
 
-      box.innerHTML = `
-        <div style="text-align:center;padding:40px 10px;color:#777;">
-          <div style="font-size:42px;margin-bottom:15px;">
-            🛒
-          </div>
-
-          <p>
-            Seu carrinho está vazio.
-          </p>
+      container.innerHTML = `
+        <div class="vazio">
+          <span>🛒</span>
+          <h3>Seu carrinho está vazio</h3>
+          <p>Adicione produtos para vê-los aqui.</p>
         </div>
       `;
 
-      $("#subtotalCarrinho").textContent =
-        "R$ 0,00";
-
-      atualizarContadorCarrinho();
+      if (subtotal) {
+        subtotal.textContent = "R$ 0,00";
+      }
 
       return;
-
     }
 
+    let total = 0;
 
-    let subtotal = 0;
+    container.innerHTML = carrinho.map((item, index) => {
 
+      const quantidade = item.quantidade || 1;
+      const preco = Number(item.preco || 0);
+      const valor = preco * quantidade;
 
-    box.innerHTML =
-      carrinho.map((item, index) => {
+      total += valor;
 
-        const quantidade =
-          Number(item.quantidade || 1);
+      return `
+        <div class="item-painel">
 
-        const preco =
-          Number(item.preco || 0);
+          <img src="${item.imagem || ""}" alt="${item.nome || "Produto"}">
 
-        subtotal +=
-          preco * quantidade;
+          <div class="item-info">
 
+            <h4>${item.nome || "Produto"}</h4>
 
-        return `
+            <strong>
+              R$ ${preco.toFixed(2).replace(".", ",")}
+            </strong>
 
-          <div class="item-painel">
+            <div class="quantidade">
 
-            <img
-              src="${item.imagem || ""}"
-              alt="${item.nome || "Produto"}"
-            >
+              <button data-action="diminuir" data-index="${index}">
+                −
+              </button>
 
-            <div class="item-painel-info">
+              <span>${quantidade}</span>
 
-              <h4>
-                ${item.nome || "Produto"}
-              </h4>
-
-              <span>
-                Quantidade: ${quantidade}
-              </span>
-
-              <strong>
-                R$ ${(preco * quantidade)
-                  .toFixed(2)
-                  .replace(".", ",")}
-              </strong>
+              <button data-action="aumentar" data-index="${index}">
+                +
+              </button>
 
             </div>
 
-            <button
-              class="btn-remover-painel"
-              data-index="${index}"
-              title="Remover"
-            >
-              ×
-            </button>
-
           </div>
 
-        `;
+          <button class="remover" data-action="remover" data-index="${index}">
+            ×
+          </button>
 
-      }).join("");
+        </div>
+      `;
 
+    }).join("");
 
-    $("#subtotalCarrinho").textContent =
-      "R$ " +
-      subtotal
-        .toFixed(2)
-        .replace(".", ",");
+    if (subtotal) {
+      subtotal.textContent =
+        "R$ " + total.toFixed(2).replace(".", ",");
+    }
 
+    container.querySelectorAll("[data-action]").forEach(button => {
 
-    $$(".btn-remover-painel").forEach(btn => {
+      button.addEventListener("click", () => {
 
-      btn.addEventListener("click", () => {
+        const index = Number(button.dataset.index);
+        const action = button.dataset.action;
 
-        const index =
-          Number(btn.dataset.index);
+        if (action === "aumentar") {
+          carrinho[index].quantidade = (carrinho[index].quantidade || 1) + 1;
+        }
 
-        const novoCarrinho =
-          obterCarrinho();
+        if (action === "diminuir") {
 
-        novoCarrinho.splice(index, 1);
+          carrinho[index].quantidade =
+            (carrinho[index].quantidade || 1) - 1;
+
+          if (carrinho[index].quantidade <= 0) {
+            carrinho.splice(index, 1);
+          }
+
+        }
+
+        if (action === "remover") {
+          carrinho.splice(index, 1);
+        }
 
         localStorage.setItem(
-          "carrinho",
-          JSON.stringify(novoCarrinho)
+          "laMatteCarrinho",
+          JSON.stringify(carrinho)
         );
 
-        atualizarCarrinhoPainel();
+        atualizarContadores();
+        renderCarrinho();
 
       });
 
     });
 
+  }
 
-    atualizarContadorCarrinho();
+
+  function renderFavoritos() {
+
+    const container = document.getElementById("favoritosConteudo");
+    const perfilContainer = document.getElementById("perfilFavoritos");
+
+    if (!favoritos.length) {
+
+      const vazio = `
+        <div class="vazio">
+          <span>♡</span>
+          <h3>Nenhum favorito</h3>
+          <p>Os produtos que você favoritar aparecerão aqui.</p>
+        </div>
+      `;
+
+      if (container) {
+        container.innerHTML = vazio;
+      }
+
+      if (perfilContainer) {
+        perfilContainer.innerHTML = vazio;
+      }
+
+      return;
+    }
+
+    const html = favoritos.map(item => {
+
+      return `
+        <div class="item-painel">
+
+          <img src="${item.imagem || ""}" alt="${item.nome || "Produto"}">
+
+          <div class="item-info">
+
+            <h4>${item.nome || "Produto"}</h4>
+
+            <strong>
+              R$ ${Number(item.preco || 0).toFixed(2).replace(".", ",")}
+            </strong>
+
+          </div>
+
+        </div>
+      `;
+
+    }).join("");
+
+    if (container) {
+      container.innerHTML = html;
+    }
+
+    if (perfilContainer) {
+      perfilContainer.innerHTML = html;
+    }
 
   }
 
 
-  /* SAIR */
+  function carregarPerfil() {
 
-  function logout() {
-
-    localStorage.removeItem(
-      "usuarioLogado"
+    const dados = JSON.parse(
+      localStorage.getItem("laMattePerfil") || "{}"
     );
 
-    window.location.href =
-      "../principal/index.html";
+    if (nomePerfil) {
+      nomePerfil.value = dados.nome || "";
+    }
+
+    if (emailPerfil) {
+      emailPerfil.value = dados.email || "";
+    }
+
+    if (telefonePerfil) {
+      telefonePerfil.value = dados.telefone || "";
+    }
+
+    if (cidadePerfil) {
+      cidadePerfil.value = dados.cidade || "";
+    }
+
+    if (dados.nome) {
+      perfilNomeMenu.textContent = dados.nome;
+      perfilSubMenu.textContent = dados.email || "Minha conta";
+    } else {
+      perfilNomeMenu.textContent = "Visitante";
+      perfilSubMenu.textContent = "Faça login para acessar sua conta";
+    }
+
+    atualizarLinksPerfil(dados);
 
   }
 
 
-  $("#btnSairHero").addEventListener(
+  function atualizarLinksPerfil(dados) {
+
+    if (!perfilLinks) return;
+
+    if (dados.nome) {
+
+      perfilLinks.innerHTML = `
+        <a href="index.html">
+          Minha conta
+          <span>›</span>
+        </a>
+
+        <button type="button" id="menuSair">
+          Sair
+          <span>›</span>
+        </button>
+      `;
+
+      document.getElementById("menuSair")?.addEventListener(
+        "click",
+        sairDaConta
+      );
+
+    } else {
+
+      perfilLinks.innerHTML = `
+        <a href="../login/login.html">
+          Entrar
+          <span>›</span>
+        </a>
+
+        <a href="../cadastro/cadastro.html">
+          Criar conta
+          <span>›</span>
+        </a>
+      `;
+
+    }
+
+  }
+
+
+  function sairDaConta() {
+
+    localStorage.removeItem("laMattePerfil");
+
+    carregarPerfil();
+
+    mensagemPerfil.textContent =
+      "Você saiu da sua conta.";
+
+    fecharTodos();
+
+  }
+
+
+  perfilForm?.addEventListener("submit", event => {
+
+    event.preventDefault();
+
+    const dados = {
+      nome: nomePerfil.value.trim(),
+      email: emailPerfil.value.trim(),
+      telefone: telefonePerfil.value.trim(),
+      cidade: cidadePerfil.value.trim()
+    };
+
+    localStorage.setItem(
+      "laMattePerfil",
+      JSON.stringify(dados)
+    );
+
+    mensagemPerfil.textContent =
+      "Dados atualizados com sucesso.";
+
+    carregarPerfil();
+
+  });
+
+
+  sairPerfil?.addEventListener("click", sairDaConta);
+
+
+  document.getElementById("alterarSenha")?.addEventListener(
     "click",
-    logout
+    () => {
+      alert("A alteração de senha será disponibilizada em breve.");
+    }
   );
 
-  $("#btnSairPopup").addEventListener(
-    "click",
-    logout
+
+  document.getElementById("formNewsletter")?.addEventListener(
+    "submit",
+    event => {
+
+      event.preventDefault();
+
+      const mensagem =
+        document.getElementById("newsletterSucesso");
+
+      if (mensagem) {
+        mensagem.textContent =
+          "Inscrição realizada com sucesso!";
+      }
+
+      event.target.reset();
+
+    }
   );
 
 
-  /* INICIALIZAÇÃO */
-
-  carregarHeader();
-
-  preencherDados();
-
-  carregarEndereco();
-
-  carregarPedidos();
-
-  carregarFavoritosPerfil();
-
-  atualizarFavoritosPainel();
-
-  atualizarContadorFavoritos();
-
-  atualizarContadorCarrinho();
+  atualizarContadores();
+  carregarPerfil();
+  renderCarrinho();
+  renderFavoritos();
 
 });
