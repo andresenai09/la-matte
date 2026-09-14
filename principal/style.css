@@ -11,7 +11,7 @@
   --branco: #fff;
   --vermelho: #b3261e;
 }
-* {
+*{
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -19,7 +19,7 @@
 html {
   scroll-behavior: smooth;
 }
- {
+body {
   background: var(--creme);
   color: var(--texto);
   font-family: Inter, Arial, sans-serif;
@@ -212,6 +212,12 @@ a {
   align-items: center;
   padding: 70px 9%;
   position: relative;
+  line-height: 1.5;
+}
+.banner-track,
+.banner {
+  margin: 0;
+  padding-bottom: 0;
 }
 .banner:before {
   content: "";
