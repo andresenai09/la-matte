@@ -2,6 +2,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const $ = (s) => document.querySelector(s);
 
   let usuarios;
+
   try {
     usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
   } catch {
@@ -20,6 +21,7 @@ document.addEventListener("DOMContentLoaded", () => {
         cep: "01001-000"
       }
     ];
+
     localStorage.setItem("usuarios", JSON.stringify(usuarios));
   }
 
@@ -59,25 +61,126 @@ document.addEventListener("DOMContentLoaded", () => {
     location.href = "../principal/index.html";
   };
 
-  $("#google").onclick = () => {
-    const u = {
-      usuario: "usuario_google",
-      nomeCompleto: "Usuário Google",
-      cpf: "111.222.333-44",
-      nascimento: "1998-05-15",
-      telefone: "(11) 98888-7777",
-      cep: "01000-000",
-      senha: "google_auth_pass"
-    };
+  function decodificarJWT(token) {
+    const partes = token.split(".");
 
-    const list = JSON.parse(localStorage.getItem("usuarios") || "[]");
-
-    if (!list.some((x) => x.usuario === u.usuario)) {
-      list.push(u);
+    if (partes.length !== 3) {
+      throw new Error("Token do Google inválido.");
     }
 
-    localStorage.setItem("usuarios", JSON.stringify(list));
-    localStorage.setItem("usuarioLogado", JSON.stringify(u));
-    location.href = "../principal/index.html";
+    const base64 = partes[1]
+      .replace(/-/g, "+")
+      .replace(/_/g, "/");
+
+    const json = decodeURIComponent(
+      atob(base64)
+        .split("")
+        .map((c) => "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2))
+        .join("")
+    );
+
+    return JSON.parse(json);
+  }
+
+  window.handleGoogleLogin = (response) => {
+    try {
+      $("#erroGoogle").textContent = "";
+
+      const dados = decodificarJWT(response.credential);
+
+      const nome = dados.name || "Usuário Google";
+      const email = dados.email || "";
+      const foto = dados.picture || "";
+      const idGoogle = dados.sub || "";
+
+      if (!email || !idGoogle) {
+        throw new Error("Não foi possível obter os dados da conta Google.");
+      }
+
+      const usuarioGoogle = {
+        usuario: email,
+        email: email,
+        nomeCompleto: nome,
+        foto: foto,
+        googleId: idGoogle,
+        cpf: "",
+        nascimento: "",
+        telefone: "",
+        cep: ""
+      };
+
+      let lista = [];
+
+      try {
+        lista = JSON.parse(localStorage.getItem("usuarios")) || [];
+      } catch {
+        lista = [];
+      }
+
+      const existente = lista.find(
+        (x) => x.googleId === idGoogle || x.email === email
+      );
+
+      if (existente) {
+        Object.assign(existente, usuarioGoogle);
+
+        localStorage.setItem(
+          "usuarioLogado",
+          JSON.stringify(existente)
+        );
+      } else {
+        lista.push(usuarioGoogle);
+
+        localStorage.setItem(
+          "usuarios",
+          JSON.stringify(lista)
+        );
+
+        localStorage.setItem(
+          "usuarioLogado",
+          JSON.stringify(usuarioGoogle)
+        );
+      }
+
+      location.href = "../principal/index.html";
+
+    } catch (erro) {
+      console.error(erro);
+      $("#erroGoogle").textContent =
+        "Não foi possível entrar com o Google.";
+    }
   };
+
+  function iniciarGoogle() {
+    if (
+      !window.google ||
+      !google.accounts ||
+      !google.accounts.id
+    ) {
+      setTimeout(iniciarGoogle, 300);
+      return;
+    }
+
+    google.accounts.id.initialize({
+      client_id:
+        "788044762044-kafe2e8p0qqrf3aqcr52ha1vmtv831mu.apps.googleusercontent.com",
+
+      callback: handleGoogleLogin
+    });
+
+    google.accounts.id.renderButton(
+      $("#googleButton"),
+      {
+        type: "standard",
+        theme: "outline",
+        size: "large",
+        text: "continue_with",
+        shape: "pill",
+        width: 350,
+        logo_alignment: "left"
+      }
+    );
+  }
+
+  iniciarGoogle();
 });

@@ -8,43 +8,46 @@
 </head>
 <body>
   <a class="voltar" href="../principal/index.html">← Voltar à loja</a>
+
   <main>
     <div class="marca">
       <span>La</span><b>Matte</b>
     </div>
-    
+
     <div class="box">
       <h1>Entrar</h1>
       <p>Acesse sua conta para continuar.</p>
-      
+
       <form id="formLogin">
         <label>
           Usuário ou telefone
           <input id="user" autocomplete="username" placeholder="Digite seu usuário ou telefone">
         </label>
         <span id="erroUser"></span>
-        
+
         <label>
           Senha
           <input id="senha" type="password" autocomplete="current-password" placeholder="Digite sua senha">
         </label>
         <span id="erroSenha"></span>
-        
-        <button id="btnContinuar">Continuar</button>
+
+        <button id="btnContinuar" type="submit">Continuar</button>
         <strong id="mensagem"></strong>
       </form>
-      
+
       <div class="ou">
         <span></span>OU<span></span>
       </div>
-      <button id="google" class="google">
-        <img src="../Imagens/google-logo.jpg" alt="Logo do Google" class="google-icon">
-        Continuar com Google
-      </button>
+
+      <div id="googleButton" class="google-button"></div>
+
+      <strong id="erroGoogle" class="erro-google"></strong>
+
       <a class="cadastro" href="../cadastro/cadastro.html">Ainda não tenho uma conta</a>
     </div>
   </main>
-  
+
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
   <script src="login.js"></script>
 </body>
 </html>
