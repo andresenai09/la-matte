@@ -1,0 +1,292 @@
+/* ==========================================================================
+   1. VARIÁVEIS E RESET
+   ========================================================================== */
+:root {
+  --verde: #0f2c23;
+  --verde3: #38604d;
+  --creme: #f7f3eb;
+  --creme2: #ece3d2;
+  --dourado: #c49a55;
+  --dourado2: #e3c488;
+  --texto: #1a241f;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: var(--creme);
+  color: var(--texto);
+  font-family: Inter, Arial, sans-serif;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* ==========================================================================
+   2. CABEÇALHO E NAVEGAÇÃO
+   ========================================================================== */
+header {
+  height: 82px;
+  background: var(--verde);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 max(25px, calc((100% - 1180px) / 2));
+  color: #fff;
+}
+
+.marca {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+}
+
+.marca span {
+  font: italic 23px Fraunces, serif;
+  color: var(--dourado2);
+}
+
+.marca b {
+  font: 700 35px Fraunces, serif;
+}
+
+nav {
+  display: flex;
+  gap: 25px;
+  align-items: center;
+  font-weight: 600;
+}
+
+nav a:hover {
+  color: var(--dourado2);
+}
+
+nav strong {
+  background: var(--dourado);
+  color: var(--verde);
+  border-radius: 20px;
+  padding: 3px 7px;
+  font-size: 11px;
+}
+
+/* ==========================================================================
+   3. BREADCRUMBS
+   ========================================================================== */
+.breadcrumbs {
+  max-width: 1180px;
+  margin: 25px auto 0;
+  padding: 0 25px;
+  color: #7a867f;
+  font-size: 13px;
+}
+
+.breadcrumbs span {
+  margin: 0 8px;
+}
+
+.breadcrumbs a:hover {
+  color: var(--dourado);
+}
+
+/* ==========================================================================
+   4. DETALHES DO PRODUTO
+   ========================================================================== */
+.produto-detalhe {
+  max-width: 1180px;
+  margin: auto;
+  padding: 35px 25px 90px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 75px;
+  align-items: center;
+}
+
+.imagem-principal {
+  background: #e9eee6;
+  border-radius: 28px;
+  overflow: hidden;
+}
+
+.imagem-principal img {
+  width: 100%;
+  display: block;
+}
+
+.categoria,
+.eyebrow {
+  font-size: 11px;
+  letter-spacing: 2px;
+  font-weight: 700;
+  color: var(--dourado);
+}
+
+h1 {
+  font: 700 clamp(42px, 5vw, 65px) / 1.03 Fraunces, serif;
+  color: var(--verde);
+  margin: 10px 0 15px;
+}
+
+.avaliacao {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  font-size: 13px;
+}
+
+.avaliacao span:first-child {
+  color: #a87a2d;
+  letter-spacing: 2px;
+}
+
+.avaliacao span:last-child {
+  color: #77837c;
+}
+
+.preco {
+  font-size: 31px;
+  font-weight: 700;
+  color: var(--verde);
+  margin: 24px 0 12px;
+}
+
+.detalhes > p {
+  color: var(--verde3);
+  font-size: 16px;
+  line-height: 1.7;
+  max-width: 560px;
+}
+
+.beneficios {
+  display: grid;
+  gap: 7px;
+  margin: 22px 0;
+  color: var(--verde3);
+  font-size: 13px;
+}
+
+/* ==========================================================================
+   5. AÇÕES DE COMPRA E QUANTIDADE
+   ========================================================================== */
+.compra {
+  display: flex;
+  gap: 10px;
+}
+
+.qtd {
+  display: flex;
+  align-items: center;
+  border: 1px solid var(--creme2);
+  border-radius: 26px;
+  background: #fff;
+}
+
+.qtd button {
+  width: 42px;
+  height: 48px;
+  border: 0;
+  background: transparent;
+  font-size: 21px;
+}
+
+.qtd span {
+  min-width: 25px;
+  text-align: center;
+}
+
+.btn-comprar {
+  border: 0;
+  border-radius: 26px;
+  padding: 0 25px;
+  background: var(--verde);
+  color: #fff;
+  font-weight: 700;
+}
+
+.btn-comprar:hover {
+  background: var(--dourado);
+  color: var(--verde);
+}
+
+.link-carrinho {
+  display: inline-block;
+  margin-top: 16px;
+  color: var(--dourado);
+  font-weight: 700;
+  font-size: 13px;
+}
+
+/* ==========================================================================
+   6. INFORMAÇÕES ADICIONAIS E AVALIAÇÕES
+   ========================================================================== */
+.informacoes {
+  max-width: 1180px;
+  margin: auto;
+  padding: 80px 25px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 70px;
+  border-top: 1px solid var(--creme2);
+}
+
+.informacoes h2 {
+  font: 700 38px Fraunces, serif;
+  color: var(--verde);
+  margin: 8px 0 18px;
+}
+
+.informacoes p {
+  color: var(--verde3);
+  line-height: 1.8;
+}
+
+.avaliacoes {
+  display: flex;
+  flex-direction: column;
+}
+
+.review {
+  padding: 18px 0;
+  border-bottom: 1px solid var(--creme2);
+}
+
+.review strong {
+  color: var(--verde);
+}
+
+.review div {
+  color: #a87a2d;
+  margin: 5px 0;
+}
+
+.review p {
+  font-size: 13px !important;
+}
+
+/* ==========================================================================
+   7. RESPONSIVIDADE
+   ========================================================================== */
+@media (max-width: 800px) {
+  .produto-detalhe,
+  .informacoes {
+    grid-template-columns: 1fr;
+    gap: 35px;
+  }
+
+  .produto-detalhe {
+    padding-top: 25px;
+  }
+
+  .informacoes {
+    padding-top: 55px;
+  }
+
+  nav a:first-child {
+    display: none;
+  }
+}
