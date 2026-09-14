@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>La Matte - Definir Senha</title>
+  <link rel="stylesheet" href="login.css">
+  <style>
+    .box h1 {
+      margin-bottom: 0.5rem;
+    }
+    .box p {
+      margin-bottom: 2rem;
+      color: #666;
+      font-size: 0.95rem;
+    }
+    .info-google {
+      background: #e8f0fe;
+      border-left: 4px solid #1a73e8;
+      padding: 1rem;
+      margin-bottom: 1.5rem;
+      border-radius: 4px;
+      color: #1a73e8;
+      font-size: 0.9rem;
+    }
+    .info-google strong {
+      display: block;
+      margin-bottom: 0.3rem;
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <div class="marca">
+      <span>La</span><b>Matte</b>
+    </div>
+
+    <div class="box">
+      <h1>Defina sua Senha</h1>
+      <p>Crie uma senha segura para sua conta La Matte.</p>
+
+      <div class="info-google">
+        <strong id="nomeGoogle">Usuário Google</strong>
+        <span id="emailGoogle">email@example.com</span>
+      </div>
+
+      <form id="formDefinirSenha">
+        <label>
+          Senha
+          <input id="novaSenha" type="password" required placeholder="Mínimo 6 caracteres" minlength="6">
+        </label>
+        <span id="erroSenha1"></span>
+
+        <label>
+          Confirmar Senha
+          <input id="confirmSenha" type="password" required placeholder="Repita sua senha" minlength="6">
+        </label>
+        <span id="erroSenha2"></span>
+
+        <button type="submit" id="btnDefinir">Confirmar Senha</button>
+        <strong id="mensagem"></strong>
+      </form>
+
+      <a class="cadastro" href="../principal/index.html">Continuar sem senha por enquanto</a>
+    </div>
+  </main>
+
+  <script src="definir-senha.js"></script>
+</body>
+</html>
