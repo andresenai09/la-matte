@@ -1,14 +1,184 @@
 <!DOCTYPE html>
-<html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Produto | La Matte</title><link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"><link rel="stylesheet" href="style.css"></head>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Produto | La Matte Chá & Ervas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
 <body>
-<header><a href="../principal/index.html" class="marca"><span>La</span><b>Matte</b></a><nav><a href="../principal/index.html#produtos">Produtos</a><a href="../checkout/index.html">Carrinho <strong id="contador">0</strong></a></nav></header>
+<div class="painel-fundo" id="painelFundo"></div>
+
+<header class="barra-fixa">
+  <a class="marca" href="../principal/index.html"><span class="marca-la">La</span><span class="marca-matte">Matte</span></a>
+  <div class="logo-fixo"><a href="../principal/index.html"><h2 data-text="LA MATTE">LA MATTE</h2></a></div>
+  <div class="acoes-topo">
+    <button class="acao" id="perfilBtn" aria-label="Perfil do usuário" title="Meu Perfil">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
+        <circle cx="12" cy="7" r="4"></circle>
+      </svg>
+    </button>
+
+    <div class="perfil-popup" id="perfilPopup">
+      <div class="perfil-topo">
+        <div class="perfil-icone">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="12" cy="8" r="4"></circle>
+            <path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"></path>
+          </svg>
+        </div>
+        <div>
+          <h3 id="perfilNomeMenu">Visitante</h3>
+          <p id="perfilSubMenu">Faça login para acessar sua conta</p>
+        </div>
+      </div>
+      <div class="perfil-links" id="perfilLinks"></div>
+    </div>
+
+    <button class="acao" id="favoritosBtn" aria-label="Lista de Favoritos" title="Meus Favoritos">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+      </svg>
+      <b class="contador-favoritos" id="contadorFavoritos">0</b>
+    </button>
+
+    <button class="acao" id="carrinhoBtn" aria-label="Carrinho de Compras" title="Seu Carrinho">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <circle cx="9" cy="21" r="1"></circle>
+        <circle cx="20" cy="21" r="1"></circle>
+        <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+      </svg>
+      <b class="contador-carrinho" id="contadorCarrinho">0</b>
+    </button>
+
+    <button class="menu-btn" id="menuBtn" aria-label="Abrir menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<aside class="painel-lateral" id="carrinhoPainel">
+  <div class="painel-cabecalho"><div><span>SEU PEDIDO</span><h2>Carrinho</h2></div><button class="fechar-painel" id="fecharCarrinho">×</button></div>
+  <div class="painel-conteudo" id="carrinhoConteudo"></div>
+  <div class="resumo-painel"><div><span>Subtotal</span><strong id="subtotalCarrinho">R$ 0,00</strong></div><a href="../checkout/index.html" class="btn-principal">Finalizar compra</a></div>
+</aside>
+
+<aside class="painel-lateral" id="favoritosPainel">
+  <div class="painel-cabecalho"><div><span>SUA SELEÇÃO</span><h2>Favoritos</h2></div><button class="fechar-painel" id="fecharFavoritos">×</button></div>
+  <div class="painel-conteudo" id="favoritosConteudo"></div>
+</aside>
+
+<aside class="painel-lateral" id="menuOverlay">
+  <div class="painel-cabecalho"><div><span>NAVEGAÇÃO</span><h2>Menu</h2></div><button class="fechar-painel" id="fecharMenu">×</button></div>
+  <nav class="menu-links">
+    <a href="../principal/index.html#inicio">Início <b>›</b></a><a href="../principal/index.html#produtos">Produtos <b>›</b></a><a href="../principal/index.html#vantagens">Vantagens <b>›</b></a><a href="../principal/index.html#suporte">Suporte <b>›</b></a>
+    <a href="../login/login.html">Entrar <b>›</b></a><a href="../cadastro/cadastro.html">Criar conta <b>›</b></a>
+  </nav>
+</aside>
+
+<aside class="painel-lateral" id="perfilPainel">
+  <div class="painel-cabecalho"><div><span>MINHA CONTA</span><h2>Meus dados</h2></div><button class="fechar-painel" id="fecharPerfil">×</button></div>
+  <div class="painel-conteudo">
+    <p class="perfil-instrucoes">Atualize seus dados. Esta demonstração guarda as informações apenas neste navegador.</p>
+    <form id="formEditarPerfil">
+      <div class="campo-grupo-perfil"><label>Usuário</label><input id="perfilUsuario" required></div>
+      <div class="campo-grupo-perfil"><label>Nome completo</label><input id="perfilNomeCompleto" required></div>
+      <div class="campo-grupo-perfil"><label>CPF</label><input id="perfilCpf" required></div>
+      <div class="campo-grupo-perfil"><label>Nascimento</label><input id="perfilNascimento" type="date" required></div>
+      <div class="campo-grupo-perfil"><label>Telefone</label><input id="perfilTelefone" required></div>
+      <div class="campo-grupo-perfil"><label>CEP</label><input id="perfilCep" required></div>
+      <div class="campo-grupo-perfil"><label>Senha</label><input id="perfilSenha" type="password" required></div>
+      <div class="perfil-acoes"><button class="btn-salvar-perfil">Salvar alterações</button><button type="button" class="btn-sair-perfil" id="btnSairContaGeral">Sair da conta</button></div>
+      <p class="mensagem-sucesso-perfil" id="msgSucessoPerfil"></p>
+    </form>
+  </div>
+</aside>
+
 <main>
-<div class="breadcrumbs"><a href="../principal/index.html">Início</a><span>›</span><a href="../principal/index.html#produtos">Produtos</a><span>›</span><span id="crumb">Produto</span></div>
+<div class="breadcrumbs"><a href="../principal/index.html">Início</a><span>›</span><a href="../principal/index.html#produtos">Produtos</a><span>›</span><span id="crumbCategoria"></span><span>›</span><span id="crumb">Produto</span></div>
+
 <section class="produto-detalhe">
-<div class="galeria"><div class="imagem-principal"><img id="imagemProduto" alt=""></div></div>
-<div class="detalhes"><span class="categoria" id="categoria"></span><h1 id="nome"></h1><div class="avaliacao"><span id="estrelas"></span><b id="nota"></b><span id="qtdAvaliacoes"></span></div><div class="preco" id="preco"></div><p id="descricao"></p><div class="beneficios"><span>✓ Seleção La Matte</span><span>✓ Embalagem cuidadosa</span><span>✓ Compra segura</span></div><div class="compra"><div class="qtd"><button id="menos">−</button><span id="quantidade">1</span><button id="mais">+</button></div><button class="btn-comprar" id="adicionar">Adicionar ao carrinho</button></div><a href="../checkout/index.html" class="link-carrinho">Ir para o carrinho →</a></div>
+  <div class="galeria">
+    <div class="imagem-principal">
+      <span class="selo-estoque" id="seloEstoque"></span>
+      <button class="fav-produto" id="favoritarProduto" aria-label="Favoritar produto"><span id="favIconProduto">♡</span></button>
+      <img id="imagemProduto" alt="">
+    </div>
+  </div>
+  <div class="detalhes">
+    <span class="categoria" id="categoria"></span>
+    <h1 id="nome"></h1>
+    <div class="avaliacao">
+      <span id="estrelas"></span>
+      <b id="nota"></b>
+      <a href="#avaliacoes" id="qtdAvaliacoes"></a>
+    </div>
+    <div class="preco" id="preco"></div>
+    <p id="descricao"></p>
+
+    <div class="beneficios">
+      <span>✓ Seleção La Matte</span>
+      <span>✓ Embalagem cuidadosa</span>
+      <span>✓ Compra segura</span>
+      <span>✓ Frete calculado no checkout</span>
+    </div>
+
+    <div class="compra">
+      <div class="qtd"><button id="menos">−</button><span id="quantidade">1</span><button id="mais">+</button></div>
+      <button class="btn-comprar" id="adicionar">Adicionar ao carrinho</button>
+      <button class="btn-comprar-agora" id="comprarAgora">Comprar agora</button>
+    </div>
+
+    <div class="acoes-secundarias">
+      <a href="../checkout/index.html" class="link-carrinho">Ir para o carrinho →</a>
+      <button class="link-compartilhar" id="compartilharProduto">Compartilhar link <span id="msgCompartilhar"></span></button>
+    </div>
+  </div>
 </section>
-<section class="informacoes"><div><span class="eyebrow">DETALHES</span><h2>Sobre este produto</h2><p id="descricaoLonga"></p></div><div class="avaliacoes"><span class="eyebrow">AVALIAÇÕES</span><h2>O que os clientes dizem</h2><div id="listaAvaliacoes"></div></div></section>
+
+<section class="informacoes">
+  <div class="info-coluna">
+    <span class="eyebrow">DETALHES</span>
+    <h2>Sobre este produto</h2>
+    <div id="descricaoLonga"></div>
+    <div class="dicas-uso" id="dicasUso"></div>
+  </div>
+
+  <div class="avaliacoes" id="avaliacoes">
+    <span class="eyebrow">AVALIAÇÕES</span>
+    <h2>O que os clientes dizem</h2>
+
+    <div class="resumo-avaliacoes">
+      <div class="resumo-nota">
+        <strong id="mediaAvaliacao"></strong>
+        <span id="estrelasResumo"></span>
+        <p id="totalAvaliacoesTexto"></p>
+      </div>
+      <div class="barras-avaliacao" id="barrasAvaliacao"></div>
+    </div>
+
+    <div id="listaAvaliacoes"></div>
+  </div>
+</section>
+
+<section class="relacionados" id="relacionados">
+  <div class="secao-topo"><div><span class="eyebrow">VOCÊ TAMBÉM PODE GOSTAR</span><h2>Produtos relacionados</h2></div></div>
+  <div class="grid-produtos" id="gridRelacionados"></div>
+</section>
 </main>
-<script src="../principal/data.js"></script><script src="script.js"></script>
-</body></html>
+
+<footer>
+  <div><span class="marca-la">La</span><span class="marca-matte">Matte</span><p>Chá & Ervas</p></div>
+  <div><h4>Navegação</h4><a href="../principal/index.html#produtos">Produtos</a><a href="../principal/index.html#suporte">Suporte</a></div>
+  <div><h4>Conta</h4><a href="../login/login.html">Entrar</a><a href="../cadastro/cadastro.html">Cadastro</a></div>
+  <div><h4>Newsletter</h4><form id="formNewsletter"><input type="email" required placeholder="Seu melhor e-mail"><button>Assinar</button></form><span id="newsletterSucesso"></span></div>
+</footer>
+
+<script src="../principal/data.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
