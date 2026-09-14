@@ -22,6 +22,11 @@ document.addEventListener("DOMContentLoaded", () => {
   const pesquisa = $("#campoPesquisa");
   const track = $("#bannerContainer");
   const dots = $$(".dots button");
+  const bannersEls = $$(".banner");
+  const heroEl = $("#heroCarrossel");
+  const heroContadorEl = $("#heroSlideAtual");
+  let autoplayId = null;
+  let heroPausado = false;
 
   function totalCarrinho() {
     return carrinho.reduce((acc, item) => acc + item.preco * item.quantidade, 0);
@@ -270,7 +275,31 @@ document.addEventListener("DOMContentLoaded", () => {
   function banner(indice) {
     slide = (indice + 3) % 3;
     if (track) track.style.transform = `translateX(-${slide * 33.3333}%)`;
+
     dots.forEach((dot, idx) => dot.classList.toggle("ativo", idx === slide));
+
+    if (heroContadorEl) heroContadorEl.textContent = String(slide + 1).padStart(2, "0");
+
+    // reinicia as animações de zoom (Ken Burns) e barra de progresso do slide atual
+    bannersEls.forEach(b => b.classList.remove("ativo"));
+    dots.forEach(dot => {
+      const barra = dot.querySelector("i");
+      if (barra) {
+        barra.style.animation = "none";
+        void barra.offsetWidth;
+        barra.style.animation = "";
+      }
+    });
+
+    void track?.offsetWidth;
+    bannersEls[slide]?.classList.add("ativo");
+  }
+
+  function iniciarAutoplay() {
+    clearInterval(autoplayId);
+    autoplayId = setInterval(() => {
+      if (!heroPausado) banner(slide + 1);
+    }, 6000);
   }
 
   $("#carrinhoBtn").onclick = () => abrir($("#carrinhoPainel"));
@@ -324,7 +353,39 @@ document.addEventListener("DOMContentLoaded", () => {
   dots.forEach(dot => {
     dot.onclick = () => banner(Number(dot.dataset.slide));
   });
-  setInterval(() => banner(slide + 1), 6000);
+
+  if (heroEl) {
+    // pausa o autoplay enquanto o mouse está sobre o carrossel
+    heroEl.addEventListener("mouseenter", () => {
+      heroPausado = true;
+      heroEl.classList.add("pausado");
+    });
+    heroEl.addEventListener("mouseleave", () => {
+      heroPausado = false;
+      heroEl.classList.remove("pausado");
+    });
+
+    // navegação por teclado quando o carrossel está em foco
+    heroEl.setAttribute("tabindex", "0");
+    heroEl.addEventListener("keydown", e => {
+      if (e.key === "ArrowRight") banner(slide + 1);
+      if (e.key === "ArrowLeft") banner(slide - 1);
+    });
+
+    // suporte a arrastar/deslizar (touch e mouse)
+    let inicioX = null;
+    heroEl.addEventListener("touchstart", e => {
+      inicioX = e.touches[0].clientX;
+    }, { passive: true });
+    heroEl.addEventListener("touchend", e => {
+      if (inicioX === null) return;
+      const diff = e.changedTouches[0].clientX - inicioX;
+      if (Math.abs(diff) > 45) banner(diff > 0 ? slide - 1 : slide + 1);
+      inicioX = null;
+    });
+  }
+
+  iniciarAutoplay();
 
   if ($("#suporteForm")) {
     $("#suporteForm").onsubmit = e => {
