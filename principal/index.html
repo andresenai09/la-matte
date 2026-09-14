@@ -85,19 +85,64 @@
 </aside>
 
 <main id="inicio">
-<section class="hero">
+<section class="hero" id="heroCarrossel" aria-label="Banners Promocionais">
   <div class="banner-track" id="bannerContainer">
-    <article class="banner banner-promocao" style="background-image:url('https://images.unsplash.com/photo-1753630865141-84053fd9ff5b?auto=format&fit=crop&fm=jpg&q=85&w=2200')"><div><span>PROMOÇÃO ESPECIAL</span><h1>Seu ritual de tereré com até 20% OFF.</h1><p>Escolha sua erva, cuia e bomba favoritas e aproveite condições especiais por tempo limitado.</p><a href="#produtos" class="btn-principal">Aproveitar promoção</a></div></article>
-    <article class="banner banner-promocao" style="background-image:url('https://images.unsplash.com/photo-1653937855510-ec3fd2036d98?auto=format&fit=crop&fm=jpg&q=85&w=2200')"><div><span>OFERTA DA SEMANA</span><h1>Ervas e chás selecionados com preços especiais.</h1><p>Leve sabores naturais para casa e descubra novas combinações para seus momentos.</p><a href="#produtos" class="btn-principal">Ver ofertas</a></div></article>
-    <article class="banner banner-promocao" style="background-image:url('https://images.unsplash.com/photo-1773479089546-49ff98325518?auto=format&fit=crop&fm=jpg&q=85&w=2200')"><div><span>CLUBE LA MATTE</span><h1>Mais produtos, mais sabor, mais economia.</h1><p>Monte seu kit com produtos selecionados e aproveite nossas ofertas especiais.</p><a href="#produtos" class="btn-principal">Montar meu kit</a></div></article>
+    <!-- Banner 1 -->
+    <article class="banner banner-promocao">
+      <div class="banner-bg" style="background-image:url('https://images.unsplash.com/photo-1753630865141-84053fd9ff5b?auto=format&fit=crop&fm=jpg&q=85&w=2200')"></div>
+      <div class="banner-overlay"></div>
+      <div class="banner-conteudo">
+        <span class="eyebrow anim-1">PROMOÇÃO ESPECIAL</span>
+        <h1 class="anim-2">Seu ritual de tereré<br>com até 20% OFF.</h1>
+        <p class="anim-3">Escolha sua erva, cuia e bomba favoritas e aproveite condições especiais por tempo limitado.</p>
+        <a href="#produtos" class="btn-principal anim-4">Aproveitar promoção</a>
+      </div>
+    </article>
+    <!-- Banner 2 -->
+    <article class="banner banner-promocao">
+      <div class="banner-bg" style="background-image:url('https://images.unsplash.com/photo-1653937855510-ec3fd2036d98?auto=format&fit=crop&fm=jpg&q=85&w=2200')"></div>
+      <div class="banner-overlay"></div>
+      <div class="banner-conteudo">
+        <span class="eyebrow anim-1">OFERTA DA SEMANA</span>
+        <h1 class="anim-2">Ervas e chás<br>selecionados.</h1>
+        <p class="anim-3">Leve sabores naturais para casa e descubra novas combinações incriveis para seus momentos.</p>
+        <a href="#produtos" class="btn-principal anim-4">Ver ofertas</a>
+      </div>
+    </article>
+    <!-- Banner 3 -->
+    <article class="banner banner-promocao">
+      <div class="banner-bg" style="background-image:url('https://images.unsplash.com/photo-1773479089546-49ff98325518?auto=format&fit=crop&fm=jpg&q=85&w=2200')"></div>
+      <div class="banner-overlay"></div>
+      <div class="banner-conteudo">
+        <span class="eyebrow anim-1">CLUBE LA MATTE</span>
+        <h1 class="anim-2">Mais produtos,<br>mais sabor.</h1>
+        <p class="anim-3">Monte seu kit com produtos altamente selecionados e aproveite nossas ofertas exclusivas.</p>
+        <a href="#produtos" class="btn-principal anim-4">Montar meu kit</a>
+      </div>
+    </article>
   </div>
-  <button class="seta-banner prev" id="bannerPrev">‹</button><button class="seta-banner next" id="bannerNext">›</button>
-  <div class="dots"><button data-slide="0"></button><button data-slide="1"></button><button data-slide="2"></button></div>
-</section>
 
-<section class="intro">
-  <div><span class="eyebrow">LA MATTE CHÁ & ERVAS</span><h2>Produtos escolhidos para o seu ritual.</h2></div>
-  <p>Do chimarrão ao tereré, passando por chás, ervas e acessórios, encontre sabores para todos os momentos.</p>
+  <!-- Controles Premium Inferiores -->
+  <div class="hero-controles">
+    <div class="hero-contador">
+      <span id="heroSlideAtual">01</span>
+      <span class="divisor">/</span>
+      <span id="heroTotalSlides">03</span>
+    </div>
+    
+    <div class="dots" id="dotsContainer">
+      <!-- Dots gerados dinamicamente via JS -->
+    </div>
+
+    <div class="setas-wrapper">
+      <button class="seta-banner prev" id="bannerPrev" aria-label="Banner anterior">
+        <svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <button class="seta-banner next" id="bannerNext" aria-label="Próximo banner">
+        <svg viewBox="0 0 24 24"><path d="M9 18l6-6-6-6" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+    </div>
+  </div>
 </section>
 
 <section class="produtos-section" id="produtos">
