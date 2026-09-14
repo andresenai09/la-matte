@@ -193,6 +193,8 @@ a {
   margin-top: 88px;
   position: relative;
   overflow: hidden;
+  display: block;
+  line-height: 0;
 }
 .banner-track {
   height: 100%;
@@ -203,6 +205,7 @@ a {
 .banner {
   width: 33.3333%;
   height: 100%;
+  flex-shrink: 0;
   background-size: cover;
   background-position: center;
   display: flex;
