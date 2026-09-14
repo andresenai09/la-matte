@@ -472,7 +472,7 @@ document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("alterarSenha")?.addEventListener(
     "click",
     () => {
-      alert("A alteração de senha será disponibilizada em breve.");
+      alert("Entra na sua conta para alterar a senha.");
     }
   );
 
