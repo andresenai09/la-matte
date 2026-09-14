@@ -20,14 +20,13 @@ html {
   scroll-behavior: smooth;
 }
 body {
- {
   background: var(--creme);
   color: var(--texto);
   font-family: Inter, Arial, sans-serif;
   line-height: 1.5;
   overflow-x: hidden;
 }
-.painel-aberto {
+body.painel-aberto {
   overflow: hidden;
 }
 button, input, select, textarea {
@@ -45,8 +44,6 @@ a {
   position: fixed;
   top: 0;
   left: 0;
-  right: 0;
-  margin: 0;
   width: 100%;
   z-index: 1300;
   padding: 0 40px;
@@ -60,16 +57,6 @@ a {
   transition: transform 0.35s ease;
 }
 body.painel-aberto .barra-fixa {
-/* Ajusta o contêiner que vem abaixo do cabeçalho */
-main {
-  padding-top: 88px; /* Cria o espaço exato da altura da barra */
-}
-
-/* Trava a margem do primeiro elemento do conteúdo */
-main > *:first-child {
-  margin-top: 0 !important;
-}
-.painel-aberto .barra-fixa {
   transform: translateY(-100%);
 }
 .marca {
@@ -1045,46 +1032,4 @@ footer button {
   .marca-matte {
     font-size: 27px;
   }
-}
-/* Animação ao abrir perfil */
-.profile-panel {
-  animation: slideIn 0.4s ease-out forwards;
-  opacity: 0;
-  transform: translateY(-20px);
-}
-
-@keyframes slideIn {
-  from {
-    opacity: 0;
-    transform: translateY(-20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* Alinhamento fixo dos painéis */
-.profile-container {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 20px;
-  min-height: auto; /* Evita que painéis mudem de tamanho */
-}
-
-.panel {
-  min-height: 300px; /* Define altura mínima */
-  padding: 20px;
-  background: white;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-}
-
-/* Transição suave ao trocar painéis */
-.panel.hidden {
-  display: none;
-}
-
-.panel.active {
-  animation: slideIn 0.4s ease-out;
 }
