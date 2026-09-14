@@ -1,32 +1,30 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Meu Perfil | La Matte</title>
 
-  <title>La Matte - Meu Perfil</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-
-  <link rel="stylesheet" href="perfil/style.css">
+<link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-<div class="fundo-paineis" id="fundoPaineis"></div>
+<div class="painel-fundo" id="painelFundo"></div>
 
 <header class="barra-fixa">
 
-  <a class="marca" href="../principal/index.html">
+  <a class="marca" href="../index.html">
     <span class="marca-la">La</span>
     <span class="marca-matte">Matte</span>
   </a>
 
   <div class="logo-fixo">
-    <a href="../principal/index.html">
+    <a href="../index.html">
       <h2 data-text="LA MATTE">LA MATTE</h2>
     </a>
   </div>
@@ -34,7 +32,7 @@
   <div class="acoes-topo">
 
     <button class="acao" id="perfilBtn" aria-label="Perfil do usuário" title="Meu Perfil">
-      <svg viewBox="0 0 24 24">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
         <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
         <circle cx="12" cy="7" r="4"></circle>
       </svg>
@@ -42,46 +40,29 @@
 
     <div class="perfil-popup" id="perfilPopup">
 
-      <div class="perfil-popup-topo">
+      <div class="perfil-topo">
 
-        <div class="perfil-popup-icone">
-          <svg viewBox="0 0 24 24">
+        <div class="perfil-icone">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
             <circle cx="12" cy="8" r="4"></circle>
             <path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"></path>
           </svg>
         </div>
 
         <div>
-          <h3 id="perfilNomeMenu">Meu Perfil</h3>
-          <p id="perfilSubMenu">Conta La Matte</p>
+          <h3 id="perfilNomeMenu">Visitante</h3>
+          <p id="perfilSubMenu">Faça login para acessar sua conta</p>
         </div>
 
       </div>
 
-      <div class="perfil-popup-links">
-
-        <button id="abrirPerfilBtn">
-          <span>Minha conta</span>
-          <b>›</b>
-        </button>
-
-        <button id="abrirFavoritosPerfilBtn">
-          <span>Meus favoritos</span>
-          <b>›</b>
-        </button>
-
-        <button id="btnSairPopup">
-          <span>Sair da conta</span>
-          <b>›</b>
-        </button>
-
-      </div>
+      <div class="perfil-links" id="perfilLinks"></div>
 
     </div>
 
     <button class="acao" id="favoritosBtn" aria-label="Lista de Favoritos" title="Meus Favoritos">
 
-      <svg viewBox="0 0 24 24">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
         <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
       </svg>
 
@@ -91,7 +72,7 @@
 
     <button class="acao" id="carrinhoBtn" aria-label="Carrinho de Compras" title="Seu Carrinho">
 
-      <svg viewBox="0 0 24 24">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
         <circle cx="9" cy="21" r="1"></circle>
         <circle cx="20" cy="21" r="1"></circle>
         <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
@@ -102,11 +83,9 @@
     </button>
 
     <button class="menu-btn" id="menuBtn" aria-label="Abrir menu">
-
       <span></span>
       <span></span>
       <span></span>
-
     </button>
 
   </div>
@@ -178,22 +157,27 @@
 
   <nav class="menu-links">
 
-    <a href="../principal/index.html#inicio">
+    <a href="../index.html#inicio">
       Início
       <b>›</b>
     </a>
 
-    <a href="../principal/index.html#produtos">
+    <a href="../index.html#produtos">
       Produtos
       <b>›</b>
     </a>
 
-    <a href="../principal/index.html#vantagens">
+    <a href="index.html">
+      Meu Perfil
+      <b>›</b>
+    </a>
+
+    <a href="../index.html#vantagens">
       Vantagens
       <b>›</b>
     </a>
 
-    <a href="../principal/index.html#suporte">
+    <a href="../index.html#suporte">
       Suporte
       <b>›</b>
     </a>
@@ -213,490 +197,219 @@
 </aside>
 
 
-<main class="container-perfil">
+<main class="perfil-pagina">
 
-  <section class="card-hero-perfil">
+  <section class="perfil-hero">
 
-    <div class="avatar-box" id="avatarBox">
-      U
-    </div>
+    <div>
+      <span class="eyebrow">LA MATTE</span>
 
-    <div class="info-hero">
+      <h1>
+        Meu perfil
+      </h1>
 
-      <div class="linha-titulo-hero">
-
-        <h1 id="heroNome">
-          Carregando...
-        </h1>
-
-        <span class="badge-conta" id="heroBadge">
-          Cliente La Matte
-        </span>
-
-      </div>
-
-      <p id="heroUsuario">
-        @usuario
+      <p>
+        Gerencie seus dados, acompanhe sua conta e personalize sua experiência na La Matte.
       </p>
-
     </div>
-
-    <button class="btn-sair-hero" id="btnSairHero">
-
-      <svg viewBox="0 0 24 24">
-        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
-        <polyline points="16 17 21 12 16 7"></polyline>
-        <line x1="21" y1="12" x2="9" y2="12"></line>
-      </svg>
-
-      Sair
-
-    </button>
 
   </section>
 
 
-  <div class="layout-dashboard">
+  <section class="perfil-container">
 
-    <aside class="menu-perfil">
+    <div class="perfil-menu">
 
-      <button class="aba-item ativa" data-aba="dados">
-        <span class="icone">◉</span>
-        Dados Cadastrais
+      <button class="perfil-tab ativo" data-painel="dados">
+        <span>01</span>
+        Meus dados
+        <b>›</b>
       </button>
 
-      <button class="aba-item" data-aba="pedidos">
-        <span class="icone">▣</span>
-        Meus Pedidos
+      <button class="perfil-tab" data-painel="pedidos">
+        <span>02</span>
+        Meus pedidos
+        <b>›</b>
       </button>
 
-      <button class="aba-item" data-aba="endereco">
-        <span class="icone">⌖</span>
-        Endereço de Entrega
+      <button class="perfil-tab" data-painel="favoritos">
+        <span>03</span>
+        Favoritos
+        <b>›</b>
       </button>
 
-      <button class="aba-item" data-aba="seguranca">
-        <span class="icone">◆</span>
-        Alterar Senha
+      <button class="perfil-tab" data-painel="seguranca">
+        <span>04</span>
+        Segurança
+        <b>›</b>
       </button>
 
-      <button class="aba-item" data-aba="favoritos">
-        <span class="icone">♡</span>
-        Meus Favoritos
-      </button>
-
-    </aside>
+    </div>
 
 
-    <section class="conteudo-perfil">
+    <div class="perfil-conteudo">
 
 
-      <article class="painel-aba ativo" id="aba-dados">
+      <section class="perfil-panel ativo" id="dados">
 
-        <div class="cabecalho-aba">
+        <span class="eyebrow">MINHA CONTA</span>
 
-          <h2>Meus Dados Cadastrais</h2>
+        <h2>Meus dados</h2>
 
-          <p>
-            Atualize suas informações pessoais de cadastro.
-          </p>
+        <p class="perfil-instrucoes">
+          Atualize as informações da sua conta.
+        </p>
 
-        </div>
+        <form id="perfilForm">
 
+          <div class="form-grid">
 
-        <form id="formDadosPessoais" class="grid-form">
+            <div class="campo-grupo-perfil">
+              <label for="nomePerfil">Nome completo</label>
+              <input id="nomePerfil" type="text" placeholder="Seu nome">
+            </div>
 
-          <div class="campo-grupo">
+            <div class="campo-grupo-perfil">
+              <label for="emailPerfil">E-mail</label>
+              <input id="emailPerfil" type="email" placeholder="seuemail@email.com">
+            </div>
 
-            <label for="campoUsuario">
-              Nome de Usuário
-            </label>
+            <div class="campo-grupo-perfil">
+              <label for="telefonePerfil">Telefone</label>
+              <input id="telefonePerfil" type="tel" placeholder="(00) 00000-0000">
+            </div>
 
-            <input
-              type="text"
-              id="campoUsuario"
-              required
-              placeholder="Seu usuário"
-            >
-
-          </div>
-
-
-          <div class="campo-grupo">
-
-            <label for="campoNomeCompleto">
-              Nome Completo
-            </label>
-
-            <input
-              type="text"
-              id="campoNomeCompleto"
-              required
-              placeholder="Seu nome completo"
-            >
-
-          </div>
-
-
-          <div class="campo-grupo">
-
-            <label for="campoCpf">
-              CPF
-            </label>
-
-            <input
-              type="text"
-              id="campoCpf"
-              maxlength="14"
-              required
-              placeholder="000.000.000-00"
-            >
-
-          </div>
-
-
-          <div class="campo-grupo">
-
-            <label for="campoNascimento">
-              Data de Nascimento
-            </label>
-
-            <input
-              type="date"
-              id="campoNascimento"
-              required
-            >
-
-          </div>
-
-
-          <div class="campo-grupo">
-
-            <label for="campoTelefone">
-              Telefone / WhatsApp
-            </label>
-
-            <input
-              type="tel"
-              id="campoTelefone"
-              maxlength="15"
-              required
-              placeholder="(00) 00000-0000"
-            >
-
-          </div>
-
-
-          <div class="campo-grupo">
-
-            <label for="campoCep">
-              CEP
-            </label>
-
-            <input
-              type="text"
-              id="campoCep"
-              maxlength="9"
-              required
-              placeholder="00000-000"
-            >
-
-          </div>
-
-
-          <div class="campo-grupo">
-
-            <label for="campoSenha">
-              Senha
-            </label>
-
-            <div class="campo-senha-wrapper">
-
-              <input
-                type="password"
-                id="campoSenha"
-                readonly
-                placeholder="••••••••"
-              >
-
-              <button
-                type="button"
-                id="btnMostrarSenha"
-                class="btn-mostrar-senha"
-              >
-                👁️
-              </button>
-
+            <div class="campo-grupo-perfil">
+              <label for="cidadePerfil">Cidade</label>
+              <input id="cidadePerfil" type="text" placeholder="Sua cidade">
             </div>
 
           </div>
 
+          <div class="perfil-acoes">
 
-          <div class="acoes-form">
-
-            <button
-              type="submit"
-              class="btn-salvar"
-            >
-              Salvar Alterações
+            <button type="submit" class="btn-salvar-perfil">
+              Salvar alterações
             </button>
 
-            <span
-              class="msg-feedback"
-              id="msgFeedbackDados"
-            ></span>
+            <button type="button" class="btn-sair-perfil" id="sairPerfil">
+              Sair da conta
+            </button>
 
           </div>
+
+          <p class="mensagem-sucesso-perfil" id="mensagemPerfil"></p>
 
         </form>
 
-      </article>
+      </section>
 
 
-      <article class="painel-aba" id="aba-pedidos">
+      <section class="perfil-panel" id="pedidos">
 
-        <div class="cabecalho-aba">
+        <span class="eyebrow">HISTÓRICO</span>
 
-          <h2>Histórico de Pedidos</h2>
+        <h2>Meus pedidos</h2>
+
+        <div class="estado-vazio">
+
+          <span>◎</span>
+
+          <h3>Nenhum pedido ainda</h3>
 
           <p>
-            Acompanhe o status e os detalhes dos seus pedidos recentes.
+            Quando você realizar uma compra, seus pedidos aparecerão aqui.
           </p>
+
+          <a href="../index.html#produtos" class="btn-principal">
+            Explorar produtos
+          </a>
 
         </div>
 
-        <div
-          class="lista-pedidos"
-          id="containerPedidos"
-        ></div>
-
-      </article>
+      </section>
 
 
-      <article class="painel-aba" id="aba-endereco">
+      <section class="perfil-panel" id="favoritos">
 
-        <div class="cabecalho-aba">
+        <span class="eyebrow">SUA SELEÇÃO</span>
 
-          <h2>Endereço Principal</h2>
+        <h2>Favoritos</h2>
 
-          <p>
-            Endereço utilizado para o cálculo de frete e envio dos pedidos.
-          </p>
+        <div id="perfilFavoritos" class="favoritos-perfil"></div>
+
+      </section>
+
+
+      <section class="perfil-panel" id="seguranca">
+
+        <span class="eyebrow">PROTEÇÃO</span>
+
+        <h2>Segurança</h2>
+
+        <p class="perfil-instrucoes">
+          Mantenha os dados da sua conta protegidos.
+        </p>
+
+        <div class="seguranca-card">
+
+          <div>
+            <span>Senha</span>
+            <strong>••••••••</strong>
+          </div>
+
+          <button type="button" id="alterarSenha">
+            Alterar senha
+          </button>
 
         </div>
 
+      </section>
 
-        <form id="formEndereco" class="grid-form">
+    </div>
 
-          <div class="campo-grupo duplo-span">
-
-            <label for="endRua">
-              Rua / Avenida
-            </label>
-
-            <input
-              type="text"
-              id="endRua"
-              placeholder="Ex: Av. Paulista"
-            >
-
-          </div>
-
-
-          <div class="campo-grupo">
-
-            <label for="endNumero">
-              Número
-            </label>
-
-            <input
-              type="text"
-              id="endNumero"
-              placeholder="123"
-            >
-
-          </div>
-
-
-          <div class="campo-grupo">
-
-            <label for="endComplemento">
-              Complemento
-            </label>
-
-            <input
-              type="text"
-              id="endComplemento"
-              placeholder="Apt 42, Bloco B"
-            >
-
-          </div>
-
-
-          <div class="campo-grupo">
-
-            <label for="endBairro">
-              Bairro
-            </label>
-
-            <input
-              type="text"
-              id="endBairro"
-              placeholder="Centro"
-            >
-
-          </div>
-
-
-          <div class="campo-grupo">
-
-            <label for="endCidade">
-              Cidade
-            </label>
-
-            <input
-              type="text"
-              id="endCidade"
-              placeholder="São Paulo"
-            >
-
-          </div>
-
-
-          <div class="acoes-form">
-
-            <button
-              type="submit"
-              class="btn-salvar"
-            >
-              Salvar Endereço
-            </button>
-
-            <span
-              class="msg-feedback"
-              id="msgFeedbackEnd"
-            ></span>
-
-          </div>
-
-        </form>
-
-      </article>
-
-
-      <article class="painel-aba" id="aba-seguranca">
-
-        <div class="cabecalho-aba">
-
-          <h2>Segurança e Senha</h2>
-
-          <p>
-            Mantenha sua conta protegida alterando sua senha periodicamente.
-          </p>
-
-        </div>
-
-
-        <form id="formSenha" class="grid-form-curto">
-
-          <div class="campo-grupo">
-
-            <label for="senhaAtual">
-              Senha Atual
-            </label>
-
-            <input
-              type="password"
-              id="senhaAtual"
-              required
-              placeholder="Digite a senha atual"
-            >
-
-          </div>
-
-
-          <div class="campo-grupo">
-
-            <label for="novaSenha">
-              Nova Senha
-            </label>
-
-            <input
-              type="password"
-              id="novaSenha"
-              required
-              placeholder="Mínimo 6 caracteres"
-            >
-
-          </div>
-
-
-          <div class="campo-grupo">
-
-            <label for="confNovaSenha">
-              Confirmar Nova Senha
-            </label>
-
-            <input
-              type="password"
-              id="confNovaSenha"
-              required
-              placeholder="Repita a nova senha"
-            >
-
-          </div>
-
-
-          <div class="acoes-form">
-
-            <button
-              type="submit"
-              class="btn-salvar"
-            >
-              Atualizar Senha
-            </button>
-
-            <span
-              class="msg-feedback"
-              id="msgFeedbackSenha"
-            ></span>
-
-          </div>
-
-        </form>
-
-      </article>
-
-
-      <article class="painel-aba" id="aba-favoritos">
-
-        <div class="cabecalho-aba">
-
-          <h2>Meus Produtos Favoritos</h2>
-
-          <p>
-            Sua lista de desejos salva na La Matte.
-          </p>
-
-        </div>
-
-
-        <div
-          class="grid-favoritos-perfil"
-          id="containerFavoritosPerfil"
-        ></div>
-
-      </article>
-
-    </section>
-
-  </div>
+  </section>
 
 </main>
 
 
-<script src="../principal/data.js"></script>
-<script src="perfil/script.js"></script>
+<footer>
+
+  <div>
+    <span class="marca-la">La</span>
+    <span class="marca-matte">Matte</span>
+    <p>Chá & Ervas</p>
+  </div>
+
+  <div>
+    <h4>Navegação</h4>
+    <a href="../index.html#produtos">Produtos</a>
+    <a href="index.html">Meu Perfil</a>
+    <a href="../index.html#suporte">Suporte</a>
+  </div>
+
+  <div>
+    <h4>Conta</h4>
+    <a href="../login/login.html">Entrar</a>
+    <a href="../cadastro/cadastro.html">Cadastro</a>
+  </div>
+
+  <div>
+    <h4>Newsletter</h4>
+
+    <form id="formNewsletter">
+      <input type="email" required placeholder="Seu melhor e-mail">
+      <button>Assinar</button>
+    </form>
+
+    <span id="newsletterSucesso"></span>
+
+  </div>
+
+</footer>
+
+
+<script src="script.js"></script>
 
 </body>
 </html>
