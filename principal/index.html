@@ -3,675 +3,128 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>La Matte Chá & Ervas</title>
-
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-
 <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
-
 <div class="painel-fundo" id="painelFundo"></div>
-
 <header class="barra-fixa">
+  <a class="marca" href="index.html"><span class="marca-la">La</span><span class="marca-matte">Matte</span></a>
+  <div class="logo-fixo"><a href="index.html"><h2 data-text="LA MATTE">LA MATTE</h2></a></div>
+  <div class="acoes-topo">
+    <button class="acao" id="perfilBtn" aria-label="Perfil do usuário" title="Meu Perfil">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
+        <circle cx="12" cy="7" r="4"></circle>
+      </svg>
+    </button>
 
-    <a class="marca" href="index.html">
-        <span class="marca-la">La</span>
-        <span class="marca-matte">Matte</span>
-    </a>
-
-    <div class="logo-fixo">
-        <a href="index.html">
-            <h2 data-text="LA MATTE">LA MATTE</h2>
-        </a>
-    </div>
-
-    <div class="acoes-topo">
-
-        <button class="acao" id="perfilBtn" aria-label="Perfil do usuário" title="Meu Perfil">
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-                <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
-                <circle cx="12" cy="7" r="4"></circle>
-            </svg>
-        </button>
-
-        <div class="perfil-popup" id="perfilPopup">
-
-            <div class="perfil-topo">
-
-                <div class="perfil-icone">
-                    <svg viewBox="0 0 24 24" aria-hidden="true">
-                        <circle cx="12" cy="8" r="4"></circle>
-                        <path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"></path>
-                    </svg>
-                </div>
-
-                <div>
-                    <h3 id="perfilNomeMenu">Visitante</h3>
-                    <p id="perfilSubMenu">
-                        Faça login para acessar sua conta
-                    </p>
-                </div>
-
-            </div>
-
-            <div class="perfil-links" id="perfilLinks"></div>
-
+    <div class="perfil-popup" id="perfilPopup">
+      <div class="perfil-topo">
+        <div class="perfil-icone">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="12" cy="8" r="4"></circle>
+            <path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"></path>
+          </svg>
         </div>
-
-        <button class="acao" id="favoritosBtn" aria-label="Lista de Favoritos" title="Meus Favoritos">
-
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
-            </svg>
-
-            <b class="contador-favoritos" id="contadorFavoritos">0</b>
-
-        </button>
-
-        <button class="acao" id="carrinhoBtn" aria-label="Carrinho de Compras" title="Seu Carrinho">
-
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-                <circle cx="9" cy="21" r="1"></circle>
-                <circle cx="20" cy="21" r="1"></circle>
-                <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
-            </svg>
-
-            <b class="contador-carrinho" id="contadorCarrinho">0</b>
-
-        </button>
-
-        <button class="menu-btn" id="menuBtn" aria-label="Abrir menu">
-            <span></span>
-            <span></span>
-            <span></span>
-        </button>
-
+        <div>
+          <h3 id="perfilNomeMenu">Visitante</h3>
+          <p id="perfilSubMenu">Faça login para acessar sua conta</p>
+        </div>
+      </div>
+      <div class="perfil-links" id="perfilLinks"></div>
     </div>
 
+    <button class="acao" id="favoritosBtn" aria-label="Lista de Favoritos" title="Meus Favoritos">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+      </svg>
+      <b class="contador-favoritos" id="contadorFavoritos">0</b>
+    </button>
+
+    <button class="acao" id="carrinhoBtn" aria-label="Carrinho de Compras" title="Seu Carrinho">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <circle cx="9" cy="21" r="1"></circle>
+        <circle cx="20" cy="21" r="1"></circle>
+        <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+      </svg>
+      <b class="contador-carrinho" id="contadorCarrinho">0</b>
+    </button>
+
+    <button class="menu-btn" id="menuBtn" aria-label="Abrir menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
 </header>
 
-
 <aside class="painel-lateral" id="carrinhoPainel">
-
-    <div class="painel-cabecalho">
-
-        <div>
-            <span>SEU PEDIDO</span>
-            <h2>Carrinho</h2>
-        </div>
-
-        <button class="fechar-painel" id="fecharCarrinho">×</button>
-
-    </div>
-
-    <div class="painel-conteudo" id="carrinhoConteudo"></div>
-
-    <div class="resumo-painel">
-
-        <div>
-            <span>Subtotal</span>
-            <strong id="subtotalCarrinho">R$ 0,00</strong>
-        </div>
-
-        <a href="../checkout/index.html" class="btn-principal">
-            Finalizar compra
-        </a>
-
-    </div>
-
+  <div class="painel-cabecalho"><div><span>SEU PEDIDO</span><h2>Carrinho</h2></div><button class="fechar-painel" id="fecharCarrinho">×</button></div>
+  <div class="painel-conteudo" id="carrinhoConteudo"></div>
+  <div class="resumo-painel"><div><span>Subtotal</span><strong id="subtotalCarrinho">R$ 0,00</strong></div><a href="../checkout/index.html" class="btn-principal">Finalizar compra</a></div>
 </aside>
-
 
 <aside class="painel-lateral" id="favoritosPainel">
-
-    <div class="painel-cabecalho">
-
-        <div>
-            <span>SUA SELEÇÃO</span>
-            <h2>Favoritos</h2>
-        </div>
-
-        <button class="fechar-painel" id="fecharFavoritos">×</button>
-
-    </div>
-
-    <div class="painel-conteudo" id="favoritosConteudo"></div>
-
+  <div class="painel-cabecalho"><div><span>SUA SELEÇÃO</span><h2>Favoritos</h2></div><button class="fechar-painel" id="fecharFavoritos">×</button></div>
+  <div class="painel-conteudo" id="favoritosConteudo"></div>
 </aside>
-
 
 <aside class="painel-lateral" id="menuOverlay">
-
-    <div class="painel-cabecalho">
-
-        <div>
-            <span>NAVEGAÇÃO</span>
-            <h2>Menu</h2>
-        </div>
-
-        <button class="fechar-painel" id="fecharMenu">×</button>
-
-    </div>
-
-    <nav class="menu-links">
-
-        <a href="#inicio">
-            Início
-            <b>›</b>
-        </a>
-
-        <a href="#produtos">
-            Produtos
-            <b>›</b>
-        </a>
-
-        <a href="../perfil/index.html">
-            Meu Perfil
-            <b>›</b>
-        </a>
-
-        <a href="#vantagens">
-            Vantagens
-            <b>›</b>
-        </a>
-
-        <a href="#suporte">
-            Suporte
-            <b>›</b>
-        </a>
-
-        <a href="../login/login.html">
-            Entrar
-            <b>›</b>
-        </a>
-
-        <a href="../cadastro/cadastro.html">
-            Criar conta
-            <b>›</b>
-        </a>
-
-    </nav>
-
+  <div class="painel-cabecalho"><div><span>NAVEGAÇÃO</span><h2>Menu</h2></div><button class="fechar-painel" id="fecharMenu">×</button></div>
+  <nav class="menu-links">
+    <a href="#inicio">Início <b>›</b></a>
+    <a href="#produtos">Produtos <b>›</b></a>
+    <a href="../perfil/index.html">Meu Perfil <b>›</b></a>
+    <a href="#vantagens">Vantagens <b>›</b></a>
+    <a href="#suporte">Suporte <b>›</b></a>
+    <a href="../login/login.html">Entrar <b>›</b></a>
+    <a href="../cadastro/cadastro.html">Criar conta <b>›</b></a>
+  </nav>
 </aside>
 
-
 <main id="inicio">
-
-    <!-- BANNER -->
-
-    <section class="hero">
-
-        <div class="banner-track" id="bannerContainer">
-
-            <article
-                class="banner"
-                style="background-image: url('https://images.unsplash.com/photo-1753630865141-84053fd9ff5b?auto=format&fit=crop&fm=jpg&q=85&w=2200');"
-            >
-
-                <div class="banner-conteudo">
-
-                    <span>PROMOÇÃO ESPECIAL</span>
-
-                    <h1>
-                        Seu ritual de tereré com até 20% OFF.
-                    </h1>
-
-                    <p>
-                        Escolha sua erva, cuia e bomba favoritas e aproveite condições especiais por tempo limitado.
-                    </p>
-
-                    <a href="#produtos" class="btn-principal">
-                        Aproveitar promoção
-                    </a>
-
-                </div>
-
-            </article>
-
-
-            <article
-                class="banner"
-                style="background-image: url('https://images.unsplash.com/photo-1653937855510-ec3fd2036d98?auto=format&fit=crop&fm=jpg&q=85&w=2200');"
-            >
-
-                <div class="banner-conteudo">
-
-                    <span>OFERTA DA SEMANA</span>
-
-                    <h1>
-                        Ervas e chás selecionados com preços especiais.
-                    </h1>
-
-                    <p>
-                        Leve sabores naturais para casa e descubra novas combinações para seus momentos.
-                    </p>
-
-                    <a href="#produtos" class="btn-principal">
-                        Ver ofertas
-                    </a>
-
-                </div>
-
-            </article>
-
-
-            <article
-                class="banner"
-                style="background-image: url('https://images.unsplash.com/photo-1773479089546-49ff98325518?auto=format&fit=crop&fm=jpg&q=85&w=2200');"
-            >
-
-                <div class="banner-conteudo">
-
-                    <span>CLUBE LA MATTE</span>
-
-                    <h1>
-                        Mais produtos, mais sabor, mais economia.
-                    </h1>
-
-                    <p>
-                        Monte seu kit com produtos selecionados e aproveite nossas ofertas especiais.
-                    </p>
-
-                    <a href="#produtos" class="btn-principal">
-                        Montar meu kit
-                    </a>
-
-                </div>
-
-            </article>
-
-        </div>
-
-
-        <button
-            class="seta-banner prev"
-            id="bannerPrev"
-            aria-label="Banner anterior"
-        >
-            ‹
-        </button>
-
-        <button
-            class="seta-banner next"
-            id="bannerNext"
-            aria-label="Próximo banner"
-        >
-            ›
-        </button>
-
-
-        <div class="dots">
-
-            <button
-                data-slide="0"
-                class="ativo"
-                aria-label="Primeiro banner"
-            ></button>
-
-            <button
-                data-slide="1"
-                aria-label="Segundo banner"
-            ></button>
-
-            <button
-                data-slide="2"
-                aria-label="Terceiro banner"
-            ></button>
-
-        </div>
-
-    </section>
-
-
-    <!-- INTRO -->
-
-    <section class="intro">
-
-        <div>
-
-            <span class="eyebrow">
-                LA MATTE CHÁ & ERVAS
-            </span>
-
-            <h2>
-                Produtos escolhidos para o seu ritual.
-            </h2>
-
-        </div>
-
-        <p>
-            Do chimarrão ao tereré, passando por chás, ervas e acessórios,
-            encontre sabores para todos os momentos.
-        </p>
-
-    </section>
-
-
-    <!-- PRODUTOS -->
-
-    <section class="produtos-section" id="produtos">
-
-        <div class="secao-topo">
-
-            <div>
-
-                <span class="eyebrow">
-                    COLEÇÃO
-                </span>
-
-                <h2>
-                    Nossos produtos
-                </h2>
-
-            </div>
-
-            <div class="busca">
-
-                <input
-                    id="campoPesquisa"
-                    type="search"
-                    placeholder="Buscar produto..."
-                >
-
-                <button id="limparPesquisa">
-                    ×
-                </button>
-
-            </div>
-
-        </div>
-
-
-        <div class="filtros" id="filtros">
-
-            <button
-                class="ativo"
-                data-categoria="Todos"
-            >
-                Todos
-            </button>
-
-            <button data-categoria="Erva-Mate">
-                Erva-mate
-            </button>
-
-            <button data-categoria="Bombas">
-                Bombas
-            </button>
-
-            <button data-categoria="Chás">
-                Chás
-            </button>
-
-            <button data-categoria="Guampas">
-                Guampas
-            </button>
-
-            <button data-categoria="Cuias">
-                Cuias
-            </button>
-
-            <button data-categoria="Garrafas">
-                Garrafas Térmicas
-            </button>
-
-        </div>
-
-
-        <div
-            class="grid-produtos"
-            id="gridProdutos"
-        ></div>
-
-
-        <div
-            class="sem-resultados"
-            id="semResultados"
-        >
-            Nenhum produto encontrado.
-        </div>
-
-    </section>
-
-
-    <!-- VANTAGENS -->
-
-    <section
-        class="vantagens"
-        id="vantagens"
-    >
-
-        <div class="secao-topo">
-
-            <div>
-
-                <span class="eyebrow">
-                    POR QUE LA MATTE?
-                </span>
-
-                <h2>
-                    Uma experiência pensada nos detalhes.
-                </h2>
-
-            </div>
-
-        </div>
-
-
-        <div class="vantagens-grid">
-
-            <article>
-
-                <span>01</span>
-
-                <h3>
-                    Seleção cuidadosa
-                </h3>
-
-                <p>
-                    Produtos escolhidos para manter sabor,
-                    aroma e qualidade.
-                </p>
-
-            </article>
-
-
-            <article>
-
-                <span>02</span>
-
-                <h3>
-                    Compra simples
-                </h3>
-
-                <p>
-                    Favoritos, carrinho e checkout organizados
-                    em poucos cliques.
-                </p>
-
-            </article>
-
-
-            <article>
-
-                <span>03</span>
-
-                <h3>
-                    Variedade
-                </h3>
-
-                <p>
-                    Mais de 30 opções entre mates, tererés,
-                    chás, ervas e acessórios.
-                </p>
-
-            </article>
-
-        </div>
-
-    </section>
-
-
-    <!-- SUPORTE -->
-
-    <section
-        class="suporte"
-        id="suporte"
-    >
-
-        <div class="suporte-copy">
-
-            <span class="eyebrow">
-                PRECISA DE AJUDA?
-            </span>
-
-            <h2>
-                Fale com o suporte.
-            </h2>
-
-            <p>
-                Envie uma mensagem pela demonstração
-                e deixe sua dúvida registrada.
-            </p>
-
-        </div>
-
-
-        <form id="suporteForm">
-
-            <input
-                id="suporteNome"
-                required
-                placeholder="Seu nome"
-            >
-
-            <input
-                id="suporteEmail"
-                type="email"
-                required
-                placeholder="Seu e-mail"
-            >
-
-            <select id="suporteCategoria">
-
-                <option>Pedido</option>
-                <option>Produto</option>
-                <option>Pagamento</option>
-                <option>Outro</option>
-
-            </select>
-
-            <textarea
-                id="suporteMensagem"
-                required
-                placeholder="Como podemos ajudar?"
-            ></textarea>
-
-            <button class="btn-principal">
-                Enviar mensagem
-            </button>
-
-            <strong id="suporteSucesso"></strong>
-
-        </form>
-
-    </section>
-
+<section class="hero">
+  <div class="banner-track" id="bannerContainer">
+    <article class="banner banner-promocao" style="background-image:url('https://images.unsplash.com/photo-1753630865141-84053fd9ff5b?auto=format&fit=crop&fm=jpg&q=85&w=2200')"><div><span>PROMOÇÃO ESPECIAL</span><h1>Seu ritual de tereré com até 20% OFF.</h1><p>Escolha sua erva, cuia e bomba favoritas e aproveite condições especiais por tempo limitado.</p><a href="#produtos" class="btn-principal">Aproveitar promoção</a></div></article>
+    <article class="banner banner-promocao" style="background-image:url('https://images.unsplash.com/photo-1653937855510-ec3fd2036d98?auto=format&fit=crop&fm=jpg&q=85&w=2200')"><div><span>OFERTA DA SEMANA</span><h1>Ervas e chás selecionados com preços especiais.</h1><p>Leve sabores naturais para casa e descubra novas combinações para seus momentos.</p><a href="#produtos" class="btn-principal">Ver ofertas</a></div></article>
+    <article class="banner banner-promocao" style="background-image:url('https://images.unsplash.com/photo-1773479089546-49ff98325518?auto=format&fit=crop&fm=jpg&q=85&w=2200')"><div><span>CLUBE LA MATTE</span><h1>Mais produtos, mais sabor, mais economia.</h1><p>Monte seu kit com produtos selecionados e aproveite nossas ofertas especiais.</p><a href="#produtos" class="btn-principal">Montar meu kit</a></div></article>
+  </div>
+  <button class="seta-banner prev" id="bannerPrev">‹</button><button class="seta-banner next" id="bannerNext">›</button>
+  <div class="dots"><button data-slide="0"></button><button data-slide="1"></button><button data-slide="2"></button></div>
+</section>
+
+<section class="intro">
+  <div><span class="eyebrow">LA MATTE CHÁ & ERVAS</span><h2>Produtos escolhidos para o seu ritual.</h2></div>
+  <p>Do chimarrão ao tereré, passando por chás, ervas e acessórios, encontre sabores para todos os momentos.</p>
+</section>
+
+<section class="produtos-section" id="produtos">
+  <div class="secao-topo"><div><span class="eyebrow">COLEÇÃO</span><h2>Nossos produtos</h2></div><div class="busca"><input id="campoPesquisa" placeholder="Buscar produto..."><button id="limparPesquisa">×</button></div></div>
+  <div class="filtros" id="filtros">
+    <button class="ativo" data-categoria="Todos">Todos</button><button data-categoria="Erva-Mate">Erva-mate</button><button data-categoria="Bombas">Bombas</button><button data-categoria="Chás">Chás</button><button data-categoria="Guampas">Guampas</button><button data-categoria="Cuias">Cuias</button><button data-categoria="Garrafas">Garrafas Térmicas</button>
+  </div>
+  <div class="grid-produtos" id="gridProdutos"></div>
+  <div class="sem-resultados" id="semResultados">Nenhum produto encontrado.</div>
+</section>
+
+<section class="vantagens" id="vantagens">
+  <div class="secao-topo"><div><span class="eyebrow">POR QUE LA MATTE?</span><h2>Uma experiência pensada nos detalhes.</h2></div></div>
+  <div class="vantagens-grid">
+    <article><span>01</span><h3>Seleção cuidadosa</h3><p>Produtos escolhidos para manter sabor, aroma e qualidade.</p></article>
+    <article><span>02</span><h3>Compra simples</h3><p>Favoritos, carrinho e checkout organizados em poucos cliques.</p></article>
+    <article><span>03</span><h3>Variedade</h3><p>Mais de 30 opções entre mates, tererés, chás, ervas e acessórios.</p></article>
+  </div>
+</section>
+
+<section class="suporte" id="suporte">
+  <div class="suporte-copy"><span class="eyebrow">PRECISA DE AJUDA?</span><h2>Fale com o suporte.</h2><p>Envie uma mensagem pela demonstração e deixe sua dúvida registrada.</p></div>
+  <form id="suporteForm"><input id="suporteNome" required placeholder="Seu nome"><input id="suporteEmail" type="email" required placeholder="Seu e-mail"><select id="suporteCategoria"><option>Pedido</option><option>Produto</option><option>Pagamento</option><option>Outro</option></select><textarea id="suporteMensagem" required placeholder="Como podemos ajudar?"></textarea><button class="btn-principal">Enviar mensagem</button><strong id="suporteSucesso"></strong></form>
+</section>
 </main>
 
-
-<footer>
-
-    <div>
-
-        <span class="marca-la">
-            La
-        </span>
-
-        <span class="marca-matte">
-            Matte
-        </span>
-
-        <p>
-            Chá & Ervas
-        </p>
-
-    </div>
-
-
-    <div>
-
-        <h4>
-            Navegação
-        </h4>
-
-        <a href="#produtos">
-            Produtos
-        </a>
-
-        <a href="../perfil/index.html">
-            Meu Perfil
-        </a>
-
-        <a href="#suporte">
-            Suporte
-        </a>
-
-    </div>
-
-
-    <div>
-
-        <h4>
-            Conta
-        </h4>
-
-        <a href="../login/login.html">
-            Entrar
-        </a>
-
-        <a href="../cadastro/cadastro.html">
-            Cadastro
-        </a>
-
-    </div>
-
-
-    <div>
-
-        <h4>
-            Newsletter
-        </h4>
-
-        <form id="formNewsletter">
-
-            <input
-                type="email"
-                required
-                placeholder="Seu melhor e-mail"
-            >
-
-            <button>
-                Assinar
-            </button>
-
-        </form>
-
-        <span id="newsletterSucesso"></span>
-
-    </div>
-
-</footer>
-
-
-<script src="data.js"></script>
-<script src="script.js"></script>
-
+<footer><div><span class="marca-la">La</span><span class="marca-matte">Matte</span><p>Chá & Ervas</p></div><div><h4>Navegação</h4><a href="#produtos">Produtos</a><a href="../perfil/index.html">Meu Perfil</a><a href="#suporte">Suporte</a></div><div><h4>Conta</h4><a href="../login/login.html">Entrar</a><a href="../cadastro/cadastro.html">Cadastro</a></div><div><h4>Newsletter</h4><form id="formNewsletter"><input type="email" required placeholder="Seu melhor e-mail"><button>Assinar</button></form><span id="newsletterSucesso"></span></div></footer>
+<script src="data.js"></script><script src="script.js"></script>
 </body>
 </html>
