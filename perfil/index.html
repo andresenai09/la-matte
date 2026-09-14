@@ -12,14 +12,50 @@
 <body>
 
   <!-- BARRA SUPERIOR -->
-  <header class="topo-perfil">
-    <a class="voltar" href="../principal/index.html">← Voltar à loja</a>
-    <a class="marca" href="../principal/index.html">
-      <span class="marca-la">La</span><b class="marca-matte">Matte</b>
-    </a>
-    <button class="btn-sair-topo" id="btnSairTopo">Sair da conta</button>
-  </header>
+ <header class="barra-fixa">
+  <a class="marca" href="../principal/index.html">
+    <span class="marca-la">La</span><span class="marca-matte">Matte</span>
+  </a>
 
+  <div class="logo-fixo">
+    <a href="../principal/index.html">
+      <h2 data-text="LA MATTE">LA MATTE</h2>
+    </a>
+  </div>
+
+  <div class="acoes-topo">
+
+    <button class="acao" id="perfilBtn" aria-label="Perfil do usuário" title="Meu Perfil">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
+        <circle cx="12" cy="7" r="4"></circle>
+      </svg>
+    </button>
+
+    <button class="acao" id="favoritosBtn" aria-label="Lista de Favoritos" title="Meus Favoritos">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+      </svg>
+      <b class="contador-favoritos" id="contadorFavoritos">0</b>
+    </button>
+
+    <button class="acao" id="carrinhoBtn" aria-label="Carrinho de Compras" title="Seu Carrinho">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <circle cx="9" cy="21" r="1"></circle>
+        <circle cx="20" cy="21" r="1"></circle>
+        <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+      </svg>
+      <b class="contador-carrinho" id="contadorCarrinho">0</b>
+    </button>
+
+    <button class="menu-btn" id="menuBtn" aria-label="Abrir menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+
+  </div>
+</header>
   <main class="container-perfil">
     
     <!-- CABEÇALHO DO USUÁRIO -->
