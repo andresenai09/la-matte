@@ -186,8 +186,11 @@ body.painel-aberto .barra-fixa {
 .menu-btn.active span:nth-child(3) {
   transform: translateY(-8px) rotate(-45deg);
 }
+/* ================= HERO PREMIUM ================= */
 .hero {
-  height: 500px;
+  height: 85vh; /* Design imersivo cobrindo boa parte da tela */
+  min-height: 550px;
+  max-height: 900px;
   margin-top: 88px;
   position: relative;
   overflow: hidden;
@@ -196,15 +199,17 @@ body.painel-aberto .barra-fixa {
 .banner-track {
   height: 100%;
   display: flex;
-  width: 300%;
-  transition: transform 0.75s cubic-bezier(0.22, 0.61, 0.36, 1);
+  width: 100%;
+  /* Curva de animação extremamente suave baseada em física */
+  transition: transform 0.9s cubic-bezier(0.25, 1, 0.4, 1); 
+  will-change: transform;
 }
 .banner {
-  width: 33.3333%;
+  flex: 0 0 100%;
   height: 100%;
   display: flex;
   align-items: center;
-  padding: 0 9%;
+  padding: 0 8%;
   position: relative;
   overflow: hidden;
 }
@@ -213,135 +218,108 @@ body.painel-aberto .barra-fixa {
   inset: 0;
   background-size: cover;
   background-position: center;
-  transform: scale(1);
+  transform: scale(1.1);
   will-change: transform;
+  transition: transform 6.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
+/* Efeito Ken Burns reverso (diminui ao invés de crescer) - Muito chique */
 .banner.ativo .banner-bg {
-  animation: laMatteKenBurns 6.2s ease-out forwards;
+  transform: scale(1); 
 }
-@keyframes laMatteKenBurns {
-  from { transform: scale(1); }
-  to { transform: scale(1.09); }
-}
-.banner:before {
-  content: "";
+.banner-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(90deg, rgba(15, 44, 35, 0.92), rgba(15, 44, 35, 0.42), rgba(15, 44, 35, 0.12));
+  /* Gradiente moderno garantindo leitura excelente à esquerda */
+  background: linear-gradient(90deg, rgba(15, 44, 35, 0.95) 0%, rgba(15, 44, 35, 0.45) 50%, rgba(15, 44, 35, 0.05) 100%);
   z-index: 1;
 }
 .banner-conteudo {
   position: relative;
   z-index: 2;
-  max-width: 560px;
+  max-width: 600px;
   color: #fff;
+}
+.banner-conteudo > * {
   opacity: 0;
-  transform: translateY(18px);
+  transform: translateY(30px);
 }
-.banner.ativo .banner-conteudo {
-  animation: laMatteConteudoEntra 0.8s cubic-bezier(0.22, 0.61, 0.36, 1) 0.15s forwards;
-}
-@keyframes laMatteConteudoEntra {
+/* Animação Staggered em Cascata para os textos */
+.banner.ativo .anim-1 { animation: floatUp 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.2s forwards; }
+.banner.ativo .anim-2 { animation: floatUp 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.35s forwards; }
+.banner.ativo .anim-3 { animation: floatUp 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.5s forwards; }
+.banner.ativo .anim-4 { animation: floatUp 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.65s forwards; }
+
+@keyframes floatUp {
   to { opacity: 1; transform: translateY(0); }
 }
+
 .banner span, .eyebrow {
-  font-size: 12px;
-  letter-spacing: 3px;
+  display: inline-block;
+  font-size: 13px;
+  letter-spacing: 4px;
   font-weight: 700;
   color: var(--dourado2);
+  margin-bottom: 12px;
 }
 .banner h1 {
-  font: 700 clamp(34px, 4.6vw, 54px) / 1.06 Fraunces, serif;
-  margin: 14px 0;
+  font: 700 clamp(40px, 5vw, 68px) / 1.1 Fraunces, serif;
+  margin-bottom: 18px;
+  text-shadow: 0 4px 12px rgba(0,0,0,0.15);
 }
 .banner p {
-  font-size: 16px;
-  max-width: 500px;
-  color: #eee;
-  margin-bottom: 24px;
+  font-size: 18px;
+  max-width: 520px;
+  color: #e5ebe8;
+  margin-bottom: 32px;
+  line-height: 1.6;
 }
-.btn-principal {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  border: 0;
-  border-radius: 28px;
-  padding: 13px 23px;
-  background: var(--dourado);
-  color: var(--verde);
-  font-weight: 700;
-  transition: 0.2s;
-}
-.btn-principal:hover {
-  background: var(--dourado2);
-  transform: translateY(-2px);
-}
-.seta-banner {
+
+/* Base de Controles */
+.hero-controles {
   position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  border: 1px solid rgba(255, 255, 255, 0.35);
-  background: rgba(0, 0, 0, 0.25);
-  color: #fff;
-  font-size: 30px;
-  z-index: 4;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 30px 8%;
   display: flex;
   align-items: center;
-  justify-content: center;
-  padding: 0;
-  line-height: 0;
-  transition: all 0.3s ease;
-}
-.seta-banner:hover {
-  background: var(--dourado);
-  border-color: var(--dourado);
-  color: var(--verde);
-  transform: translateY(-50%) scale(1.15);
-}
-.seta-banner.prev {
-  left: 24px;
-}
-.seta-banner.next {
-  right: 24px;
+  justify-content: space-between;
+  z-index: 10;
 }
 .hero-contador {
-  position: absolute;
-  left: 24px;
-  bottom: 26px;
-  z-index: 4;
-  color: rgba(255, 255, 255, 0.85);
-  font: 600 12px Inter, sans-serif;
+  color: rgba(255, 255, 255, 0.6);
+  font: 600 14px Inter, sans-serif;
   letter-spacing: 2px;
   display: flex;
-  align-items: baseline;
-  gap: 4px;
+  align-items: center;
+  gap: 8px;
 }
 .hero-contador #heroSlideAtual {
-  font: 700 15px Fraunces, serif;
+  font: 700 18px Fraunces, serif;
   color: var(--dourado2);
 }
+.hero-contador .divisor {
+  font-weight: 300;
+  font-size: 18px;
+}
+
+/* Dots Premium */
 .dots {
+  display: flex;
+  gap: 10px;
   position: absolute;
-  bottom: 28px;
   left: 50%;
   transform: translateX(-50%);
-  display: flex;
-  gap: 8px;
-  z-index: 4;
 }
 .dots button {
-  position: relative;
-  width: 40px;
+  width: 50px;
   height: 4px;
   border: 0;
   border-radius: 4px;
-  background: rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.2);
   overflow: hidden;
   padding: 0;
-  cursor: pointer;
+  position: relative;
 }
 .dots button i {
   position: absolute;
@@ -361,6 +339,39 @@ body.painel-aberto .barra-fixa {
   from { width: 0%; }
   to { width: 100%; }
 }
+
+/* Setas Glassmorphism */
+.setas-wrapper {
+  display: flex;
+  gap: 12px;
+}
+.seta-banner {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(8px);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.seta-banner svg {
+  width: 24px;
+  height: 24px;
+  transition: transform 0.3s ease;
+}
+.seta-banner:hover {
+  background: var(--dourado);
+  border-color: var(--dourado);
+  color: var(--verde);
+  transform: translateY(-3px);
+  box-shadow: 0 10px 20px rgba(196, 154, 85, 0.2);
+}
+.seta-banner.prev:hover svg { transform: translateX(-2px); }
+.seta-banner.next:hover svg { transform: translateX(2px); }
 .intro, .produtos-section, .vantagens, .suporte {
   max-width: 1240px;
   margin: auto;
