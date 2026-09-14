@@ -36,6 +36,30 @@ document.addEventListener("DOMContentLoaded", () => {
   const calcularTotal = () => 
     carrinho.reduce((acc, item) => acc + (item.preco * item.quantidade), 0);
 
+  // FUNÇÃO PARA VALIDAR DADOS OBRIGATÓRIOS
+  function validarDadosObrigatorios() {
+    const dadosObrigatorios = ["cpf", "nascimento", "telefone", "cep", "nomeCompleto"];
+    const dadosFaltando = [];
+
+    for (let campo of dadosObrigatorios) {
+      if (!usuarioLogado[campo] || usuarioLogado[campo].trim() === "") {
+        dadosFaltando.push(campo);
+      }
+    }
+
+    return dadosFaltando;
+  }
+
+  // VERIFICAR DADOS E REDIRECIONAR SE NECESSÁRIO
+  const dadosFaltando = validarDadosObrigatorios();
+  
+  if (dadosFaltando.length > 0) {
+    // Se faltam dados, redireciona para a página de completar dados
+    alert("Você precisa completar seus dados cadastrais antes de finalizar a compra.");
+    window.location.href = "../perfil/completar-dados.html";
+    return;
+  }
+
   // RENDERIZAR PRODUTOS NO CHECKOUT
   function renderizarProdutos() {
     const box = $("#itens");
@@ -79,37 +103,9 @@ document.addEventListener("DOMContentLoaded", () => {
     `).join("");
   }
 
-  // VALIDAR DADOS OBRIGATÓRIOS
-  function validarDadosObrigatorios() {
-    const dadosObrigatorios = ["cpf", "nascimento", "telefone", "cep", "nomeCompleto"];
-    const dadosFaltando = [];
-
-    for (let campo of dadosObrigatorios) {
-      if (!usuarioLogado[campo] || usuarioLogado[campo].trim() === "") {
-        dadosFaltando.push(campo);
-      }
-    }
-
-    return dadosFaltando;
-  }
-
   // BOTÃO FINALIZAR COMPRA
   $("#btnFinalizarCompra").onclick = () => {
     $("#msgAlerta").textContent = "";
-
-    // Validar dados obrigatórios
-    const dadosFaltando = validarDadosObrigatorios();
-
-    if (dadosFaltando.length > 0) {
-      $("#msgAlerta").textContent = "⚠️ Você precisa completar seus dados cadastrais antes de finalizar a compra.";
-      $("#msgAlerta").classList.add("erro");
-      
-      // Redireciona para página de completar dados após 2 segundos
-      setTimeout(() => {
-        window.location.href = "../perfil/index.html?aba=dados";
-      }, 2000);
-      return;
-    }
 
     // Validar endereço
     const rua = $("#endRua").value.trim();
