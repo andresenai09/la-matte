@@ -60,11 +60,6 @@
   </div>
 </header>
 
-<div class="perfil-popup" id="perfilPopup">
-  <div class="perfil-topo"><div class="perfil-icone">♙</div><div><h3 id="perfilNomeMenu">Visitante</h3><p id="perfilSubMenu">Faça login para acessar sua conta</p></div></div>
-  <div class="perfil-links" id="perfilLinks"></div>
-</div>
-
 <aside class="painel-lateral" id="carrinhoPainel">
   <div class="painel-cabecalho"><div><span>SEU PEDIDO</span><h2>Carrinho</h2></div><button class="fechar-painel" id="fecharCarrinho">×</button></div>
   <div class="painel-conteudo" id="carrinhoConteudo"></div>
@@ -79,27 +74,14 @@
 <aside class="painel-lateral" id="menuOverlay">
   <div class="painel-cabecalho"><div><span>NAVEGAÇÃO</span><h2>Menu</h2></div><button class="fechar-painel" id="fecharMenu">×</button></div>
   <nav class="menu-links">
-    <a href="#inicio">Início <b>›</b></a><a href="#produtos">Produtos <b>›</b></a><a href="#vantagens">Vantagens <b>›</b></a><a href="#suporte">Suporte <b>›</b></a>
-    <a href="../login/login.html">Entrar <b>›</b></a><a href="../cadastro/cadastro.html">Criar conta <b>›</b></a>
+    <a href="#inicio">Início <b>›</b></a>
+    <a href="#produtos">Produtos <b>›</b></a>
+    <a href="../perfil/index.html">Meu Perfil <b>›</b></a>
+    <a href="#vantagens">Vantagens <b>›</b></a>
+    <a href="#suporte">Suporte <b>›</b></a>
+    <a href="../login/login.html">Entrar <b>›</b></a>
+    <a href="../cadastro/cadastro.html">Criar conta <b>›</b></a>
   </nav>
-</aside>
-
-<aside class="painel-lateral" id="perfilPainel">
-  <div class="painel-cabecalho"><div><span>MINHA CONTA</span><h2>Meus dados</h2></div><button class="fechar-painel" id="fecharPerfil">×</button></div>
-  <div class="painel-conteudo">
-    <p class="perfil-instrucoes">Atualize seus dados. Esta demonstração guarda as informações apenas neste navegador.</p>
-    <form id="formEditarPerfil">
-      <div class="campo-grupo-perfil"><label>Usuário</label><input id="perfilUsuario" required></div>
-      <div class="campo-grupo-perfil"><label>Nome completo</label><input id="perfilNomeCompleto" required></div>
-      <div class="campo-grupo-perfil"><label>CPF</label><input id="perfilCpf" required></div>
-      <div class="campo-grupo-perfil"><label>Nascimento</label><input id="perfilNascimento" type="date" required></div>
-      <div class="campo-grupo-perfil"><label>Telefone</label><input id="perfilTelefone" required></div>
-      <div class="campo-grupo-perfil"><label>CEP</label><input id="perfilCep" required></div>
-      <div class="campo-grupo-perfil"><label>Senha</label><input id="perfilSenha" type="password" required></div>
-      <div class="perfil-acoes"><button class="btn-salvar-perfil">Salvar alterações</button><button type="button" class="btn-sair-perfil" id="btnSairContaGeral">Sair da conta</button></div>
-      <p class="mensagem-sucesso-perfil" id="msgSucessoPerfil"></p>
-    </form>
-  </div>
 </aside>
 
 <main id="inicio">
@@ -142,7 +124,7 @@
 </section>
 </main>
 
-<footer><div><span class="marca-la">La</span><span class="marca-matte">Matte</span><p>Chá & Ervas</p></div><div><h4>Navegação</h4><a href="#produtos">Produtos</a><a href="#suporte">Suporte</a></div><div><h4>Conta</h4><a href="../login/login.html">Entrar</a><a href="../cadastro/cadastro.html">Cadastro</a></div><div><h4>Newsletter</h4><form id="formNewsletter"><input type="email" required placeholder="Seu melhor e-mail"><button>Assinar</button></form><span id="newsletterSucesso"></span></div></footer>
+<footer><div><span class="marca-la">La</span><span class="marca-matte">Matte</span><p>Chá & Ervas</p></div><div><h4>Navegação</h4><a href="#produtos">Produtos</a><a href="../perfil/index.html">Meu Perfil</a><a href="#suporte">Suporte</a></div><div><h4>Conta</h4><a href="../login/login.html">Entrar</a><a href="../cadastro/cadastro.html">Cadastro</a></div><div><h4>Newsletter</h4><form id="formNewsletter"><input type="email" required placeholder="Seu melhor e-mail"><button>Assinar</button></form><span id="newsletterSucesso"></span></div></footer>
 <script src="data.js"></script><script src="script.js"></script>
 </body>
 </html>

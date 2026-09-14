@@ -220,10 +220,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function fecharTodos() {
     $$(".painel-lateral").forEach(p => p.classList.remove("aberto"));
-    $("#perfilPopup").classList.remove("aberto");
-    $("#painelFundo").classList.remove("ativo");
+    $("#perfilPopup")?.classList.remove("aberto");
+    $("#painelFundo")?.classList.remove("ativo");
     document.body.classList.remove("painel-aberto");
-    $("#menuBtn").classList.remove("active");
+    $("#menuBtn")?.classList.remove("active");
   }
 
   function abrir(elemento) {
@@ -231,16 +231,6 @@ document.addEventListener("DOMContentLoaded", () => {
     elemento.classList.add("aberto");
     $("#painelFundo").classList.add("ativo");
     document.body.classList.add("painel-aberto");
-  }
-
-  function preencherPerfil(usuario) {
-    const campos = ["Usuario", "NomeCompleto", "Cpf", "Nascimento", "Telefone", "Cep", "Senha"];
-    campos.forEach(campo => {
-      const el = $("#perfil" + campo);
-      const chave = campo.charAt(0).toLowerCase() + campo.slice(1);
-      if (el) el.value = usuario[chave] || "";
-    });
-    $("#msgSucessoPerfil").textContent = "";
   }
 
   function atualizarUsuario() {
@@ -252,20 +242,15 @@ document.addEventListener("DOMContentLoaded", () => {
       : "Visitante";
 
     $("#perfilSubMenu").textContent = usuarioLogado
-      ? (usuarioLogado.telefone || "Cliente")
+      ? (usuarioLogado.telefone || "Cliente La Matte")
       : "Faça login para acessar sua conta";
 
     if (usuarioLogado) {
       links.innerHTML = `
-        <button id="btnAbrirDadosPerfil">Meus dados / editar perfil <b>›</b></button>
+        <a href="../perfil/index.html">Meu Perfil / Editar Dados <b>›</b></a>
         <a href="#produtos">Fazer compras <b>›</b></a>
         <button id="btnSairConta">Sair da conta <b>›</b></button>
       `;
-
-      $("#btnAbrirDadosPerfil")?.addEventListener("click", () => {
-        preencherPerfil(usuarioLogado);
-        abrir($("#perfilPainel"));
-      });
 
       $("#btnSairConta")?.addEventListener("click", logout);
     } else {
@@ -284,7 +269,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function banner(indice) {
     slide = (indice + 3) % 3;
-    track.style.transform = `translateX(-${slide * 33.3333}%)`;
+    if (track) track.style.transform = `translateX(-${slide * 33.3333}%)`;
     dots.forEach((dot, idx) => dot.classList.toggle("ativo", idx === slide));
   }
 
@@ -299,8 +284,8 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   };
 
-  ["fecharCarrinho", "fecharFavoritos", "fecharMenu", "fecharPerfil"].forEach(id => {
-    $("#" + id).onclick = fecharTodos;
+  ["fecharCarrinho", "fecharFavoritos", "fecharMenu"].forEach(id => {
+    if ($("#" + id)) $("#" + id).onclick = fecharTodos;
   });
 
   $("#painelFundo").onclick = fecharTodos;
@@ -311,38 +296,10 @@ document.addEventListener("DOMContentLoaded", () => {
   $("#perfilBtn").onclick = () => {
     const usuarioLogado = get("usuarioLogado", null);
     if (usuarioLogado) {
-      preencherPerfil(usuarioLogado);
-      abrir($("#perfilPainel"));
+      window.location.href = "../perfil/index.html";
     } else {
       $("#perfilPopup").classList.toggle("aberto");
     }
-  };
-
-  $("#btnSairContaGeral")?.addEventListener("click", logout);
-
-  $("#formEditarPerfil").onsubmit = e => {
-    e.preventDefault();
-    let usuarios = get("usuarios", []);
-    let usuarioLogado = get("usuarioLogado", {});
-    const antigoUsuario = usuarioLogado.usuario;
-
-    const campos = ["Usuario", "NomeCompleto", "Cpf", "Nascimento", "Telefone", "Cep", "Senha"];
-    campos.forEach(campo => {
-      const chave = campo.charAt(0).toLowerCase() + campo.slice(1);
-      usuarioLogado[chave] = $("#perfil" + campo).value.trim();
-    });
-
-    const index = usuarios.findIndex(x => x.usuario === antigoUsuario);
-    if (index >= 0) {
-      usuarios[index] = usuarioLogado;
-    } else {
-      usuarios.push(usuarioLogado);
-    }
-
-    save("usuarios", usuarios);
-    save("usuarioLogado", usuarioLogado);
-    atualizarUsuario();
-    $("#msgSucessoPerfil").textContent = "Dados atualizados com sucesso!";
   };
 
   $$(".filtros button").forEach(btn => {
@@ -354,30 +311,36 @@ document.addEventListener("DOMContentLoaded", () => {
     };
   });
 
-  pesquisa.oninput = renderProdutos;
-  $("#limparPesquisa").onclick = () => {
-    pesquisa.value = "";
-    renderProdutos();
-  };
+  if (pesquisa) pesquisa.oninput = renderProdutos;
+  if ($("#limparPesquisa")) {
+    $("#limparPesquisa").onclick = () => {
+      pesquisa.value = "";
+      renderProdutos();
+    };
+  }
 
-  $("#bannerNext").onclick = () => banner(slide + 1);
-  $("#bannerPrev").onclick = () => banner(slide - 1);
+  if ($("#bannerNext")) $("#bannerNext").onclick = () => banner(slide + 1);
+  if ($("#bannerPrev")) $("#bannerPrev").onclick = () => banner(slide - 1);
   dots.forEach(dot => {
     dot.onclick = () => banner(Number(dot.dataset.slide));
   });
   setInterval(() => banner(slide + 1), 6000);
 
-  $("#suporteForm").onsubmit = e => {
-    e.preventDefault();
-    $("#suporteSucesso").textContent = "Mensagem registrada nesta demonstração. Obrigado!";
-    e.target.reset();
-  };
+  if ($("#suporteForm")) {
+    $("#suporteForm").onsubmit = e => {
+      e.preventDefault();
+      $("#suporteSucesso").textContent = "Mensagem registrada nesta demonstração. Obrigado!";
+      e.target.reset();
+    };
+  }
 
-  $("#formNewsletter").onsubmit = e => {
-    e.preventDefault();
-    $("#newsletterSucesso").textContent = "Inscrição realizada!";
-    e.target.reset();
-  };
+  if ($("#formNewsletter")) {
+    $("#formNewsletter").onsubmit = e => {
+      e.preventDefault();
+      $("#newsletterSucesso").textContent = "Inscrição realizada!";
+      e.target.reset();
+    };
+  }
 
   atualizarUsuario();
   renderProdutos();
