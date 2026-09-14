@@ -1033,3 +1033,45 @@ footer button {
     font-size: 27px;
   }
 }
+/* Animação ao abrir perfil */
+.profile-panel {
+  animation: slideIn 0.4s ease-out forwards;
+  opacity: 0;
+  transform: translateY(-20px);
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Alinhamento fixo dos painéis */
+.profile-container {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+  min-height: auto; /* Evita que painéis mudem de tamanho */
+}
+
+.panel {
+  min-height: 300px; /* Define altura mínima */
+  padding: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Transição suave ao trocar painéis */
+.panel.hidden {
+  display: none;
+}
+
+.panel.active {
+  animation: slideIn 0.4s ease-out;
+}
