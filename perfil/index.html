@@ -265,23 +265,33 @@
           <div class="form-grid">
 
             <div class="campo-grupo-perfil">
-              <label for="nomePerfil">Nome completo</label>
-              <input id="nomePerfil" type="text" placeholder="Seu nome">
+              <label for="usuarioPerfil">Usuário / E-mail de acesso</label>
+              <input id="usuarioPerfil" type="text" disabled>
             </div>
 
             <div class="campo-grupo-perfil">
-              <label for="emailPerfil">E-mail</label>
-              <input id="emailPerfil" type="email" placeholder="seuemail@email.com">
+              <label for="nomePerfil">Nome completo</label>
+              <input id="nomePerfil" type="text" placeholder="Seu nome completo">
+            </div>
+
+            <div class="campo-grupo-perfil">
+              <label for="cpfPerfil">CPF</label>
+              <input id="cpfPerfil" type="text" maxlength="14" placeholder="000.000.000-00">
+            </div>
+
+            <div class="campo-grupo-perfil">
+              <label for="nascimentoPerfil">Data de nascimento</label>
+              <input id="nascimentoPerfil" type="date">
             </div>
 
             <div class="campo-grupo-perfil">
               <label for="telefonePerfil">Telefone</label>
-              <input id="telefonePerfil" type="tel" placeholder="(00) 00000-0000">
+              <input id="telefonePerfil" type="tel" maxlength="15" placeholder="(00) 00000-0000">
             </div>
 
             <div class="campo-grupo-perfil">
-              <label for="cidadePerfil">Cidade</label>
-              <input id="cidadePerfil" type="text" placeholder="Sua cidade">
+              <label for="cepPerfil">CEP</label>
+              <input id="cepPerfil" type="text" maxlength="9" placeholder="00000-000">
             </div>
 
           </div>

@@ -27,10 +27,19 @@ document.addEventListener("DOMContentLoaded", () => {
   const perfilForm = document.getElementById("perfilForm");
   const mensagemPerfil = document.getElementById("mensagemPerfil");
 
+  const usuarioPerfil = document.getElementById("usuarioPerfil");
   const nomePerfil = document.getElementById("nomePerfil");
-  const emailPerfil = document.getElementById("emailPerfil");
+  const cpfPerfil = document.getElementById("cpfPerfil");
+  const nascimentoPerfil = document.getElementById("nascimentoPerfil");
   const telefonePerfil = document.getElementById("telefonePerfil");
-  const cidadePerfil = document.getElementById("cidadePerfil");
+  const cepPerfil = document.getElementById("cepPerfil");
+
+  // Se a página exige conta (tem o formulário de dados), garante que há login
+  if (perfilForm && !JSON.parse(localStorage.getItem("usuarioLogado") || "null")) {
+    alert("Você precisa estar logado para acessar seu perfil.");
+    window.location.href = "../login/login.html";
+    return;
+  }
 
   const perfilNomeMenu = document.getElementById("perfilNomeMenu");
   const perfilSubMenu = document.getElementById("perfilSubMenu");
@@ -351,31 +360,70 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
 
+  // Máscaras (iguais às usadas no cadastro)
+  function maskCpf(v) {
+    return v.replace(/\D/g, "").slice(0, 11)
+      .replace(/(\d{3})(\d)/, "$1.$2")
+      .replace(/(\d{3})(\d)/, "$1.$2")
+      .replace(/(\d{3})(\d{1,2})$/, "$1-$2");
+  }
+
+  function maskTelefone(v) {
+    return v.replace(/\D/g, "").slice(0, 11)
+      .replace(/^(\d{2})(\d)/, "($1) $2")
+      .replace(/(\d)(\d{4})$/, "$1-$2");
+  }
+
+  function maskCep(v) {
+    return v.replace(/\D/g, "").slice(0, 8)
+      .replace(/^(\d{5})(\d)/, "$1-$2");
+  }
+
+  cpfPerfil?.addEventListener("input", () => cpfPerfil.value = maskCpf(cpfPerfil.value));
+  telefonePerfil?.addEventListener("input", () => telefonePerfil.value = maskTelefone(telefonePerfil.value));
+  cepPerfil?.addEventListener("input", () => cepPerfil.value = maskCep(cepPerfil.value));
+
+
+  function getUsuarioLogado() {
+    try {
+      return JSON.parse(localStorage.getItem("usuarioLogado") || "null");
+    } catch {
+      return null;
+    }
+  }
+
+
   function carregarPerfil() {
 
-    const dados = JSON.parse(
-      localStorage.getItem("laMattePerfil") || "{}"
-    );
+    const dados = getUsuarioLogado();
 
-    if (nomePerfil) {
-      nomePerfil.value = dados.nome || "";
+    if (usuarioPerfil) {
+      usuarioPerfil.value = (dados && (dados.usuario || dados.email)) || "";
     }
 
-    if (emailPerfil) {
-      emailPerfil.value = dados.email || "";
+    if (nomePerfil) {
+      nomePerfil.value = (dados && dados.nomeCompleto) || "";
+    }
+
+    if (cpfPerfil) {
+      cpfPerfil.value = (dados && dados.cpf) || "";
+    }
+
+    if (nascimentoPerfil) {
+      nascimentoPerfil.value = (dados && dados.nascimento) || "";
     }
 
     if (telefonePerfil) {
-      telefonePerfil.value = dados.telefone || "";
+      telefonePerfil.value = (dados && dados.telefone) || "";
     }
 
-    if (cidadePerfil) {
-      cidadePerfil.value = dados.cidade || "";
+    if (cepPerfil) {
+      cepPerfil.value = (dados && dados.cep) || "";
     }
 
-    if (dados.nome) {
-      perfilNomeMenu.textContent = dados.nome;
-      perfilSubMenu.textContent = dados.email || "Minha conta";
+    if (dados) {
+      perfilNomeMenu.textContent = dados.nomeCompleto || dados.usuario;
+      perfilSubMenu.textContent = dados.telefone || dados.email || "Minha conta";
     } else {
       perfilNomeMenu.textContent = "Visitante";
       perfilSubMenu.textContent = "Faça login para acessar sua conta";
@@ -390,7 +438,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (!perfilLinks) return;
 
-    if (dados.nome) {
+    if (dados) {
 
       perfilLinks.innerHTML = `
         <a href="index.html">
@@ -430,7 +478,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function sairDaConta() {
 
-    localStorage.removeItem("laMattePerfil");
+    localStorage.removeItem("usuarioLogado");
+
+    if (perfilForm) {
+      window.location.href = "../login/login.html";
+      return;
+    }
 
     carregarPerfil();
 
@@ -446,17 +499,30 @@ document.addEventListener("DOMContentLoaded", () => {
 
     event.preventDefault();
 
-    const dados = {
-      nome: nomePerfil.value.trim(),
-      email: emailPerfil.value.trim(),
-      telefone: telefonePerfil.value.trim(),
-      cidade: cidadePerfil.value.trim()
-    };
+    let usuarioLogado = getUsuarioLogado();
 
-    localStorage.setItem(
-      "laMattePerfil",
-      JSON.stringify(dados)
-    );
+    if (!usuarioLogado) {
+      window.location.href = "../login/login.html";
+      return;
+    }
+
+    usuarioLogado.nomeCompleto = nomePerfil.value.trim();
+    usuarioLogado.cpf = cpfPerfil.value.trim();
+    usuarioLogado.nascimento = nascimentoPerfil.value;
+    usuarioLogado.telefone = telefonePerfil.value.trim();
+    usuarioLogado.cep = cepPerfil.value.trim();
+
+    let usuarios = JSON.parse(localStorage.getItem("usuarios") || "[]");
+    const index = usuarios.findIndex(u => u.usuario === usuarioLogado.usuario);
+
+    if (index >= 0) {
+      usuarios[index] = usuarioLogado;
+    } else {
+      usuarios.push(usuarioLogado);
+    }
+
+    localStorage.setItem("usuarios", JSON.stringify(usuarios));
+    localStorage.setItem("usuarioLogado", JSON.stringify(usuarioLogado));
 
     mensagemPerfil.textContent =
       "Dados atualizados com sucesso.";

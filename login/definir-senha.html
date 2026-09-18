@@ -6,6 +6,9 @@
   <title>La Matte - Definir Senha</title>
   <link rel="stylesheet" href="login.css">
   <style>
+    .box {
+      width: min(560px, 100%);
+    }
     .box h1 {
       margin-bottom: 0.5rem;
     }
@@ -27,6 +30,16 @@
       display: block;
       margin-bottom: 0.3rem;
     }
+    .duplo {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    @media (max-width: 550px) {
+      .duplo {
+        grid-template-columns: 1fr;
+      }
+    }
   </style>
 </head>
 <body>
@@ -36,8 +49,8 @@
     </div>
 
     <div class="box">
-      <h1>Defina sua Senha</h1>
-      <p>Crie uma senha segura para sua conta La Matte.</p>
+      <h1>Complete seu cadastro</h1>
+      <p>É a sua primeira vez entrando com o Google — precisamos de mais alguns dados. Da próxima vez você entra direto.</p>
 
       <div class="info-google">
         <strong id="nomeGoogle">Usuário Google</strong>
@@ -45,6 +58,37 @@
       </div>
 
       <form id="formDefinirSenha">
+        <label>
+          Nome completo
+          <input id="nomeCompleto" type="text" required placeholder="Seu nome e sobrenome">
+        </label>
+        <span id="erroNomeCompleto"></span>
+
+        <label>
+          CPF
+          <input id="cpf" type="text" required maxlength="14" placeholder="000.000.000-00">
+        </label>
+        <span id="erroCpf"></span>
+
+        <div class="duplo">
+          <label>
+            Data de nascimento
+            <input id="nascimento" type="date" required>
+          </label>
+          <label>
+            Telefone
+            <input id="telefone" type="tel" required maxlength="15" placeholder="(00) 00000-0000">
+          </label>
+        </div>
+        <span id="erroNascimento"></span>
+        <span id="erroTelefone"></span>
+
+        <label>
+          CEP
+          <input id="cep" type="text" required maxlength="9" placeholder="00000-000">
+        </label>
+        <span id="erroCep"></span>
+
         <label>
           Senha
           <input id="novaSenha" type="password" required placeholder="Mínimo 6 caracteres" minlength="6">
@@ -57,11 +101,9 @@
         </label>
         <span id="erroSenha2"></span>
 
-        <button type="submit" id="btnDefinir">Confirmar Senha</button>
+        <button type="submit" id="btnDefinir">Concluir cadastro</button>
         <strong id="mensagem"></strong>
       </form>
-
-      <a class="cadastro" href="../principal/index.html">Continuar sem senha por enquanto</a>
     </div>
   </main>
 

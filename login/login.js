@@ -97,19 +97,6 @@ document.addEventListener("DOMContentLoaded", () => {
         throw new Error("Não foi possível obter os dados da conta Google.");
       }
 
-      const usuarioGoogle = {
-        usuario: email,
-        email: email,
-        nomeCompleto: nome,
-        foto: foto,
-        googleId: idGoogle,
-        cpf: "",
-        nascimento: "",
-        telefone: "",
-        cep: "",
-        senha: "" // Senha vazia inicialmente
-      };
-
       let lista = [];
 
       try {
@@ -123,8 +110,13 @@ document.addEventListener("DOMContentLoaded", () => {
       );
 
       if (existente) {
-        // Usuário já existe, faz login direto
-        Object.assign(existente, usuarioGoogle);
+        // Usuário já existe: atualiza só nome/foto do Google, sem apagar
+        // os dados (CPF, nascimento, telefone, CEP, senha) já preenchidos.
+        existente.usuario = existente.usuario || email;
+        existente.email = email;
+        existente.nomeCompleto = existente.nomeCompleto || nome;
+        existente.foto = foto;
+        existente.googleId = idGoogle;
 
         localStorage.setItem(
           "usuarioLogado",
@@ -133,7 +125,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
         location.href = "../principal/index.html";
       } else {
-        // Novo usuário - armazena temporariamente e redireciona para definir senha
+        // Novo usuário - armazena temporariamente e pede para completar o cadastro
+        const usuarioGoogle = {
+          usuario: email,
+          email: email,
+          nomeCompleto: nome,
+          foto: foto,
+          googleId: idGoogle,
+          cpf: "",
+          nascimento: "",
+          telefone: "",
+          cep: "",
+          senha: "" // definida na etapa de completar cadastro
+        };
+
         sessionStorage.setItem("usuarioGoogle", JSON.stringify(usuarioGoogle));
         location.href = "./definir-senha.html";
       }
