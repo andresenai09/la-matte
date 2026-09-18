@@ -1113,3 +1113,128 @@ footer button {
   color: var(--vermelho);
 }
 
+
+body.modal-aberto {
+  overflow: hidden;
+}
+
+.modal-senha {
+  position: fixed;
+  inset: 0;
+  z-index: 1600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity .25s ease, visibility .25s ease;
+}
+
+.modal-senha.aberto {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.modal-senha-fundo {
+  position: absolute;
+  inset: 0;
+  background: rgba(10, 25, 20, .68);
+  backdrop-filter: blur(5px);
+}
+
+.modal-senha-caixa {
+  position: relative;
+  width: min(480px, 100%);
+  background: var(--creme);
+  border: 1px solid var(--creme2);
+  border-radius: 24px;
+  padding: 32px;
+  box-shadow: 0 30px 70px rgba(0,0,0,.3);
+  transform: translateY(18px) scale(.98);
+  transition: transform .3s ease;
+}
+
+.modal-senha.aberto .modal-senha-caixa {
+  transform: none;
+}
+
+.modal-senha-caixa h2 {
+  font: 700 38px/1.1 Fraunces, serif;
+  color: var(--verde);
+  margin: 8px 0;
+}
+
+.modal-senha-caixa > p {
+  color: var(--verde3);
+  font-size: 13px;
+  margin-bottom: 24px;
+}
+
+.modal-senha-caixa form {
+  display: grid;
+  gap: 17px;
+}
+
+.modal-senha-caixa .campo-grupo-perfil input {
+  width: 100%;
+}
+
+.modal-senha-fechar {
+  position: absolute;
+  top: 17px;
+  right: 17px;
+  width: 38px;
+  height: 38px;
+  border: 1px solid var(--creme2);
+  border-radius: 50%;
+  background: #fff;
+  color: var(--verde);
+  font-size: 25px;
+  line-height: 1;
+}
+
+.modal-senha-fechar:hover {
+  background: var(--dourado);
+}
+
+.mensagem-senha {
+  min-height: 18px;
+  margin: 0;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.mensagem-senha.erro {
+  color: var(--vermelho);
+}
+
+.mensagem-senha.sucesso {
+  color: #287c48;
+}
+
+.favoritos-perfil {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  margin-top: 30px;
+}
+
+.favoritos-perfil .item-painel {
+  margin: 0;
+  min-width: 0;
+}
+
+.favoritos-perfil .item-painel img {
+  width: 78px;
+  height: 78px;
+  flex: 0 0 78px;
+}
+
+@media (max-width: 760px) {
+  .favoritos-perfil {
+    grid-template-columns: 1fr;
+  }
+}

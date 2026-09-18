@@ -402,6 +402,32 @@
       </section>
 
 
+      <div class="modal-senha" id="modalSenha" aria-hidden="true">
+        <div class="modal-senha-fundo" id="fecharModalSenha"></div>
+        <div class="modal-senha-caixa" role="dialog" aria-modal="true" aria-labelledby="tituloModalSenha">
+          <button type="button" class="modal-senha-fechar" id="fecharModalSenhaBotao" aria-label="Fechar">×</button>
+          <span class="eyebrow">SEGURANÇA</span>
+          <h2 id="tituloModalSenha">Alterar senha</h2>
+          <p>Digite sua senha atual e escolha uma nova senha para sua conta.</p>
+          <form id="formAlterarSenha">
+            <div class="campo-grupo-perfil">
+              <label for="senhaAtual">Senha atual</label>
+              <input id="senhaAtual" type="password" autocomplete="current-password" required>
+            </div>
+            <div class="campo-grupo-perfil">
+              <label for="novaSenha">Nova senha</label>
+              <input id="novaSenha" type="password" autocomplete="new-password" minlength="6" required>
+            </div>
+            <div class="campo-grupo-perfil">
+              <label for="confirmarNovaSenha">Confirmar nova senha</label>
+              <input id="confirmarNovaSenha" type="password" autocomplete="new-password" minlength="6" required>
+            </div>
+            <p class="mensagem-senha" id="mensagemSenha"></p>
+            <button type="submit" class="btn-salvar-perfil">Salvar nova senha</button>
+          </form>
+        </div>
+      </div>
+
       <section class="perfil-panel" id="seguranca">
 
         <span class="eyebrow">PROTEÇÃO</span>

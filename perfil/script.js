@@ -43,6 +43,12 @@ document.addEventListener("DOMContentLoaded", () => {
   const enderecoEstadoPerfil = document.getElementById("enderecoEstadoPerfil");
   const mensagemEnderecoPerfil = document.getElementById("mensagemEnderecoPerfil");
 
+  const modalSenha = document.getElementById("modalSenha");
+  const formAlterarSenha = document.getElementById("formAlterarSenha");
+  const fecharModalSenha = document.getElementById("fecharModalSenha");
+  const fecharModalSenhaBotao = document.getElementById("fecharModalSenhaBotao");
+  const mensagemSenha = document.getElementById("mensagemSenha");
+
   // Se a página exige conta (tem o formulário de dados), garante que há login
   if (perfilForm && !JSON.parse(localStorage.getItem("usuarioLogado") || "null")) {
     alert("Você precisa estar logado para acessar seu perfil.");
@@ -58,6 +64,16 @@ document.addEventListener("DOMContentLoaded", () => {
   let carrinho = JSON.parse(localStorage.getItem("carrinho") || "[]");
   let favoritos = JSON.parse(localStorage.getItem("favoritos") || "[]");
 
+  function normalizarFavoritos(lista) {
+    if (!Array.isArray(lista)) return [];
+    return [...new Set(lista.map(item => {
+      if (typeof item === "object" && item !== null) return Number(item.id);
+      return Number(item);
+    }).filter(Number.isFinite))];
+  }
+
+  favoritos = normalizarFavoritos(favoritos);
+
   if (!carrinho.length) {
     try {
       const antigo = JSON.parse(localStorage.getItem("laMatteCarrinho") || "[]");
@@ -72,11 +88,12 @@ document.addEventListener("DOMContentLoaded", () => {
     try {
       const antigosFavoritos = JSON.parse(localStorage.getItem("laMatteFavoritos") || "[]");
       if (Array.isArray(antigosFavoritos) && antigosFavoritos.length) {
-        favoritos = antigosFavoritos;
-        localStorage.setItem("favoritos", JSON.stringify(favoritos));
+        favoritos = normalizarFavoritos(antigosFavoritos);
       }
     } catch {}
   }
+
+  localStorage.setItem("favoritos", JSON.stringify(favoritos));
 
   function fecharTodos() {
     perfilPopup?.classList.remove("aberto");
@@ -459,7 +476,7 @@ document.addEventListener("DOMContentLoaded", () => {
     document.querySelectorAll("[data-remove-fav]").forEach(button => {
       button.addEventListener("click", () => {
         const id = Number(button.dataset.removeFav);
-        favoritos = favoritos.filter(item => item !== id);
+        favoritos = favoritos.filter(item => Number(item) !== id);
         localStorage.setItem("favoritos", JSON.stringify(favoritos));
         renderFavoritos();
         atualizarContadores();
@@ -722,12 +739,74 @@ document.addEventListener("DOMContentLoaded", () => {
   sairPerfil?.addEventListener("click", sairDaConta);
 
 
-  document.getElementById("alterarSenha")?.addEventListener(
-    "click",
-    () => {
-      alert("Entra na sua conta para alterar a senha.");
+  function abrirModalSenha() {
+    if (!modalSenha) return;
+    modalSenha.classList.add("aberto");
+    modalSenha.setAttribute("aria-hidden", "false");
+    document.body.classList.add("modal-aberto");
+    document.getElementById("senhaAtual")?.focus();
+  }
+
+  function fecharModalSenhaFuncao() {
+    if (!modalSenha) return;
+    modalSenha.classList.remove("aberto");
+    modalSenha.setAttribute("aria-hidden", "true");
+    document.body.classList.remove("modal-aberto");
+    formAlterarSenha?.reset();
+    if (mensagemSenha) mensagemSenha.textContent = "";
+  }
+
+  document.getElementById("alterarSenha")?.addEventListener("click", abrirModalSenha);
+  fecharModalSenha?.addEventListener("click", fecharModalSenhaFuncao);
+  fecharModalSenhaBotao?.addEventListener("click", fecharModalSenhaFuncao);
+
+  formAlterarSenha?.addEventListener("submit", event => {
+    event.preventDefault();
+
+    const usuario = getUsuarioLogado();
+    const atual = document.getElementById("senhaAtual")?.value || "";
+    const nova = document.getElementById("novaSenha")?.value || "";
+    const confirmacao = document.getElementById("confirmarNovaSenha")?.value || "";
+
+    if (!usuario) return;
+
+    if (!usuario.senha || atual !== usuario.senha) {
+      mensagemSenha.textContent = "A senha atual está incorreta.";
+      mensagemSenha.className = "mensagem-senha erro";
+      return;
     }
-  );
+
+    if (nova.length < 6) {
+      mensagemSenha.textContent = "A nova senha precisa ter pelo menos 6 caracteres.";
+      mensagemSenha.className = "mensagem-senha erro";
+      return;
+    }
+
+    if (nova !== confirmacao) {
+      mensagemSenha.textContent = "As novas senhas não coincidem.";
+      mensagemSenha.className = "mensagem-senha erro";
+      return;
+    }
+
+    let usuarios = [];
+    try { usuarios = JSON.parse(localStorage.getItem("usuarios") || "[]"); } catch { usuarios = []; }
+
+    const id = identificadorUsuario();
+    const index = usuarios.findIndex(u => String(u.usuario || u.email || "").trim().toLowerCase() === id);
+
+    usuario.senha = nova;
+    localStorage.setItem("usuarioLogado", JSON.stringify(usuario));
+
+    if (index >= 0) {
+      usuarios[index] = { ...usuarios[index], senha: nova };
+      localStorage.setItem("usuarios", JSON.stringify(usuarios));
+    }
+
+    mensagemSenha.textContent = "Senha alterada com sucesso.";
+    mensagemSenha.className = "mensagem-senha sucesso";
+
+    setTimeout(fecharModalSenhaFuncao, 900);
+  });
 
 
   document.getElementById("formNewsletter")?.addEventListener(

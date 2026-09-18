@@ -474,6 +474,8 @@ body.painel-aberto .barra-fixa {
   gap: 20px;
 }
 .produto-card {
+  height: 100%;
+  min-height: 570px;
   position: relative;
   background: #fff;
   border: 1px solid var(--creme2);
@@ -483,12 +485,14 @@ body.painel-aberto .barra-fixa {
   display: flex;
   flex-direction: column;
 }
+.produto-link {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
 .produto-card:hover {
   transform: translateY(-5px);
   box-shadow: 0 18px 35px rgba(15, 44, 35, 0.12);
-}
-.produto-link {
-  display: block;
 }
 .produto-img {
   aspect-ratio: 1 / 1;
@@ -506,6 +510,9 @@ body.painel-aberto .barra-fixa {
 }
 .produto-info {
   padding: 17px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
 }
 .produto-info > span {
   font-size: 10px;
@@ -518,17 +525,29 @@ body.painel-aberto .barra-fixa {
   font: 700 21px Fraunces, serif;
   color: var(--verde);
   margin: 5px 0;
+  min-height: 52px;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
 }
 .produto-info p {
   font-size: 13px;
   color: #66716b;
   min-height: 58px;
+  max-height: 58px;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
 }
 .produto-info > div {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: 12px;
+  min-height: 28px;
+  margin-top: auto;
+  padding-top: 12px;
 }
 .produto-info strong {
   font-size: 17px;
@@ -565,13 +584,19 @@ body.painel-aberto .barra-fixa {
   color: #c94f5a;
 }
 .add-card {
+  width: calc(100% - 28px);
+  height: 44px;
+  min-height: 44px;
   margin: 0 14px 14px;
   border: 0;
   border-radius: 12px;
-  padding: 11px;
+  padding: 0 11px;
   background: var(--verde);
   color: #fff;
   font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .add-card:hover {
   background: var(--dourado);
@@ -1141,6 +1166,10 @@ footer button {
   .produto-info p {
     font-size: 12px;
     min-height: 68px;
+    max-height: 68px;
+  }
+  .produto-card {
+    min-height: 540px;
   }
   .intro, .produtos-section, .vantagens, .suporte {
     padding: 65px 18px;
