@@ -427,13 +427,27 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  // O formulário de Suporte agora envia por POST normal direto pro FormSubmit
+  // (action/method definidos no HTML), sem precisar de JS aqui.
+
   // Inicializações Finais
   atualizarUsuario();
   renderProdutos();
   renderCarrinho();
   renderFavoritos();
   atualizarContadores();
-  
+
+  // Formulário de Newsletter
+  const newsletterForm = $("#formNewsletter");
+  if (newsletterForm) {
+    newsletterForm.addEventListener("submit", e => {
+      e.preventDefault();
+      const sucesso = $("#newsletterSucesso");
+      if (sucesso) sucesso.textContent = "Inscrição realizada com sucesso!";
+      newsletterForm.reset();
+    });
+  }
+
   if (totalBanners > 0) {
     banner(0);
     iniciarAutoplay();
