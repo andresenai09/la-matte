@@ -1238,3 +1238,101 @@ body.modal-aberto {
     grid-template-columns: 1fr;
   }
 }
+
+button,
+.btn-principal,
+.btn-salvar-perfil,
+.btn-sair-perfil,
+.perfil-tab,
+.seguranca-card button,
+.fechar-painel,
+.acao,
+.menu-btn,
+.remover,
+.quantidade button,
+.modal-senha-fechar,
+footer button {
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+button:disabled {
+  cursor: not-allowed;
+  opacity: .55;
+}
+
+button:focus-visible,
+a:focus-visible {
+  outline: 3px solid rgba(196,154,85,.45);
+  outline-offset: 3px;
+}
+
+.btn-salvar-perfil,
+.btn-sair-perfil,
+.seguranca-card button {
+  min-height: 46px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform .2s ease, background .2s ease, color .2s ease, border-color .2s ease;
+}
+
+.btn-salvar-perfil:hover,
+.btn-sair-perfil:hover,
+.seguranca-card button:hover {
+  transform: translateY(-2px);
+}
+
+.perfil-panel {
+  position: relative;
+}
+
+.perfil-panel:not(.ativo) {
+  display: none !important;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.perfil-panel.ativo {
+  display: block !important;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.modal-senha {
+  display: flex !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+.modal-senha.aberto {
+  visibility: visible !important;
+  opacity: 1 !important;
+  pointer-events: auto !important;
+}
+
+.favoritos-perfil {
+  display: grid;
+  grid-template-columns: repeat(2,minmax(0,1fr));
+  align-items: stretch;
+}
+
+.favoritos-perfil .item-painel {
+  height: 100%;
+  background: #fff;
+  border: 1px solid var(--creme2);
+  border-radius: 16px;
+  padding: 14px;
+}
+
+.remover:hover {
+  cursor: pointer;
+  background: rgba(179,38,30,.06);
+}
+
+@media (max-width:760px) {
+  .favoritos-perfil {
+    grid-template-columns: 1fr;
+  }
+}

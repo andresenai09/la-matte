@@ -1152,3 +1152,82 @@ footer button {
     font-size: 27px;
   }
 }
+
+button,
+.btn-principal,
+.btn-comprar,
+.btn-comprar-agora,
+.link-compartilhar,
+.fechar-painel,
+.acao,
+.menu-btn,
+.fav-produto,
+.qtd button,
+.quantidade button,
+footer button {
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+button:disabled {
+  cursor: not-allowed;
+  opacity: .55;
+}
+
+button:focus-visible,
+a:focus-visible {
+  outline: 3px solid rgba(196,154,85,.45);
+  outline-offset: 3px;
+}
+
+.btn-comprar,
+.btn-comprar-agora {
+  min-height: 48px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform .2s ease, background .2s ease, color .2s ease, border-color .2s ease;
+}
+
+.btn-comprar:hover,
+.btn-comprar-agora:hover {
+  transform: translateY(-2px);
+}
+
+.qtd button:hover {
+  background: var(--creme);
+  color: var(--dourado);
+}
+
+.link-compartilhar:hover {
+  cursor: pointer;
+}
+
+.produto-card {
+  min-width: 0;
+  min-height: 0;
+  height: 100%;
+  display: grid;
+  grid-template-rows: auto minmax(0,1fr) auto;
+}
+
+.produto-link {
+  min-height: 0;
+}
+
+.produto-info h3 {
+  height: 52px;
+  min-height: 52px;
+}
+
+.produto-info p {
+  height: 58px;
+  min-height: 58px;
+  max-height: 58px;
+}
+
+.produto-info > div {
+  height: 34px;
+  min-height: 34px;
+  margin-top: auto;
+}

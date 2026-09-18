@@ -1,503 +1,350 @@
 <!DOCTYPE html>
+
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>Meu Perfil | La Matte</title>
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-
-<link rel="stylesheet" href="style.css">
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&amp;family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="style.css" rel="stylesheet"/>
 </head>
-
 <body>
-
 <div class="painel-fundo" id="painelFundo"></div>
-
 <header class="barra-fixa">
-
-  <a class="marca" href="../principal/index.html">
-    <span class="marca-la">La</span>
-    <span class="marca-matte">Matte</span>
-  </a>
-
-  <div class="logo-fixo">
-    <a href="../principal/index.html">
-      <h2 data-text="LA MATTE">LA MATTE</h2>
-    </a>
-  </div>
-
-  <div class="acoes-topo">
-
-    <button class="acao" id="perfilBtn" aria-label="Perfil do usuário" title="Meu Perfil">
-      <svg viewBox="0 0 24 24" aria-hidden="true">
-        <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
-        <circle cx="12" cy="7" r="4"></circle>
-      </svg>
-    </button>
-
-    <div class="perfil-popup" id="perfilPopup">
-
-      <div class="perfil-topo">
-
-        <div class="perfil-icone">
-          <svg viewBox="0 0 24 24" aria-hidden="true">
-            <circle cx="12" cy="8" r="4"></circle>
-            <path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"></path>
-          </svg>
-        </div>
-
-        <div>
-          <h3 id="perfilNomeMenu">Visitante</h3>
-          <p id="perfilSubMenu">Faça login para acessar sua conta</p>
-        </div>
-
-      </div>
-
-      <div class="perfil-links" id="perfilLinks"></div>
-
-    </div>
-
-    <button class="acao" id="favoritosBtn" aria-label="Lista de Favoritos" title="Meus Favoritos">
-
-      <svg viewBox="0 0 24 24" aria-hidden="true">
-        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
-      </svg>
-
-      <b class="contador-favoritos" id="contadorFavoritos">0</b>
-
-    </button>
-
-    <button class="acao" id="carrinhoBtn" aria-label="Carrinho de Compras" title="Seu Carrinho">
-
-      <svg viewBox="0 0 24 24" aria-hidden="true">
-        <circle cx="9" cy="21" r="1"></circle>
-        <circle cx="20" cy="21" r="1"></circle>
-        <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
-      </svg>
-
-      <b class="contador-carrinho" id="contadorCarrinho">0</b>
-
-    </button>
-
-    <button class="menu-btn" id="menuBtn" aria-label="Abrir menu">
-      <span></span>
-      <span></span>
-      <span></span>
-    </button>
-
-  </div>
-
+<a class="marca" href="../principal/index.html">
+<span class="marca-la">La</span>
+<span class="marca-matte">Matte</span>
+</a>
+<div class="logo-fixo">
+<a href="../principal/index.html">
+<h2 data-text="LA MATTE">LA MATTE</h2>
+</a>
+</div>
+<div class="acoes-topo">
+<button aria-label="Perfil do usuário" class="acao" id="perfilBtn" title="Meu Perfil">
+<svg aria-hidden="true" viewbox="0 0 24 24">
+<path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
+<circle cx="12" cy="7" r="4"></circle>
+</svg>
+</button>
+<div class="perfil-popup" id="perfilPopup">
+<div class="perfil-topo">
+<div class="perfil-icone">
+<svg aria-hidden="true" viewbox="0 0 24 24">
+<circle cx="12" cy="8" r="4"></circle>
+<path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"></path>
+</svg>
+</div>
+<div>
+<h3 id="perfilNomeMenu">Visitante</h3>
+<p id="perfilSubMenu">Faça login para acessar sua conta</p>
+</div>
+</div>
+<div class="perfil-links" id="perfilLinks"></div>
+</div>
+<button aria-label="Lista de Favoritos" class="acao" id="favoritosBtn" title="Meus Favoritos">
+<svg aria-hidden="true" viewbox="0 0 24 24">
+<path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+</svg>
+<b class="contador-favoritos" id="contadorFavoritos">0</b>
+</button>
+<button aria-label="Carrinho de Compras" class="acao" id="carrinhoBtn" title="Seu Carrinho">
+<svg aria-hidden="true" viewbox="0 0 24 24">
+<circle cx="9" cy="21" r="1"></circle>
+<circle cx="20" cy="21" r="1"></circle>
+<path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+</svg>
+<b class="contador-carrinho" id="contadorCarrinho">0</b>
+</button>
+<button aria-label="Abrir menu" class="menu-btn" id="menuBtn">
+<span></span>
+<span></span>
+<span></span>
+</button>
+</div>
 </header>
-
-
 <aside class="painel-lateral" id="carrinhoPainel">
-
-  <div class="painel-cabecalho">
-
-    <div>
-      <span>SEU PEDIDO</span>
-      <h2>Carrinho</h2>
-    </div>
-
-    <button class="fechar-painel" id="fecharCarrinho">×</button>
-
-  </div>
-
-  <div class="painel-conteudo" id="carrinhoConteudo"></div>
-
-  <div class="resumo-painel">
-
-    <div>
-      <span>Subtotal</span>
-      <strong id="subtotalCarrinho">R$ 0,00</strong>
-    </div>
-
-    <a href="../checkout/index.html" class="btn-principal">
+<div class="painel-cabecalho">
+<div>
+<span>SEU PEDIDO</span>
+<h2>Carrinho</h2>
+</div>
+<button class="fechar-painel" id="fecharCarrinho">×</button>
+</div>
+<div class="painel-conteudo" id="carrinhoConteudo"></div>
+<div class="resumo-painel">
+<div>
+<span>Subtotal</span>
+<strong id="subtotalCarrinho">R$ 0,00</strong>
+</div>
+<a class="btn-principal" href="../checkout/index.html">
       Finalizar compra
     </a>
-
-  </div>
-
+</div>
 </aside>
-
-
 <aside class="painel-lateral" id="favoritosPainel">
-
-  <div class="painel-cabecalho">
-
-    <div>
-      <span>SUA SELEÇÃO</span>
-      <h2>Favoritos</h2>
-    </div>
-
-    <button class="fechar-painel" id="fecharFavoritos">×</button>
-
-  </div>
-
-  <div class="painel-conteudo" id="favoritosConteudo"></div>
-
+<div class="painel-cabecalho">
+<div>
+<span>SUA SELEÇÃO</span>
+<h2>Favoritos</h2>
+</div>
+<button class="fechar-painel" id="fecharFavoritos">×</button>
+</div>
+<div class="painel-conteudo" id="favoritosConteudo"></div>
 </aside>
-
-
 <aside class="painel-lateral" id="menuOverlay">
-
-  <div class="painel-cabecalho">
-
-    <div>
-      <span>NAVEGAÇÃO</span>
-      <h2>Menu</h2>
-    </div>
-
-    <button class="fechar-painel" id="fecharMenu">×</button>
-
-  </div>
-
-  <nav class="menu-links">
-
-    <a href="../principal/index.html#inicio">
+<div class="painel-cabecalho">
+<div>
+<span>NAVEGAÇÃO</span>
+<h2>Menu</h2>
+</div>
+<button class="fechar-painel" id="fecharMenu">×</button>
+</div>
+<nav class="menu-links">
+<a href="../principal/index.html#inicio">
       Início
       <b>›</b>
-    </a>
-
-    <a href="../principal/index.html#produtos">
+</a>
+<a href="../principal/index.html#produtos">
       Produtos
       <b>›</b>
-    </a>
-
-    <a href="index.html">
+</a>
+<a href="index.html">
       Meu Perfil
       <b>›</b>
-    </a>
-
-    <a href="../principal/index.html#vantagens">
+</a>
+<a href="../principal/index.html#vantagens">
       Vantagens
       <b>›</b>
-    </a>
-
-    <a href="../principal/index.html#suporte">
+</a>
+<a href="../principal/index.html#suporte">
       Suporte
       <b>›</b>
-    </a>
-
-    <a href="../login/login.html">
+</a>
+<a href="../login/login.html">
       Entrar
       <b>›</b>
-    </a>
-
-    <a href="../cadastro/cadastro.html">
+</a>
+<a href="../cadastro/cadastro.html">
       Criar conta
       <b>›</b>
-    </a>
-
-  </nav>
-
+</a>
+</nav>
 </aside>
-
-
 <main class="perfil-pagina">
-
-  <section class="perfil-hero">
-
-    <div>
-      <span class="eyebrow">LA MATTE</span>
-
-      <h1>
+<section class="perfil-hero">
+<div>
+<span class="eyebrow">LA MATTE</span>
+<h1>
         Meu perfil
       </h1>
-
-      <p>
+<p>
         Gerencie seus dados, acompanhe sua conta e personalize sua experiência na La Matte.
       </p>
-    </div>
-
-  </section>
-
-
-  <section class="perfil-container">
-
-    <div class="perfil-menu">
-
-      <button class="perfil-tab ativo" data-painel="dados">
-        <span>01</span>
+</div>
+</section>
+<section class="perfil-container">
+<div class="perfil-menu">
+<button class="perfil-tab ativo" data-painel="dados">
+<span>01</span>
         Meus dados
         <b>›</b>
-      </button>
-
-      <button class="perfil-tab" data-painel="pedidos">
-        <span>02</span>
+</button>
+<button class="perfil-tab" data-painel="pedidos">
+<span>02</span>
         Meus pedidos
         <b>›</b>
-      </button>
-
-      <button class="perfil-tab" data-painel="favoritos">
-        <span>03</span>
+</button>
+<button class="perfil-tab" data-painel="favoritos">
+<span>03</span>
         Favoritos
         <b>›</b>
-      </button>
-
-      <button class="perfil-tab" data-painel="endereco">
-        <span>04</span>
+</button>
+<button class="perfil-tab" data-painel="endereco">
+<span>04</span>
         Endereço
         <b>›</b>
-      </button>
-
-      <button class="perfil-tab" data-painel="seguranca">
-        <span>05</span>
+</button>
+<button class="perfil-tab" data-painel="seguranca">
+<span>05</span>
         Segurança
         <b>›</b>
-      </button>
-
-    </div>
-
-
-    <div class="perfil-conteudo">
-
-
-      <section class="perfil-panel ativo" id="dados">
-
-        <span class="eyebrow">MINHA CONTA</span>
-
-        <h2>Meus dados</h2>
-
-        <p class="perfil-instrucoes">
+</button>
+</div>
+<div class="perfil-conteudo">
+<section class="perfil-panel ativo" id="dados">
+<span class="eyebrow">MINHA CONTA</span>
+<h2>Meus dados</h2>
+<p class="perfil-instrucoes">
           Atualize as informações da sua conta.
         </p>
-
-        <form id="perfilForm">
-
-          <div class="form-grid">
-
-            <div class="campo-grupo-perfil">
-              <label for="usuarioPerfil">Usuário / E-mail de acesso</label>
-              <input id="usuarioPerfil" type="text" disabled>
-            </div>
-
-            <div class="campo-grupo-perfil">
-              <label for="nomePerfil">Nome completo</label>
-              <input id="nomePerfil" type="text" placeholder="Seu nome completo">
-            </div>
-
-            <div class="campo-grupo-perfil">
-              <label for="cpfPerfil">CPF</label>
-              <input id="cpfPerfil" type="text" maxlength="14" placeholder="000.000.000-00">
-            </div>
-
-            <div class="campo-grupo-perfil">
-              <label for="nascimentoPerfil">Data de nascimento</label>
-              <input id="nascimentoPerfil" type="date">
-            </div>
-
-            <div class="campo-grupo-perfil">
-              <label for="telefonePerfil">Telefone</label>
-              <input id="telefonePerfil" type="tel" maxlength="15" placeholder="(00) 00000-0000">
-            </div>
-
-            <div class="campo-grupo-perfil">
-              <label for="cepPerfil">CEP</label>
-              <input id="cepPerfil" type="text" maxlength="9" placeholder="00000-000">
-            </div>
-
-          </div>
-
-          <div class="perfil-acoes">
-
-            <button type="submit" class="btn-salvar-perfil">
+<form id="perfilForm">
+<div class="form-grid">
+<div class="campo-grupo-perfil">
+<label for="usuarioPerfil">Usuário / E-mail de acesso</label>
+<input disabled="" id="usuarioPerfil" type="text"/>
+</div>
+<div class="campo-grupo-perfil">
+<label for="nomePerfil">Nome completo</label>
+<input id="nomePerfil" placeholder="Seu nome completo" type="text"/>
+</div>
+<div class="campo-grupo-perfil">
+<label for="cpfPerfil">CPF</label>
+<input id="cpfPerfil" maxlength="14" placeholder="000.000.000-00" type="text"/>
+</div>
+<div class="campo-grupo-perfil">
+<label for="nascimentoPerfil">Data de nascimento</label>
+<input id="nascimentoPerfil" type="date"/>
+</div>
+<div class="campo-grupo-perfil">
+<label for="telefonePerfil">Telefone</label>
+<input id="telefonePerfil" maxlength="15" placeholder="(00) 00000-0000" type="tel"/>
+</div>
+<div class="campo-grupo-perfil">
+<label for="cepPerfil">CEP</label>
+<input id="cepPerfil" maxlength="9" placeholder="00000-000" type="text"/>
+</div>
+</div>
+<div class="perfil-acoes">
+<button class="btn-salvar-perfil" type="submit">
               Salvar alterações
             </button>
-
-            <button type="button" class="btn-sair-perfil" id="sairPerfil">
+<button class="btn-sair-perfil" id="sairPerfil" type="button">
               Sair da conta
             </button>
-
-          </div>
-
-          <p class="mensagem-sucesso-perfil" id="mensagemPerfil"></p>
-
-        </form>
-
-      </section>
-
-
-      <section class="perfil-panel" id="pedidos">
-
-        <span class="eyebrow">HISTÓRICO</span>
-
-        <h2>Meus pedidos</h2>
-
-        <div id="listaPedidos" class="lista-pedidos"></div>
-
-      </section>
-
-
-      <section class="perfil-panel" id="favoritos">
-
-        <span class="eyebrow">SUA SELEÇÃO</span>
-
-        <h2>Favoritos</h2>
-
-        <div id="perfilFavoritos" class="favoritos-perfil"></div>
-
-      </section>
-
-
-      <section class="perfil-panel" id="endereco">
-
-        <span class="eyebrow">ENTREGA</span>
-
-        <h2>Endereço de entrega</h2>
-
-        <p class="perfil-instrucoes">
+</div>
+<p class="mensagem-sucesso-perfil" id="mensagemPerfil"></p>
+</form>
+</section>
+<section class="perfil-panel" id="pedidos">
+<span class="eyebrow">HISTÓRICO</span>
+<h2>Meus pedidos</h2>
+<div class="lista-pedidos" id="listaPedidos"></div>
+</section>
+<section class="perfil-panel" id="favoritos">
+<span class="eyebrow">SUA SELEÇÃO</span>
+<h2>Favoritos</h2>
+<div class="favoritos-perfil" id="perfilFavoritos"></div>
+</section>
+<section class="perfil-panel" id="endereco">
+<span class="eyebrow">ENTREGA</span>
+<h2>Endereço de entrega</h2>
+<p class="perfil-instrucoes">
           Salve seu endereço uma vez. Ele será preenchido automaticamente no checkout em qualquer página da La Matte.
         </p>
+<form class="endereco-form-perfil" id="enderecoFormPerfil">
+<div class="form-grid">
+<div class="campo-grupo-perfil">
+<label for="enderecoRuaPerfil">Rua / Avenida</label>
+<input id="enderecoRuaPerfil" placeholder="Ex: Av. Paulista" type="text"/>
+</div>
+<div class="campo-grupo-perfil">
+<label for="enderecoNumeroPerfil">Número</label>
+<input id="enderecoNumeroPerfil" placeholder="123" type="text"/>
+</div>
+<div class="campo-grupo-perfil">
+<label for="enderecoComplementoPerfil">Complemento</label>
+<input id="enderecoComplementoPerfil" placeholder="Apt 42, Bloco B" type="text"/>
+</div>
+<div class="campo-grupo-perfil">
+<label for="enderecoBairroPerfil">Bairro</label>
+<input id="enderecoBairroPerfil" placeholder="Centro" type="text"/>
+</div>
+<div class="campo-grupo-perfil">
+<label for="enderecoCidadePerfil">Cidade</label>
+<input id="enderecoCidadePerfil" placeholder="São Paulo" type="text"/>
+</div>
+<div class="campo-grupo-perfil">
+<label for="enderecoEstadoPerfil">Estado</label>
+<select id="enderecoEstadoPerfil">
+<option value="">Selecione...</option>
+<option value="SP">SP</option><option value="RJ">RJ</option><option value="MG">MG</option><option value="BA">BA</option>
+<option value="PR">PR</option><option value="SC">SC</option><option value="RS">RS</option><option value="PE">PE</option>
+<option value="CE">CE</option><option value="PA">PA</option><option value="ES">ES</option><option value="GO">GO</option>
+<option value="MT">MT</option><option value="MS">MS</option><option value="DF">DF</option><option value="MA">MA</option>
+<option value="PB">PB</option><option value="RN">RN</option><option value="AL">AL</option><option value="SE">SE</option>
+<option value="PI">PI</option><option value="RO">RO</option><option value="AC">AC</option><option value="AM">AM</option>
+<option value="RR">RR</option><option value="AP">AP</option><option value="TO">TO</option>
+</select>
+</div>
+</div>
+<button class="btn-salvar-perfil" type="submit">Salvar endereço</button>
+<p class="mensagem-sucesso-perfil" id="mensagemEnderecoPerfil"></p>
+</form>
+</section>
 
-        <form id="enderecoFormPerfil" class="endereco-form-perfil">
-          <div class="form-grid">
-            <div class="campo-grupo-perfil">
-              <label for="enderecoRuaPerfil">Rua / Avenida</label>
-              <input id="enderecoRuaPerfil" type="text" placeholder="Ex: Av. Paulista">
-            </div>
-
-            <div class="campo-grupo-perfil">
-              <label for="enderecoNumeroPerfil">Número</label>
-              <input id="enderecoNumeroPerfil" type="text" placeholder="123">
-            </div>
-
-            <div class="campo-grupo-perfil">
-              <label for="enderecoComplementoPerfil">Complemento</label>
-              <input id="enderecoComplementoPerfil" type="text" placeholder="Apt 42, Bloco B">
-            </div>
-
-            <div class="campo-grupo-perfil">
-              <label for="enderecoBairroPerfil">Bairro</label>
-              <input id="enderecoBairroPerfil" type="text" placeholder="Centro">
-            </div>
-
-            <div class="campo-grupo-perfil">
-              <label for="enderecoCidadePerfil">Cidade</label>
-              <input id="enderecoCidadePerfil" type="text" placeholder="São Paulo">
-            </div>
-
-            <div class="campo-grupo-perfil">
-              <label for="enderecoEstadoPerfil">Estado</label>
-              <select id="enderecoEstadoPerfil">
-                <option value="">Selecione...</option>
-                <option value="SP">SP</option><option value="RJ">RJ</option><option value="MG">MG</option><option value="BA">BA</option>
-                <option value="PR">PR</option><option value="SC">SC</option><option value="RS">RS</option><option value="PE">PE</option>
-                <option value="CE">CE</option><option value="PA">PA</option><option value="ES">ES</option><option value="GO">GO</option>
-                <option value="MT">MT</option><option value="MS">MS</option><option value="DF">DF</option><option value="MA">MA</option>
-                <option value="PB">PB</option><option value="RN">RN</option><option value="AL">AL</option><option value="SE">SE</option>
-                <option value="PI">PI</option><option value="RO">RO</option><option value="AC">AC</option><option value="AM">AM</option>
-                <option value="RR">RR</option><option value="AP">AP</option><option value="TO">TO</option>
-              </select>
-            </div>
-          </div>
-
-          <button type="submit" class="btn-salvar-perfil">Salvar endereço</button>
-          <p class="mensagem-sucesso-perfil" id="mensagemEnderecoPerfil"></p>
-        </form>
-
-      </section>
-
-
-      <div class="modal-senha" id="modalSenha" aria-hidden="true">
-        <div class="modal-senha-fundo" id="fecharModalSenha"></div>
-        <div class="modal-senha-caixa" role="dialog" aria-modal="true" aria-labelledby="tituloModalSenha">
-          <button type="button" class="modal-senha-fechar" id="fecharModalSenhaBotao" aria-label="Fechar">×</button>
-          <span class="eyebrow">SEGURANÇA</span>
-          <h2 id="tituloModalSenha">Alterar senha</h2>
-          <p>Digite sua senha atual e escolha uma nova senha para sua conta.</p>
-          <form id="formAlterarSenha">
-            <div class="campo-grupo-perfil">
-              <label for="senhaAtual">Senha atual</label>
-              <input id="senhaAtual" type="password" autocomplete="current-password" required>
-            </div>
-            <div class="campo-grupo-perfil">
-              <label for="novaSenha">Nova senha</label>
-              <input id="novaSenha" type="password" autocomplete="new-password" minlength="6" required>
-            </div>
-            <div class="campo-grupo-perfil">
-              <label for="confirmarNovaSenha">Confirmar nova senha</label>
-              <input id="confirmarNovaSenha" type="password" autocomplete="new-password" minlength="6" required>
-            </div>
-            <p class="mensagem-senha" id="mensagemSenha"></p>
-            <button type="submit" class="btn-salvar-perfil">Salvar nova senha</button>
-          </form>
-        </div>
-      </div>
-
-      <section class="perfil-panel" id="seguranca">
-
-        <span class="eyebrow">PROTEÇÃO</span>
-
-        <h2>Segurança</h2>
-
-        <p class="perfil-instrucoes">
+<section class="perfil-panel" id="seguranca">
+<span class="eyebrow">PROTEÇÃO</span>
+<h2>Segurança</h2>
+<p class="perfil-instrucoes">
           Mantenha os dados da sua conta protegidos.
         </p>
-
-        <div class="seguranca-card">
-
-          <div>
-            <span>Senha</span>
-            <strong>••••••••</strong>
-          </div>
-
-          <button type="button" id="alterarSenha">
+<div class="seguranca-card">
+<div>
+<span>Senha</span>
+<strong>••••••••</strong>
+</div>
+<button id="alterarSenha" type="button">
             Alterar senha
           </button>
-
-        </div>
-
-      </section>
-
-    </div>
-
-  </section>
-
-</main>
-
-
+</div>
+</section>
+</div>
+</section>
+<div aria-hidden="true" class="modal-senha" id="modalSenha">
+<div class="modal-senha-fundo" id="fecharModalSenha"></div>
+<div aria-labelledby="tituloModalSenha" aria-modal="true" class="modal-senha-caixa" role="dialog">
+<button aria-label="Fechar" class="modal-senha-fechar" id="fecharModalSenhaBotao" type="button">×</button>
+<span class="eyebrow">SEGURANÇA</span>
+<h2 id="tituloModalSenha">Alterar senha</h2>
+<p>Digite sua senha atual e escolha uma nova senha para sua conta.</p>
+<form id="formAlterarSenha">
+<div class="campo-grupo-perfil">
+<label for="senhaAtual">Senha atual</label>
+<input autocomplete="current-password" id="senhaAtual" required="" type="password"/>
+</div>
+<div class="campo-grupo-perfil">
+<label for="novaSenha">Nova senha</label>
+<input autocomplete="new-password" id="novaSenha" minlength="6" required="" type="password"/>
+</div>
+<div class="campo-grupo-perfil">
+<label for="confirmarNovaSenha">Confirmar nova senha</label>
+<input autocomplete="new-password" id="confirmarNovaSenha" minlength="6" required="" type="password"/>
+</div>
+<p class="mensagem-senha" id="mensagemSenha"></p>
+<button class="btn-salvar-perfil" type="submit">Salvar nova senha</button>
+</form>
+</div>
+</div></main>
 <footer>
-
-  <div>
-    <span class="marca-la">La</span>
-    <span class="marca-matte">Matte</span>
-    <p>Chá & Ervas</p>
-  </div>
-
-  <div>
-    <h4>Navegação</h4>
-    <a href="../principal/index.html#produtos">Produtos</a>
-    <a href="index.html">Meu Perfil</a>
-    <a href="../principal/index.html#suporte">Suporte</a>
-  </div>
-
-  <div>
-    <h4>Conta</h4>
-    <a href="../login/login.html">Entrar</a>
-    <a href="../cadastro/cadastro.html">Cadastro</a>
-  </div>
-
-  <div>
-    <h4>Newsletter</h4>
-
-    <form id="formNewsletter">
-      <input type="email" required placeholder="Seu melhor e-mail">
-      <button>Assinar</button>
-    </form>
-
-    <span id="newsletterSucesso"></span>
-
-  </div>
-
+<div>
+<span class="marca-la">La</span>
+<span class="marca-matte">Matte</span>
+<p>Chá &amp; Ervas</p>
+</div>
+<div>
+<h4>Navegação</h4>
+<a href="../principal/index.html#produtos">Produtos</a>
+<a href="index.html">Meu Perfil</a>
+<a href="../principal/index.html#suporte">Suporte</a>
+</div>
+<div>
+<h4>Conta</h4>
+<a href="../login/login.html">Entrar</a>
+<a href="../cadastro/cadastro.html">Cadastro</a>
+</div>
+<div>
+<h4>Newsletter</h4>
+<form id="formNewsletter">
+<input placeholder="Seu melhor e-mail" required="" type="email"/>
+<button>Assinar</button>
+</form>
+<span id="newsletterSucesso"></span>
+</div>
 </footer>
-
-
 <script src="../principal/data.js"></script>
 <script src="script.js"></script>
-
 </body>
 </html>
