@@ -659,6 +659,78 @@ body.painel-aberto .barra-fixa {
   color: var(--dourado2);
   align-self: center;
 }
+.sucesso-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 3000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: rgba(4, 18, 13, 0.72);
+  backdrop-filter: blur(8px);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity .3s ease, visibility .3s ease;
+}
+.sucesso-modal.aberto {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+.sucesso-card {
+  width: min(500px, 100%);
+  background: var(--creme);
+  color: var(--texto);
+  border-radius: 24px;
+  padding: 42px 34px 34px;
+  text-align: center;
+  box-shadow: 0 25px 80px rgba(0,0,0,.3);
+  transform: translateY(18px) scale(.97);
+  transition: transform .35s cubic-bezier(.2,.8,.2,1);
+}
+.sucesso-modal.aberto .sucesso-card {
+  transform: translateY(0) scale(1);
+}
+.sucesso-icone {
+  width: 72px;
+  height: 72px;
+  margin: 0 auto 22px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: var(--verde);
+  color: var(--dourado2);
+  font-size: 38px;
+  font-weight: 800;
+  box-shadow: 0 10px 30px rgba(15,44,35,.2);
+}
+.sucesso-card .eyebrow {
+  color: var(--dourado);
+}
+.sucesso-card h3 {
+  margin: 10px 0 12px;
+  color: var(--verde);
+  font: 700 clamp(28px, 4vw, 38px)/1.1 Fraunces, serif;
+}
+.sucesso-card p {
+  margin: 0 auto 26px;
+  max-width: 390px;
+  color: var(--verde3);
+  line-height: 1.6;
+}
+.sucesso-card .btn-principal {
+  border: 0;
+  cursor: pointer;
+}
+@media (max-width: 700px) {
+  .sucesso-card {
+    padding: 34px 24px 26px;
+    border-radius: 20px;
+  }
+}
+
 footer {
   background: #091c16;
   color: #d9e1dc;

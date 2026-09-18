@@ -165,19 +165,27 @@
 
 <section class="suporte" id="suporte">
   <div class="suporte-copy"><span class="eyebrow">PRECISA DE AJUDA?</span><h2>Fale com o suporte.</h2><p>Envie uma mensagem pela demonstração e deixe sua dúvida registrada.</p></div>
-  <form id="suporteForm" action="https://formsubmit.co/andre.mossoleto@edu.senai.br" method="POST">
+  <form id="suporteForm" action="https://formsubmit.co/ajax/andre.mossoleto@edu.senai.br" method="POST">
     <input type="hidden" name="_subject" value="Suporte La Matte">
     <input type="hidden" name="_template" value="table">
     <input type="hidden" name="_captcha" value="false">
-    <input type="hidden" name="_next" value="https://andresenai09.github.io/la-matte/principal/index.html#suporte">
     <input type="hidden" name="_honey" value="">
     <input id="suporteNome" name="name" required placeholder="Seu nome">
     <input id="suporteEmail" name="_replyto" type="email" required placeholder="Seu e-mail">
     <select id="suporteCategoria" name="categoria"><option>Pedido</option><option>Produto</option><option>Pagamento</option><option>Outro</option></select>
     <textarea id="suporteMensagem" name="mensagem" required placeholder="Como podemos ajudar?"></textarea>
     <button type="submit" class="btn-principal">Enviar mensagem</button>
-    <strong id="suporteSucesso"></strong>
+    <strong id="suporteSucesso" aria-live="polite"></strong>
   </form>
+  <div class="sucesso-modal" id="sucessoModal" aria-hidden="true">
+    <div class="sucesso-card" role="status">
+      <div class="sucesso-icone">✓</div>
+      <span class="eyebrow">MENSAGEM ENVIADA</span>
+      <h3>Mensagem enviada com sucesso!</h3>
+      <p>Recebemos sua mensagem. Nossa equipe poderá entrar em contato pelo e-mail informado.</p>
+      <button type="button" class="btn-principal" id="fecharSucesso">Voltar ao site</button>
+    </div>
+  </div>
 </section>
 </main>
 

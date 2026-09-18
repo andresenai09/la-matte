@@ -427,8 +427,64 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // O formulário de Suporte agora envia por POST normal direto pro FormSubmit
-  // (action/method definidos no HTML), sem precisar de JS aqui.
+  const suporteForm = $("#suporteForm");
+  const sucessoModal = $("#sucessoModal");
+  const fecharSucesso = $("#fecharSucesso");
+  const suporteSucesso = $("#suporteSucesso");
+
+  if (suporteForm) {
+    suporteForm.addEventListener("submit", async e => {
+      e.preventDefault();
+
+      const botao = suporteForm.querySelector("button[type=submit]");
+      const textoOriginal = botao ? botao.textContent : "Enviar mensagem";
+      if (botao) {
+        botao.disabled = true;
+        botao.textContent = "Enviando...";
+      }
+      if (suporteSucesso) suporteSucesso.textContent = "";
+
+      try {
+        const resposta = await fetch(suporteForm.action, {
+          method: "POST",
+          body: new FormData(suporteForm),
+          headers: { "Accept": "application/json" }
+        });
+
+        const dados = await resposta.json().catch(() => ({}));
+
+        if (!resposta.ok || dados.success === false) {
+          throw new Error(dados.message || "Não foi possível enviar a mensagem.");
+        }
+
+        suporteForm.reset();
+        if (sucessoModal) {
+          sucessoModal.classList.add("aberto");
+          sucessoModal.setAttribute("aria-hidden", "false");
+          document.body.style.overflow = "hidden";
+        }
+      } catch (erro) {
+        if (suporteSucesso) suporteSucesso.textContent = "Não foi possível enviar agora. Tente novamente.";
+      } finally {
+        if (botao) {
+          botao.disabled = false;
+          botao.textContent = textoOriginal;
+        }
+      }
+    });
+  }
+
+  function fecharModalSucesso() {
+    if (!sucessoModal) return;
+    sucessoModal.classList.remove("aberto");
+    sucessoModal.setAttribute("aria-hidden", "true");
+    document.body.style.overflow = "";
+  }
+
+  if (fecharSucesso) fecharSucesso.addEventListener("click", fecharModalSucesso);
+  if (sucessoModal) sucessoModal.addEventListener("click", e => {
+    if (e.target === sucessoModal) fecharModalSucesso();
+  });
 
   // Inicializações Finais
   atualizarUsuario();
