@@ -301,6 +301,94 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
 
+  function renderPedidos() {
+
+    const container = document.getElementById("listaPedidos");
+
+    if (!container) return;
+
+    const usuario = getUsuarioLogado();
+
+    if (!usuario) {
+      container.innerHTML = "";
+      return;
+    }
+
+    let pedidos = [];
+
+    try {
+      pedidos = JSON.parse(localStorage.getItem("pedidos") || "[]");
+    } catch {
+      pedidos = [];
+    }
+
+    const identificador = usuario.usuario || usuario.email || "";
+
+    pedidos = pedidos.filter(pedido => {
+      const dono = pedido.usuario || pedido.email || "";
+      return dono === identificador;
+    }).reverse();
+
+    if (!pedidos.length) {
+      container.innerHTML = `
+        <div class="estado-vazio">
+          <span>◎</span>
+          <h3>Nenhum pedido ainda</h3>
+          <p>Quando você realizar uma compra, seus pedidos aparecerão aqui.</p>
+          <a href="../principal/index.html#produtos" class="btn-principal">
+            Explorar produtos
+          </a>
+        </div>
+      `;
+      return;
+    }
+
+    container.innerHTML = pedidos.map(pedido => {
+
+      const itens = Array.isArray(pedido.items) ? pedido.items : [];
+      const total = Number(pedido.total || 0);
+      const status = pedido.status || "pendente";
+      const statusTexto = status === "pendente" ? "Pagamento pendente" : status;
+
+      return `
+        <article class="pedido-card">
+          <div class="pedido-cabecalho">
+            <div>
+              <span class="pedido-label">PEDIDO</span>
+              <h3>${pedido.id || "Pedido"}</h3>
+              <p>${pedido.data || ""}</p>
+            </div>
+            <span class="pedido-status">${statusTexto}</span>
+          </div>
+
+          <div class="pedido-itens">
+            ${itens.map(item => {
+              const quantidade = Number(item.quantidade || 1);
+              const preco = Number(item.preco || 0);
+              return `
+                <div class="pedido-item">
+                  <img src="${item.imagem || ""}" alt="${item.nome || "Produto"}">
+                  <div>
+                    <strong>${item.nome || "Produto"}</strong>
+                    <span>${quantidade} ${quantidade === 1 ? "unidade" : "unidades"}</span>
+                  </div>
+                  <b>R$ ${(preco * quantidade).toFixed(2).replace(".", ",")}</b>
+                </div>
+              `;
+            }).join("")}
+          </div>
+
+          <div class="pedido-rodape">
+            <span>${itens.length} ${itens.length === 1 ? "item" : "itens"}</span>
+            <strong>Total: R$ ${total.toFixed(2).replace(".", ",")}</strong>
+          </div>
+        </article>
+      `;
+
+    }).join("");
+  }
+
+
   function renderFavoritos() {
 
     const container = document.getElementById("favoritosConteudo");
@@ -565,6 +653,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   atualizarContadores();
   carregarPerfil();
+  renderPedidos();
   renderCarrinho();
   renderFavoritos();
 
