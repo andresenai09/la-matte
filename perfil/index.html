@@ -238,8 +238,14 @@
         <b>›</b>
       </button>
 
-      <button class="perfil-tab" data-painel="seguranca">
+      <button class="perfil-tab" data-painel="endereco">
         <span>04</span>
+        Endereço
+        <b>›</b>
+      </button>
+
+      <button class="perfil-tab" data-painel="seguranca">
+        <span>05</span>
         Segurança
         <b>›</b>
       </button>
@@ -337,6 +343,65 @@
       </section>
 
 
+      <section class="perfil-panel" id="endereco">
+
+        <span class="eyebrow">ENTREGA</span>
+
+        <h2>Endereço de entrega</h2>
+
+        <p class="perfil-instrucoes">
+          Salve seu endereço uma vez. Ele será preenchido automaticamente no checkout em qualquer página da La Matte.
+        </p>
+
+        <form id="enderecoFormPerfil" class="endereco-form-perfil">
+          <div class="form-grid">
+            <div class="campo-grupo-perfil">
+              <label for="enderecoRuaPerfil">Rua / Avenida</label>
+              <input id="enderecoRuaPerfil" type="text" placeholder="Ex: Av. Paulista">
+            </div>
+
+            <div class="campo-grupo-perfil">
+              <label for="enderecoNumeroPerfil">Número</label>
+              <input id="enderecoNumeroPerfil" type="text" placeholder="123">
+            </div>
+
+            <div class="campo-grupo-perfil">
+              <label for="enderecoComplementoPerfil">Complemento</label>
+              <input id="enderecoComplementoPerfil" type="text" placeholder="Apt 42, Bloco B">
+            </div>
+
+            <div class="campo-grupo-perfil">
+              <label for="enderecoBairroPerfil">Bairro</label>
+              <input id="enderecoBairroPerfil" type="text" placeholder="Centro">
+            </div>
+
+            <div class="campo-grupo-perfil">
+              <label for="enderecoCidadePerfil">Cidade</label>
+              <input id="enderecoCidadePerfil" type="text" placeholder="São Paulo">
+            </div>
+
+            <div class="campo-grupo-perfil">
+              <label for="enderecoEstadoPerfil">Estado</label>
+              <select id="enderecoEstadoPerfil">
+                <option value="">Selecione...</option>
+                <option value="SP">SP</option><option value="RJ">RJ</option><option value="MG">MG</option><option value="BA">BA</option>
+                <option value="PR">PR</option><option value="SC">SC</option><option value="RS">RS</option><option value="PE">PE</option>
+                <option value="CE">CE</option><option value="PA">PA</option><option value="ES">ES</option><option value="GO">GO</option>
+                <option value="MT">MT</option><option value="MS">MS</option><option value="DF">DF</option><option value="MA">MA</option>
+                <option value="PB">PB</option><option value="RN">RN</option><option value="AL">AL</option><option value="SE">SE</option>
+                <option value="PI">PI</option><option value="RO">RO</option><option value="AC">AC</option><option value="AM">AM</option>
+                <option value="RR">RR</option><option value="AP">AP</option><option value="TO">TO</option>
+              </select>
+            </div>
+          </div>
+
+          <button type="submit" class="btn-salvar-perfil">Salvar endereço</button>
+          <p class="mensagem-sucesso-perfil" id="mensagemEnderecoPerfil"></p>
+        </form>
+
+      </section>
+
+
       <section class="perfil-panel" id="seguranca">
 
         <span class="eyebrow">PROTEÇÃO</span>
@@ -405,6 +470,7 @@
 </footer>
 
 
+<script src="../principal/data.js"></script>
 <script src="script.js"></script>
 
 </body>

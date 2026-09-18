@@ -26,6 +26,22 @@ document.addEventListener("DOMContentLoaded", () => {
   let carrinho = get("carrinho", []);
   let favoritos = get("favoritos", []);
 
+  if (!carrinho.length) {
+    const antigoCarrinho = get("laMatteCarrinho", []);
+    if (Array.isArray(antigoCarrinho) && antigoCarrinho.length) {
+      carrinho = antigoCarrinho;
+      save("carrinho", carrinho);
+    }
+  }
+
+  if (!favoritos.length) {
+    const antigosFavoritos = get("laMatteFavoritos", []);
+    if (Array.isArray(antigosFavoritos) && antigosFavoritos.length) {
+      favoritos = antigosFavoritos.map(item => typeof item === "object" ? item.id : item).filter(Number.isFinite);
+      save("favoritos", favoritos);
+    }
+  }
+
   /* ============================================================
      GERADOR PSEUDOALEATÓRIO DETERMINÍSTICO (por produto)
      Garante que as avaliações "realistas" fiquem sempre

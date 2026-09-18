@@ -1084,3 +1084,32 @@ footer button {
     flex-direction: column;
   }
 }
+
+.endereco-form-perfil {
+  margin-top: 24px;
+}
+
+.endereco-form-perfil select {
+  width: 100%;
+  padding: 14px 16px;
+  border: 1px solid rgba(15, 44, 35, 0.14);
+  border-radius: 12px;
+  background: #fff;
+  color: var(--texto);
+  font: inherit;
+  outline: none;
+}
+
+.endereco-form-perfil select:focus {
+  border-color: var(--dourado);
+  box-shadow: 0 0 0 3px rgba(196, 154, 85, 0.15);
+}
+
+.endereco-form-perfil .btn-salvar-perfil {
+  margin-top: 8px;
+}
+
+#mensagemEnderecoPerfil.erro {
+  color: var(--vermelho);
+}
+
